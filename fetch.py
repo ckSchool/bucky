@@ -4,6 +4,9 @@ import re
 import pyodbc as MySQLdb
 import MySQLdb
 
+from wx.lib.pubsub import setupkwargs
+from wx.lib.pubsub import pub
+
 import warnings, datetime, time, pyodbc, types, images, hashlib, random
 import DlgDatePicker
 
@@ -15,7 +18,7 @@ Printon = False
 # Printon = True #
 
 Dell   = ('192.168.0.251', 'andrew', 'andrew123', 'chandrakusuma', 3306)
-Vostro = ('localhost',     'root',   'passwordroot','ckdb', 3306)
+Vostro = ('localhost',     'root',   'andrewroot','ckdb', 3306)
 
 useConnection =   Vostro # Dell #
 
@@ -39,9 +42,11 @@ except:
         c  = mySQLconn.cursor(cursorclass=MySQLdb.cursors.DictCursor)
         cc = mySQLconn.cursor()
     except:
-        print "can't connect ckdb"
+        pass
+        #rint"can't connect ckdb"
     
 class DB:
+    pass
     #rint 'Connect to Vostro'
     #Vostro = ('localhost', 'root', '', 'chandrakusuma', 3306)
     ckhost, ckuser, ckpassword, mydb, myport = useConnection
@@ -195,19 +200,20 @@ def updateMdb(sql):
 #-------------------------------------------------------------------------------
 def echo(s):
     if Printon:
-        print 'echo:', s
+        pass
+        #rint'echo:', s
 
 def getAllDict(sql):
     try:
-        #mySQLconn.commit()
+        mySQLconn.commit()
         c.execute(sql)
         return c.fetchall()
-        mySQLconn.commit()
     except: return ''
 
 def getOneDict(sql):
     #echo(sql)
     try:
+        mySQLconn.commit()
         c.execute(sql)
         return c.fetchone()
     except:
@@ -226,6 +232,7 @@ def getAllCol(sql):
 def getOneCol(sql):
     echo(sql)
     try:
+        mySQLconn.commit()
         cc.execute(sql)
         res = cc.fetchone()
         return res
@@ -235,6 +242,7 @@ def getOneCol(sql):
 def getCount(sql):
     echo(sql)
     try:
+        mySQLconn.commit()
         mylist = getAllDict(sql)
         if mylist:
             return mylen(list)
@@ -245,6 +253,7 @@ def getCount(sql):
 def getStr(sql):
     echo(sql)
     try:
+        mySQLconn.commit()
         cc.execute(sql)
         res = cc.fetchone()
         if res:
@@ -256,6 +265,7 @@ def getStr(sql):
 def getSum(sql):
     #rint 'getSum ', sql
     try:
+        mySQLconn.commit()
         cc.execute(sql)
         res = cc.fetchone()
         #rint ' res = ' , int(res[0])
@@ -266,6 +276,7 @@ def getSum(sql):
     
 def getDig(sql):
     #rint  sql
+    mySQLconn.commit()
     cc.execute(sql)
     res = cc.fetchone()
     try:    return int(res[0])
@@ -303,6 +314,9 @@ def getListTuples(sql):
     except:
         pass
     return list
+
+def getDATA(sql):
+    return build_dictionary(getAllCol(sql))
 
 def build_dictionary(mylist):
     index  = 0
@@ -518,13 +532,13 @@ def choiceID(choiceCtrl):
     
 def cmbID(cmb):
     index = cmb.GetSelection()
-    print 'cmb name:',cmb.GetName(), ', index=', index, ' value = ', cmbValue(cmb)
+    #rint'cmb name:',cmb.GetName(), ', index=', index, ' value = ', cmbValue(cmb)
     if index > -1:
         cid = int(cmb.GetClientData(index))
-        print 'returning ', cid
+        #rint'returning ', cid
         return cid
     else:
-        print 'return 0'
+        #rint'return 0'
         return 0
 
 def cmbValue(cmb):
@@ -950,108 +964,233 @@ def eduLevel(id=0):
             WHERE id = %s" % id
     return getStr(sql)
 
-def exculRemainingStudents(sch_id, existingStudents):
+
+
+# excur ----------------------------------------------------------------
+def get_school_id_for_schedule_id(schedule_id):
+    sql = "SELECT school_id FROM excul_schedule WHERE id =%d" % schedule_id
+    #rint sql, getDig(sql)
+    return getDig(sql)
+    
+def get_all_student_ids_for_schedule_id(schedule_id):
     sql = " SELECT s.id \
               FROM students s \
-              JOIN students_by_form sbf ON sbf.student_id = s.id\
-              JOIN forms              f ON sbf.form_id    = f.id \
-             WHERE f.school_id = %d \
-               AND '%s' BETWEEN s.register_schYr AND s.exit_schYr " % (gVar.schYr, sch_id, gVar.schYr )
-    # $rint sql
-    remainingstudentIDs = getList(sql)
-    # $rint remainingstudentIDs
-    remainingstudents=[]
-    if remainingstudentIDs:
-        # compare ids : if id not match add to list
-        for remainingstudent_id in remainingstudentIDs:
-            add = True
-            for existingstudent_id in existingStudents:
-                
-                if int(existingstudent_id) == int(remainingstudent_id):
-                    add = False
+              JOIN excul_students es ON s.id = es.student_id \
+              JOIN excul_groups   eg ON eg.id = es.excul_group_id \
+             WHERE eg.excul_schedule_id = %d " % (schedule_id, )
+    ##rint 'get_all_student_ids_for_schedule_id:', sql, getList(sql)
+    return getList(sql)
+
+
+def excul_unallocated(schedule_id):
+    school_id = get_school_id_for_schedule_id(schedule_id)
+    print 'excul_unallocated > school_id', school_id
+    if school_id == 4 or school_id == 3:
+        l_lev = 12; u_lev = 18
+    else:
+        l_lev = 8; u_lev = 11
         
-            if add:
-                remainingstudents.append(str(remainingstudent_id))
-
-    return remainingstudents   
-
-def excuric_activityIDs():
-    sql = " SELECT id, name \
-              FROM excuric_activities"
+        
+    allocated_students = get_all_student_ids_for_schedule_id(schedule_id)
+    print 'allocated_students', allocated_students
+    
+    id_list = ', '.join(str(x) for x in allocated_students)
+    print 
+    sql = "   SELECT s.id, s.name, f.name AS form_name \
+                    FROM students s \
+                    JOIN students_by_form sbf ON sbf.student_id = s.id\
+                    JOIN forms              f ON sbf.form_id    = f.id \
+                   WHERE f.level BETWEEN %d AND %d \
+                     AND f.schYr = %d \
+                     AND FIND_IN_SET(s.id, '%s') = 0 " % (l_lev, u_lev,
+                                                          gVar.schYr,
+                                                          id_list)
+    print sql
     return getAllDict(sql)
 
-def excuric_info(excuric_id):
+
+def excul_unallocatedDATA(schedule_id):
+    school_id = get_school_id_for_schedule_id(schedule_id)
+    print 'excul_unallocatedDATA > school_id', school_id
+    if school_id == 4 or school_id == 3:
+        l_lev = 12; u_lev = 18
+    else:
+        l_lev = 8; u_lev = 11
+        
+        
+    allocated_students = get_all_student_ids_for_schedule_id(schedule_id)
+    
+    id_list = ', '.join(str(x) for x in allocated_students)
+    sql = "   SELECT s.id, s.name, f.name AS form_name \
+                    FROM students s \
+                    JOIN students_by_form sbf ON sbf.student_id = s.id\
+                    JOIN forms              f ON sbf.form_id    = f.id \
+                   WHERE f.level BETWEEN %d AND %d \
+                     AND f.schYr = %d \
+                     AND FIND_IN_SET(s.id, '%s') = 0 AND f.name ='6 SD C'" % (l_lev, u_lev,
+                                                          gVar.schYr,
+                                                          id_list)
+    
+    sql = "   SELECT s.id, s.name, f.name AS form_name \
+                    FROM students s \
+                    JOIN students_by_form sbf ON sbf.student_id = s.id\
+                    JOIN forms              f ON sbf.form_id    = f.id \
+                   WHERE f.level BETWEEN %d AND %d \
+                     AND f.schYr = %d \
+                     AND s.id NOT IN (%s) " % (l_lev, u_lev,
+                                                          gVar.schYr,
+                                                          id_list) # AND f.name ='6 SD C'
+    
+    print sql, getDATA(sql)
+    return getDATA(sql)
+
+
+
+def exculSchedule_forSchSemYr(school_id, semester_no):
+    sql = " SELECT day \
+              FROM exculsets \
+             WHERE semester = %d \
+               AND school_id = %d \
+               AND schYr = %d" % (semester_no, school_id, gVar.schYr)
+    #rintsql
+    return getList(sql)
+
+
+
+def excul_activityIDs():
+    sql = " SELECT id, name \
+              FROM excul_activities"
+    return getAllDict(sql)
+
+def excul_info(excul_id):
     sql = " SELECT staff_id, subject_id \
-              FROM excuric \
-             WHERE id=%d" % int(excuric_id)
+              FROM excul \
+             WHERE id=%d" % int(excul_id)
     return getOneDict(sql)
-                                
-def excuric_groups_forSchSemYr(dayNo, semester, sch_id):
+  
+def excul_groupDATA_forDaySchSemYr(dayNo, semester, sch_id):
     sql = " SELECT ex.id, ea.id AS subject_id, ea.name AS subject_name, e.id, st.name AS teacher_name \
               FROM excuric ex \
-              JOIN excuric_schedule es ON es.id = ex.exculset_id \
-         LEFT JOIN excuric_subjects ea ON ea.id = ex.subject_id \
+              JOIN excul_schedule es ON es.id = ex.exculset_id \
+         LEFT JOIN excul_subjects ea ON ea.id = ex.subject_id \
+         LEFT JOIN staff            st ON st.id = ex.staff_id \
+             WHERE es.day = %d AND es.semester = %d AND es.schYr = %d AND es.school_id = %d " % (
+                   dayNo, semester, gVar.schYr, sch_id)
+    #rintsql
+    return  getDATA(sql)
+
+def excul_groupInfo(schedule_id):
+    sql = " SELECT s.id AS subject_id, s.name AS subject_name, st.id AS staff_id, st.name AS staff_name \
+              FROM excul_groups   eg \
+              JOIN excul_schedule es ON es.id = eg.excul_schedule_id \
+         LEFT JOIN excul_subjects  s ON  s.id = eg.excul_subject_id \
+         LEFT JOIN staff          st ON st.id = eg.staff_id \
+             WHERE eg.id = %d" % (schedule_id)
+    #rint sql
+    return  getOneDict(sql)
+
+def excul_groups_forSchSemYr(dayNo, semester, sch_id):
+    sql = " SELECT ex.id, ea.id AS subject_id, ea.name AS subject_name, st.id, st.name AS teacher_name \
+              FROM excuric ex \
+              JOIN excul_schedule es ON es.id = ex.exculset_id \
+         LEFT JOIN excul_subjects ea ON ea.id = ex.subject_id \
          LEFT JOIN staff            st ON st.id = ex.staff_id \
              WHERE es.day = %d AND es.semester = %d AND es.schYr = %d AND es.school_id = %d " % (
                    dayNo, semester, gVar.schYr, sch_id)
     #if getAllCol(sql): rint sql
-    return getAllCol(sql)
+    return  getRes(sql)
 
 def exculsetinfo(set_id):
-    sql = " SELECT s.name, d.day, es.semester, es.schYr \
-              FROM excuric_schedule es \
+    sql = " SELECT s.name, es.day, es.semester, es.schYr \
+              FROM excul_schedule es \
               JOIN schools s ON s.id = es.school_id \
-              JOIN days d    ON d.id = es.day \
              WHERE es.id = %d" % set_id
-    return getOne_col(sql)
+    return getOneCol(sql)
     
-def excuric_groups_forExculSet(schedule_id):
-    sql = " SELECT ex.id, \
-                  sub.id AS subject_id, sub.name AS subject_name, \
-                    s.id AS staff_id,     s.name AS staff_name\
-              FROM excuric ex \
-              JOIN excuric_schedule  es ON  es.id = ex.excuric_schedule_id \
-         LEFT JOIN excuric_subjects sub ON sub.id = ex.subject_id \
-         LEFT JOIN staff s              ON   s.id = ex.staff_id \
-             WHERE es.id = %d " % (schedule_id, )
+def excul_studentList(excul_group_id):
+    #rint 'excul_studentList' , 
+    sql = "SELECT s.id, s.name, f.name\
+             FROM excul_students es \
+             JOIN students s ON s.id =es.student_id \
+             JOIN students_by_form sbf ON sbf.student_id = s.id \
+             JOIN forms f ON f.id = sbf.form_id \
+            WHERE es.excul_group_id = %d \
+            AND f.schYr = %d" % (excul_group_id, gVar.schYr)
     #rint sql
-    return getAllCol(sql)
+    res = getDATA(sql)
+    if res:
+        print res
+    return res
 
-def exculDays_forSchSemYr(school_id, semester_no, yr):
-    sql = " SELECT day \
-              FROM excuric_schedule \
-             WHERE semester = %d \
-               AND school_id = %d \
-               AND schYr = %d" % (semester_no, school_id, yr)
-    #rint sql
+def exculGroupsDATA_forScheduleID(schedule_id):    
+    sql = " SELECT  g.id, \
+                  sub.id AS subject_id, sub.name AS subject_name, \
+                    s.id AS staff_id,     s.name AS staff_name, \
+                    (SELECT COUNT(*) FROM excul_students es WHERE es.excul_group_id = g.id) AS pop \
+              FROM excul_groups     g \
+              JOIN excul_schedule sdl ON sdl.id = g.excul_schedule_id \
+         LEFT JOIN excul_subjects sub ON sub.id = g.excul_subject_id \
+         LEFT JOIN staff            s ON   s.id = g.staff_id \
+             WHERE sdl.id = %d " % (schedule_id, )
+    
+    return getDATA(sql)
+
+def exculGroupDetails_forSchSemYr(school_id, semester_no, yr):
+    sql = " SELECT g.id, s.day \
+              FROM excul_schedule s \
+              JOIN excul_groups g ON g.schedule_id = s.id \
+             WHERE s.semester = %d \
+               AND s.school_id = %d \
+               AND s.schYr = %d" % (gVar.semester, gVar.school_id, gVar.schYr)
+    #rint sql,  getList(sql)
+
     return getList(sql)
 
-def subject_by_excuric(excuric_id):
+def exculSchedule_forSchSemYr(school_id, semester, schYr):
+    sql = " SELECT id, day \
+              FROM excul_schedule \
+             WHERE semester = %d \
+               AND school_id = %d \
+               AND schYr = %d" % (semester, school_id, schYr)
+    res = getAllDict(sql)
+    
+    #rint '  exculSchedule_forSchSemYr   ', sql,  res
+
+    return getAllDict(sql)
+
+def subject_by_excuric(excul_id):
     sql = "SELECT s.name \
-             FROM excuric_subjects s \
+             FROM excul_subjects s \
              JOIN excuric ex ON s.id = ex.subject_id \
-            WHERE ex.id = %d" % int(excuric_id)
+            WHERE ex.id = %d" % int(excul_id)
     #rint sql
     return getStr(sql)
 
+def writeToStatusbar(txt, idx):
+    gVar.status = txt
+    #rint 'writeToStatusbar(txt, idx)',txt, idx
+    if   idx == 0: pub.sendMessage('write_to_statusbar0')
+    elif idx == 1: pub.sendMessage('write_to_statusbar1')
+    elif idx == 2: pub.sendMessage('write_to_statusbar2')
+    
 
-def excuric_subject_name(subject_id):
+def excul_subject_name(subject_id):
     sql = "SELECT name \
-             FROM excuric_subjects \
+             FROM excul_subjects \
             WHERE id = %d" % int(subject_id)
     return getStr(sql)  
 
-def excuric_activityPool(listOfActivityIDs):
+def excul_activityPool(listOfActivityIDs):
     listOfActivityIDs = [str(x[0]) for x in listOfActivityIDs]
     #rint 'listOfActivityIDs', listOfActivityIDs
     listStr = "'%s'" % ','.join(listOfActivityIDs)
     sql = " SELECT id, name \
-              FROM excuric_subjects \
+              FROM excul_subjects \
              WHERE NOT FIND_IN_SET(id, %s)" % listStr
     #rint sql
     return getAllCol(sql)
 
-def excuric_teacherPool(teacherIDs):
+def excul_teacherPool(teacherIDs):
     teacherIDs = [str(x[0]) for x in teacherIDs]
     listStr = "'%s'" % ','.join(teacherIDs)
     sql = " SELECT id, name \
@@ -1062,15 +1201,16 @@ def excuric_teacherPool(teacherIDs):
     #rint sql
     return getAllCol(sql)
 
-def exculset_id():
+def excul_schedule_id(day, semester, school_id, schYr):
     sql = " SELECT id \
-              FROM excuric_schedule \
+              FROM excul_schedule \
              WHERE day = %d \
                AND semester = %d \
                AND school_id = %d \
-               AND schYr = %d" % (gVar.dayNo, gVar.semester, gVar.school_id, gVar.schYr)
+               AND schYr = %d" % (day, semester, school_id, schYr)
     return getDig(sql)
-  
+
+
 #-   F     ---------------------------------------------------------------------
 def faith(id):
     sql = " SELECT name \
@@ -1092,12 +1232,12 @@ def fee_monthly(course_id, yr):
     return getDig(sql)
 
 def fee_yearly(course_id, yr):
-    print 'fee_yearly'
+    #rint'fee_yearly'
     sql = "SELECT course_fee_yearly \
              FROM courses_by_year \
             WHERE course_id = %d \
               AND schYr = %d" % (course_id, yr)
-    print sql
+    #rintsql
     return getDig(sql)
 
 def fees(yr):
@@ -1218,21 +1358,25 @@ def formName_forMentor(staff_id):
         names_string = ', '.join(names_list)
     return names_string
     
-def formName_forStudent(student_id):
+def formName_forStudent(student_id, schYr = gVar.schYr):
+    #rint 'schYr, int(student_id)', schYr, int(student_id)
     sql = " SELECT f.name \
-              FROM students s \
-              JOIN forms f ON f.id = s.form_id \
+              FROM students_by_form  sbf \
+              JOIN forms f   ON f.id = sbf.form_id \
              WHERE schYr = %d \
-               AND s.id= %d" % (gVar.schYr, int(student_id))
+               AND sbf.id= %d" % (schYr, int(student_id))
+    #rint sql
     return getStr(sql)
     
 def formID_forStudent(student_id, schYr = None):
     
-    sql = " SELECT form_id \
-              FROM students_by_form  \
-             WHERE student_id = %d" % student_id
+    sql = " SELECT sbf.form_id \
+              FROM students_by_form  sbf \
+              JOIN forms f   ON f.id = sbf.form_id \
+             WHERE sbf.student_id = %d" % student_id
     if schYr:
-        sql += " AND schYr = %d" % schyr
+        sql += " AND f.schYr = %d" % schYr
+    #rint sql
     return getDig(sql)  
     
 def formIds_forYear(schYr):
@@ -1449,7 +1593,7 @@ def is_unique_product(description):
              FROM products \
             WHERE description = '%s'" % description
     res = getCount(sql)
-    print 'is_unique_product > getCount', res
+    #rint'is_unique_product > getCount', res
     if res == 0: return True
     else: return False
     
@@ -1528,31 +1672,8 @@ def monthName(month_number):
     sql = "SELECT month_name \
              FROM school_year \
             WHERE month_number = %d" % month_number
-    print sql
+    #rintsql
     return getStr(sql)
-
-def ck_ref_last():
-    sql = "SELECT MAX(ck_ref) FROM acc_invoices"
-    res = getList(sql)
-    schYr = str(gVar.schYr)
-    schYr = schYr[-2:]
-    if any(res):
-        ck_ref = res[0].split('-')
-        ck_ref_new = int(ck_ref[1]) + 1
-       
-        if ck_ref_new > 999:
-            ck_ref_new = str(ck_ref_new).zfill(5)
-        elif ck_ref_new > 99:
-            ck_ref_new = str(ck_ref_new).zfill(5)
-        elif ck_ref_new > 9:
-            ck_ref_new = str(ck_ref_new).zfill(5)
-        else:
-            ck_ref_new = str(ck_ref_new).zfill(5)
-        
-        ck_ref = 'CK'+schYr+'-'+str(ck_ref_new)
-    else:
-        ck_ref = 'CK'+schYr+'-00001'
-    return ck_ref
 
 def month_last_paid(student_id, yr, type_id):
     sql = "SELECT MAX(ii.month_to) \
@@ -1571,7 +1692,7 @@ def NoInduk(student_id, schYr):
              JOIN students_by_form sbf ON s.id = sbf.student_id \
              JOIN forms f ON f.id = sbf.form_id \
             WHERE s.id = %d AND f.schYr = %d" % (student_id, schYr)
-    print sql
+    #rintsql
     return getStr(sql)
     
     
@@ -1875,7 +1996,7 @@ def schoolID_forBatch(form_id):
 
 def schoolID_forExculSet(exculset_id):
     sql = "SELECT school_id \
-             FROM excuric_schedule \
+             FROM excul_schedule \
             WHERE id =%d" % exculset_id
     return getDig(sql)
 
@@ -2182,10 +2303,10 @@ def students_inForm(form_id, want='dict'):
     else:
         return getAllCol(sql)
 
-def studentIDs_forExcul(excuric_id):
+def studentIDs_forExcul(excul_id):
     sql = "SELECT student_id \
-             FROM excuric_students \
-            WHERE excuric_id = %d" % int(excuric_id)
+             FROM excul_students \
+            WHERE excul_id = %d" % int(excul_id)
     #rint sql,  getList(sql)
     return getList(sql)
         
@@ -2804,14 +2925,14 @@ def kabupatenForKecamatan(kecamatan):
     return getAllCol(sql)
 
 def kabupatenForProvinceID(provinceID):
-    print 'kabupatenForProvinceID', provinceID
+    #rint'kabupatenForProvinceID', provinceID
     if not provinceID: return
     sql = "SELECT id, name \
              FROM address_items \
             WHERE type ='kabupaten' \
               AND next_item_id = %d \
             ORDER BY (name)" % provinceID
-    print sql, " ; ", getAllCol(sql)
+    #rintsql, " ; ", getAllCol(sql)
     return getAllCol(sql)
 
 
@@ -2978,7 +3099,7 @@ def countriesForProvinceID(prov_id):
                  FROM address_items \
                 WHERE type = 'country'"
     
-    print sql    , getAllCol(sql)  
+    #rintsql    , getAllCol(sql)  
     return getAllCol(sql)           
 
 def countriesForProvince(province=''):
