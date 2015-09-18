@@ -1,7 +1,4 @@
-import wx
-
-import fetchodbc as fetch
-import loadCmbODBC as loadCmb
+import wx, fetch, loadCmb
 
 student_id = 0
 
@@ -110,5 +107,5 @@ class PanelRegAssesment(wx.Panel):
                         needs,
                         notes,
                         self.student_id)
-        #Print sql
+        ##rintsql
         fetch.updateDB(sql)

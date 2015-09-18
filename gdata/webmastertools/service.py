@@ -434,7 +434,7 @@ class GWebmasterToolsService(gdata.service.GDataService):
         sitemap_mobile_markup_language=\
             webmastertools.SitemapMobileMarkupLanguage(
                 text=sitemap_mobile_markup_language))
-    print sitemap_entry
+    #rintsitemap_entry
     response = self.Post(
         sitemap_entry,
         uri % {'site_id': urllib.quote_plus(site_uri)},
@@ -482,7 +482,7 @@ class GWebmasterToolsService(gdata.service.GDataService):
     for label in sitemap_news_publication_label:
       sitemap_entry.sitemap_news_publication_label.append(
           webmastertools.SitemapNewsPublicationLabel(text=label))
-    print sitemap_entry
+    #rintsitemap_entry
     response = self.Post(
         sitemap_entry,
         uri % {'site_id': urllib.quote_plus(site_uri)},

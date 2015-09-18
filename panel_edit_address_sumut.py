@@ -56,7 +56,7 @@ class panel_edit_address_sumut(wx.Panel):
         loadCmb.kab(self.combo_box_kab, 'sumut')
         loadCmb.kec(self.combo_box_kec, 'sumut')
         loadCmb.kel(self.combo_box_kel, 'sumut')
-        print 'loaded all'
+        #rint'loaded all'
         
     def displayData(self, postcode=0):
         self.loadAllCombos()
@@ -101,7 +101,7 @@ class panel_edit_address_sumut(wx.Panel):
                     WHERE  postcode = %d" % postcode
             
             res = fetch.getOneDict(sql)
-            print sql, res
+            #rintsql, res
             if res:
                 province  = res['province']
                 kelurahan = res['kelurahan']
@@ -116,7 +116,7 @@ class panel_edit_address_sumut(wx.Panel):
                     elif kabupaten:    
                         self.loadCmbsUnderKab(kabupaten)
                 else:
-                    print 'go back to other panel'
+                    #rint'go back to other panel'
 
     def OnKab(self, event):
         self.num_ctrl_postcode.Clear()
@@ -124,7 +124,7 @@ class panel_edit_address_sumut(wx.Panel):
         self.loadCmbsUnderKab(kabupaten)
         
     def loadCmbsUnderKab(self, kabupaten):
-        print 'loadCmbsUnderKab'
+        #rint'loadCmbsUnderKab'
         sql = "SELECT kecamatan FROM postcodes \
                 WHERE kabupaten = '%s' \
                 GROUP BY (kecamatan) \
@@ -146,7 +146,7 @@ class panel_edit_address_sumut(wx.Panel):
         self.loadCmbsUnderKec(kecamatan)
         
     def loadCmbsUnderKec(self, kecamatan):
-        print 'loadCmbsUnderKec'
+        #rint'loadCmbsUnderKec'
         sql = "SELECT kelurahan FROM postcodes \
                 WHERE kecamatan = '%s' \
                 GROUP BY (kelurahan) \
@@ -166,7 +166,7 @@ class panel_edit_address_sumut(wx.Panel):
         self.loadCmbsUnderKel(kelurahan)
         
     def loadCmbsUnderKel(self, kelurahan):
-        print 'loadCmbsUnderKel'
+        #rint'loadCmbsUnderKel'
         sql = "SELECT kecamatan FROM postcodes \
                 WHERE kelurahan = '%s'" % kelurahan
       
@@ -206,9 +206,9 @@ class panel_edit_address_sumut(wx.Panel):
         dlg.displayData(int(itemType_id), int(id))
         try:
             if dlg.ShowModal() == wx.ID_OK:
-                pass#Print "ok"
+                pass##rint"ok"
             else:
-                pass#Print "cancel"
+                pass##rint"cancel"
         finally:    
             dlg.Destroy()
 

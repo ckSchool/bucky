@@ -78,11 +78,11 @@ class DlgSelectMonthsPeriod(wx.Dialog):
         return (self.month_from, fetch.cmbID(self.choice_to))
     
     def OnOk(self, event):  
-        print "Event handler `OnOk' not implemented!"
+        #rint"Event handler `OnOk' not implemented!"
         event.Skip()
 
     def OnCanel(self, event):  
-        print "Event handler `OnCanel' not implemented!"
+        #rint"Event handler `OnCanel' not implemented!"
         event.Skip()
         
     def displayData(self, month_from=1):

@@ -100,14 +100,6 @@ class DlgEditStudentDetails(wx.Dialog):
         for p in self.panes:
             p.displayData(student_id)
         
-    def NewData(self):
-        #subsc = pub.subscribe("New_bio")
-        
-        #self.student_id = student_id = gVar.student_id
-   
-        self.clearCtrls()
-        self.enableCtrls()
-        
     def setCmb(self, cmb, val):
         if val: cmb.SetSelection(val)
     
@@ -115,22 +107,22 @@ class DlgEditStudentDetails(wx.Dialog):
         for p in self.panes: p.clearCtrls()
         
     def enableCtrls(self):
-        print 'Dlg enableCtrls'
+        #rint'Dlg enableCtrls'
         for p in self.panes:
-            print 'enable pane >', p.GetName()
+            #rint'enable pane >', p.GetName()
             p.enableCtrls()
  
     def disableCtrls(self):
-        print 'Dlg > disableCtrls'
+        #rint'Dlg > disableCtrls'
         for p in self.panes:  p.disableCtrls() 
 
     def OnSave(self, evt):
-        print 'OnSave >>>>>',  self.current_pane.GetName()
+        #rint'OnSave >>>>>',  self.current_pane.GetName()
         self.current_pane.Save()
         self.OnEdit(wx.Event)
         
     def onlyShow(self , tab):
-        print 'onlyShow tab ', tab
+        #rint'onlyShow tab ', tab
         self.pane_contacts.onlyShow(tab)
         
         if tab == 'f':
@@ -143,7 +135,7 @@ class DlgEditStudentDetails(wx.Dialog):
         self.SetTitle(title)
 
     def showPane(self, pane_name):#, btn):
-        print 'Dlg > showPane', pane_name,
+        #rint'Dlg > showPane', pane_name,
         
         self.current_pane = self.pane_dict[pane_name]
  

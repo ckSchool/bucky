@@ -73,38 +73,38 @@ class TestListCtrl(wx.ListCtrl,
             wx.CallAfter(self.calcTotal)
             
         else:
-            print "edit was cancelled"
+            #rint"edit was cancelled"
         #event.Skip()
             
     def OnleaveList(self, evt):
-        print 'OnleaveList'
+        #rint'OnleaveList'
         self.calcTotal()
         evt.Skip()
     
     def calcTotal(self):
-        print 'calcTotal'
+        #rint'calcTotal'
         count = self.GetItemCount()
         totals = []
         total = 0
         
         for row in range(count):
             x  =  self.GetItemText(row, 2)
-            print row, x
+            #rintrow, x
             total += int(x)
         gVar.dayNo = total
         gVar.listCtrl = self.GetName()
         pub.sendMessage('values.totaled')    
         
     def OnChar(self, event):
-        print 'OnChar'
+        #rint'OnChar'
         key_code = event.GetKeyCode()
         if chr(key_code) in "1234567890":
             event.Skip()
         
     def OnListCtrlValue(self, evt):
-        print 'OnListCtrlValue'
+        #rint'OnListCtrlValue'
         col = evt.GetColumn()
-        print col
+        #rintcol
         evt.Skip()
         
     def setHeadings(self, h):
@@ -248,11 +248,11 @@ class DlgTransaction(wx.Dialog):
             
             
     def TransTotal(self):
-        print 'TransTotal'
+        #rint'TransTotal'
         self.text_ctrl_debit_total.SetValue(str(gVar.dayNo))
         
     def OnListCtrlValue(self, evt):
-        print 'OnListCtrlValue' 
+        #rint'OnListCtrlValue' 
         if evt.GetColumn() != 2: evt.Veto()
         #evt.Skip()
  
@@ -262,13 +262,13 @@ class DlgTransaction(wx.Dialog):
         
 
     def OnAddDebit(self, evt):
-        print 'OnAddDebit'
+        #rint'OnAddDebit'
         account_id = fetch.cmbID(self.choice_debits)
-        print account_id
+        #rintaccount_id
         if self.id_inListCtrl(account_id, self.list_ctrl_debits): return
         
         account    = fetch.cmbValue(self.choice_debits)
-        print   account
+        #rint  account
         addedDebits.append((account_id, 0))
         self.list_ctrl_debits.Append((account_id, account, '0'))
         # if valitade_debit_entry:
@@ -276,7 +276,7 @@ class DlgTransaction(wx.Dialog):
         #self.updateDebitTotal()   
     
     def OnDeleteDebit(self, evt):
-        print 'OnDeleteDebit' # contacts = [(name, ip) for name, ip in contacts if ip != removable_ip]
+        #rint'OnDeleteDebit' # contacts = [(name, ip) for name, ip in contacts if ip != removable_ip]
         idx = self.list_ctrl_debits.GetFirstSelected()
         self.list_ctrl_debits.DeleteItem(idx)
         
@@ -286,12 +286,12 @@ class DlgTransaction(wx.Dialog):
         self.updateDebitTotal()
         
     def id_inListCtrl(self, test_id, listctrl):
-        print 'id_inListCtrl'
+        #rint'id_inListCtrl'
         z = listctrl.GetItemCount()
         for x in range(0, z) :
-            print x
+            #rintx
             iid = listctrl.GetItemText(x, 0)
-            print 'list ctrl id = ', iid
+            #rint'list ctrl id = ', iid
             if int(iid) == int(test_id) : return True
         return False
         
@@ -306,17 +306,17 @@ class DlgTransaction(wx.Dialog):
         
         
     def OnSave(self, evt):
-        print 'save then destroy'
+        #rint'save then destroy'
 
             
         for item in deletedDebits:
             sql = "DELETE FROM WHERE id = %d" % item
-            print sql
+            #rintsql
    
         for item in addedDebits:
             iid, val = item
             sql = "INSERT INTO VALUES ('%s', %d)" % (iid, val)
-            print sql
+            #rintsql
             
         # fem
 

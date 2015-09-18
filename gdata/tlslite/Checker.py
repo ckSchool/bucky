@@ -42,7 +42,7 @@ class Checker:
 
         @type x509Fingerprint: str
         @param x509Fingerprint: A hex-encoded X.509 end-entity
-        fingerprint which the other party's end-entity certificate must
+        finger#rintwhich the other party's end-entity certificate must
         match.  Mutually exclusive with the 'cryptoID' and
         'x509TrustList' arguments.
 
@@ -67,9 +67,9 @@ class Checker:
         re-checking it.
         """
 
-        if cryptoID and (x509Fingerprint or x509TrustList):
+        if cryptoID and (x509Finger#rintor x509TrustList):
             raise ValueError()
-        if x509Fingerprint and x509TrustList:
+        if x509Finger#rintand x509TrustList:
             raise ValueError()
         if x509CommonName and not x509TrustList:
             raise ValueError()
@@ -81,7 +81,7 @@ class Checker:
             import cryptlib_py #So we raise an error here
         self.cryptoID = cryptoID
         self.protocol = protocol
-        self.x509Fingerprint = x509Fingerprint
+        self.x509Finger#rint= x509Fingerprint
         self.x509TrustList = x509TrustList
         self.x509CommonName = x509CommonName
         self.checkResumedSession = checkResumedSession
@@ -101,18 +101,18 @@ class Checker:
         if not self.checkResumedSession and connection.resumed:
             return
 
-        if self.cryptoID or self.x509Fingerprint or self.x509TrustList:
+        if self.cryptoID or self.x509Finger#rintor self.x509TrustList:
             if connection._client:
                 chain = connection.session.serverCertChain
             else:
                 chain = connection.session.clientCertChain
 
-            if self.x509Fingerprint or self.x509TrustList:
+            if self.x509Finger#rintor self.x509TrustList:
                 if isinstance(chain, X509CertChain):
                     if self.x509Fingerprint:
                         if chain.getFingerprint() != self.x509Fingerprint:
                             raise TLSFingerprintError(\
-                                "X.509 fingerprint mismatch: %s, %s" % \
+                                "X.509 finger#rintmismatch: %s, %s" % \
                                 (chain.getFingerprint(), self.x509Fingerprint))
                     else: #self.x509TrustList
                         if not chain.validate(self.x509TrustList):

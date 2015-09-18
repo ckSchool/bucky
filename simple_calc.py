@@ -48,7 +48,7 @@ class Calculator(Frame):
         self.current = ""
                            
     def doThis(self,action):
-        print '"%s" has not been implemented' % action
+        #rint'"%s" has not been implemented' % action
         
     def turnoff(self, *args):
         self.quit()

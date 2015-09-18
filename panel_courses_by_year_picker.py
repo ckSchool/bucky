@@ -73,7 +73,7 @@ class panel_courses_picker(wx.Panel):
         pass
 	
     def create_selectionList(self):
-	print 'create_selectionList'
+	#rint'create_selectionList'
 	selection_list =[]
         sql = "SELECT c.id, c.name, c.level \
 	         FROM courses c \
@@ -82,13 +82,13 @@ class panel_courses_picker(wx.Panel):
 	
 	results = fetch.courses_for_year(gVar.schYr)
 	
-	print 'fetch.courses_for_year', results
+	#rint'fetch.courses_for_year', results
         if results:
             self.update = True
             for row  in results:
 		
                 course_id, course_name, course_level    = row['id'], row['name'],row['level']
-		print course_id, course_name, course_level 
+		#rintcourse_id, course_name, course_level 
                 #course_level = "%02d" % level
                 selection_list.append((course_id, course_name, course_level))
             
@@ -98,13 +98,13 @@ class panel_courses_picker(wx.Panel):
 
         
     def create_sourceList(self):
-	#print 'create_sourceList'
+	##rint'create_sourceList'
         source_list=[]
 
         result = fetch.courses_byLevel()
         for row in result:
             course_id, course_name, course_level    = row['id'], row['name'],row['level']
-	    print course_id, course_name, course_level 
+	    #rintcourse_id, course_name, course_level 
             source_list.append((course_id, course_name, course_level))
 
         return source_list
@@ -116,14 +116,14 @@ class panel_courses_picker(wx.Panel):
 	sql = "DELETE \
 		 FROM courses_by_year \
 		WHERE schYr = %d" % gVar.schYr
-	print sql
-	print fetch.updateDB(sql)
+	#rintsql
+	#rintfetch.updateDB(sql)
 	
 	data = ()
 	for course_id in course_ids_list:
 	    sql = "INSERT INTO courses_by_year (course_id, schYr)  \
                      VALUES (%d, %d)" % (course_id, gVar.schYr)
-	    print sql
+	    #rintsql
 	    fetch.updateDB(sql)
 	
 	
@@ -134,7 +134,7 @@ class panel_courses_picker(wx.Panel):
 	pass
 	    
     def displayData(self):
-	print 'panel_courses_by_year_picker > displayData'
+	#rint'panel_courses_by_year_picker > displayData'
 	
 	label2 = 'Courses For %s:' % gVar.schYr
         self.item_picker.SetLabels('All Courses', label2)
@@ -145,16 +145,16 @@ class panel_courses_picker(wx.Panel):
 	heading_selection = (('id',50), ('Course Title',120), ('Age',40))
         sy = {"w_idx":wx.ART_WARNING,   "e_idx":wx.ART_ERROR}
 	self.item_picker.SetListCtrl(heading_pool, heading_selection, sy)
-        print 'SetListCtrl'
+        #rint'SetListCtrl'
 	
 	
         source_list    = self.create_sourceList()
 	print
-	print 'source_list created:', source_list
+	#rint'source_list created:', source_list
 	print
 	
         selection_list = self.create_selectionList()
-	print '   selection_list created:',selection_list
+	#rint'   selection_list created:',selection_list
         self.item_picker.PopulateLists(source_list, selection_list)
         self.item_picker.SortByCol(2)
 

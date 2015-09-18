@@ -84,7 +84,7 @@ class panel_add_edit_course(wx.Panel):
     
     def displayCourseDetails(self):
         res = fetch.course_info(self.course_id) #course_name, course_level, section_name, school_id, code
-        print 'fetch.course_info:', res
+        #rint'fetch.course_info:', res
         if not res:
             return False
         self.course_name  = res[0]
@@ -132,12 +132,12 @@ class panel_add_edit_course(wx.Panel):
         
         if self.course_name: 
             if self.course_id:
-                print "Update course id:", self.course_id
+                #rint"Update course id:", self.course_id
                 self.updateCourse()
                 self.EndModal(wx.ID_OK)
             else:
                 if self.courseNameAvailable(self.course_name):
-                    print "Add new course:" , self.course_name
+                    #rint"Add new course:" , self.course_name
                     self.insertNewCourse()
                     self.EndModal(wx.ID_OK)
                 else:
@@ -153,7 +153,7 @@ class panel_add_edit_course(wx.Panel):
         
         sql = "INSERT INTO courses (id, name, course_level, school_id) \
                     VALUES (%d, '%s',%d, %d) " % (new_id, self.course_name, self.course_level, self.school_id)
-        print sql
+        #rintsql
         fetch.updateDBtransaction(sql)
 
     def updateCourse(self):

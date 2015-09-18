@@ -26,7 +26,7 @@ class MainFrame(wx.Frame):
 	# '1-6-1999' no good
 	# '1/6/1999' no good
 	
-	print DatePicker(None, '1 6 1999')
+	#rintDatePicker(None, '1 6 1999')
 	
 if __name__ == "__main__":
     app = wx.App(redirect=False)

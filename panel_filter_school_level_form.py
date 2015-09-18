@@ -51,20 +51,18 @@ class panel_filter_school_level_form(wx.Panel):
         
     
     def OnCheckSchool(self, evt):
-        print 'Filter > OnCheckSchool'
+        #rint'Filter > OnCheckSchool'
         if self.checkbox_filter_by_school.GetValue():
             self.choice_schools.Show()
             sql = "SELECT id, name \
                      FROM schools \
                     WHERE isCK = 1"
-            print sql
+            #rintsql
             loadCmb.gen(self.choice_schools, sql)
             self.checkbox_filter_by_level.Show()
             self.OnCheckLevel(wx.Event)
             
         else:
-            self.checkbox_filter_by_form.SetValue(False)
-            self.checkbox_filter_by_level.SetValue(False)
             self.checkbox_filter_by_form.Hide()
             self.checkbox_filter_by_level.Hide()
             self.choice_levels.Hide()
@@ -75,7 +73,7 @@ class panel_filter_school_level_form(wx.Panel):
         self.displayData()
         
     def OnCheckLevel(self, evt):
-        print 'Filter > OnCheckLevel event'
+        #rint'Filter > OnCheckLevel event'
         if self.checkbox_filter_by_level.GetValue():
             self.choice_levels.Show()
             self.loadLevels()
@@ -84,7 +82,6 @@ class panel_filter_school_level_form(wx.Panel):
             self.OnCheckForm(wx.Event)
             
         else:
-            self.checkbox_filter_by_form.SetValue(False)
             self.choice_levels.Hide
             self.checkbox_filter_by_form.Hide()
             self.choice_forms.Hide()
@@ -92,7 +89,7 @@ class panel_filter_school_level_form(wx.Panel):
         self.displayData()
         
     def OnCheckForm(self, evt):
-        print 'Filter > OnCheckForm evt'
+        #rint'Filter > OnCheckForm evt'
         if self.checkbox_filter_by_form.GetValue():
             self.choice_forms.Show()
             self.loadForms()
@@ -135,7 +132,7 @@ class panel_filter_school_level_form(wx.Panel):
               gVar.form_id = fetch.cmbID(self.choice_forms)
         else: gVar.form_id = 0
         
-        print ' send msg'
+        #rint' send msg'
         self.GetTopLevelParent().Layout()
         pub.sendMessage('filter_sch.change')
     

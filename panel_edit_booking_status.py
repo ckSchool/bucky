@@ -1,6 +1,5 @@
 
-import  wx, gVar, loadCmbODBC as loadCmb
-import fetchodbc as fetch
+import  wx, gVar, loadCmb, fetch
 
 class panel_edit_booking_status(wx.Panel):
     def __init__(self, parent, pid):
@@ -70,7 +69,7 @@ class panel_edit_booking_status(wx.Panel):
         
         
     def displayData(self, student_id, NoInduk, form_id):
-        print 'panel_edit_booking_status : displayData'
+        #rint'panel_edit_booking_status : displayData'
         
         loadCmb.courses_forYear(self.choice_course, gVar.schYr+1)
         self.form_id  = form_id
@@ -121,7 +120,7 @@ class panel_edit_booking_status(wx.Panel):
                 #loadCmb.restore(self.choice_course, course_id)
                 
             elif rereg_status == "continue":
-                print "rereg_status == continue"
+                #rint"rereg_status == continue"
                 self.choice_status.Select(1)
                 loadCmb.restore(self.choice_course, course_id)
     
@@ -152,7 +151,7 @@ class panel_edit_booking_status(wx.Panel):
         self.Layout()    
 
     def OnBack(self, evt):
-        print "????????  panel_edit_booking_status   ?????????//"
+        #rint"????????  panel_edit_booking_status   ?????????//"
         gVar.lastPanel=self
         self.parent.BackFromEditBookingStatus()
         
@@ -176,7 +175,7 @@ class panel_edit_booking_status(wx.Panel):
                   SET rereg_status = '%s' \
                 WHERE form_id =%d \
                   AND student_id =%d " % (ReregStatus, self.form_id, self.student_id)
-        print sql
+        #rintsql
         fetch.updateDB(sql)
     
 class TestFrame(wx.Frame):

@@ -78,7 +78,7 @@ class panel_edit_school(wx.Panel):
         pass
         
     def displayData(self):
-        print 'panel_edit_school : displayData'
+        #rint'panel_edit_school : displayData'
 
         if gVar.school_id:
             self.editMode = True

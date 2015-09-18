@@ -86,7 +86,7 @@ class PanelInvoiceItem(wx.Panel):
         self.SetSizer(sizer_item)
         
     def __do_main(self):
-        print ' do main'
+        #rint' do main'
         
         methods = {1:'Cash', 2:'Mandiri'}
         for key in methods:
@@ -151,7 +151,7 @@ class PanelInvoiceItem(wx.Panel):
                 event.Skip()
                 
     def displayData(self, iid, student_id):
-        print 'displayData', iid, student_id
+        #rint'displayData', iid, student_id
         
         self.product_id = iid
         
@@ -163,13 +163,13 @@ class PanelInvoiceItem(wx.Panel):
         if self.isMonthly(iid):
             
             monthFrom = self.getMonthFrom()
-            print 'gVar.monthNames[monthFrom]', gVar.monthNames[monthFrom]
+            #rint'gVar.monthNames[monthFrom]', gVar.monthNames[monthFrom]
             description += ' : ' + gVar.monthNames[monthFrom]
                 
         self.text_ctrl_description.SetValue(description)
             
         #self.num_ctrl_qnty.SetValue(1)
-        print 'price', price
+        #rint'price', price
         self.num_ctrl_price.SetValue(price)
     
     def getMonthFrom(self, ):
@@ -182,7 +182,7 @@ class PanelInvoiceItem(wx.Panel):
                       AND i.schYr = %d " % (1, self.student_id, gVar.schYr)
             
         res = fetch.getOneDict(sql)
-        print sql, res
+        #rintsql, res
         if res:
             monthFrom = res['monthFrom']
             monthTo   = res['monthTo']

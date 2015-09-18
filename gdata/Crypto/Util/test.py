@@ -20,24 +20,24 @@ from Crypto.Cipher import *
 
 def die(string):
     import sys
-    print '***ERROR: ', string
+    #rint'***ERROR: ', string
 #    sys.exit(0)   # Will default to continuing onward...
 
 def print_timing (size, delta, verbose):
     if verbose:
         if delta == 0:
-            print 'Unable to measure time -- elapsed time too small'
+            #rint'Unable to measure time -- elapsed time too small'
         else:
-            print '%.2f K/sec' % (size/delta)
+            #rint'%.2f K/sec' % (size/delta)
             
 def exerciseBlockCipher(cipher, verbose):
     import string, time
     try:
         ciph = eval(cipher)
     except NameError:
-        print cipher, 'module not available'
+        #rintcipher, 'module not available'
         return None
-    print cipher+ ':'
+    #rintcipher+ ':'
     str='1'                             # Build 128K of test data
     for i in xrange(0, 17):
         str=str+str
@@ -45,7 +45,7 @@ def exerciseBlockCipher(cipher, verbose):
     password = 'password12345678Extra text for password'[0:ciph.key_size]
     IV = 'Test IV Test IV Test IV Test'[0:ciph.block_size]
 
-    if verbose: print '  ECB mode:',
+    if verbose: #rint'  ECB mode:',
     obj=ciph.new(password, ciph.MODE_ECB)
     if obj.block_size != ciph.block_size:
         die("Module and cipher object block_size don't match")
@@ -69,7 +69,7 @@ def exerciseBlockCipher(cipher, verbose):
     print_timing(256, end-start, verbose)
     del obj
 
-    if verbose: print '  CFB mode:',
+    if verbose: #rint'  CFB mode:',
     obj1=ciph.new(password, ciph.MODE_CFB, IV)
     obj2=ciph.new(password, ciph.MODE_CFB, IV)
     start=time.time()
@@ -81,7 +81,7 @@ def exerciseBlockCipher(cipher, verbose):
     print_timing(64, end-start, verbose)
     del obj1, obj2
 
-    if verbose: print '  CBC mode:',
+    if verbose: #rint'  CBC mode:',
     obj1=ciph.new(password, ciph.MODE_CBC, IV)
     obj2=ciph.new(password, ciph.MODE_CBC, IV)
     start=time.time()
@@ -93,7 +93,7 @@ def exerciseBlockCipher(cipher, verbose):
     print_timing(256, end-start, verbose)
     del obj1, obj2
 
-    if verbose: print '  PGP mode:',
+    if verbose: #rint'  PGP mode:',
     obj1=ciph.new(password, ciph.MODE_PGP, IV)
     obj2=ciph.new(password, ciph.MODE_PGP, IV)
     start=time.time()
@@ -105,7 +105,7 @@ def exerciseBlockCipher(cipher, verbose):
     print_timing(256, end-start, verbose)
     del obj1, obj2
 
-    if verbose: print '  OFB mode:',
+    if verbose: #rint'  OFB mode:',
     obj1=ciph.new(password, ciph.MODE_OFB, IV)
     obj2=ciph.new(password, ciph.MODE_OFB, IV)
     start=time.time()
@@ -120,7 +120,7 @@ def exerciseBlockCipher(cipher, verbose):
     def counter(length=ciph.block_size):
         return length * 'a'
 
-    if verbose: print '  CTR mode:',
+    if verbose: #rint'  CTR mode:',
     obj1=ciph.new(password, ciph.MODE_CTR, counter=counter)
     obj2=ciph.new(password, ciph.MODE_CTR, counter=counter)
     start=time.time()
@@ -133,7 +133,7 @@ def exerciseBlockCipher(cipher, verbose):
     del obj1, obj2
 
     # Test the IV handling
-    if verbose: print '  Testing IV handling'
+    if verbose: #rint'  Testing IV handling'
     obj1=ciph.new(password, ciph.MODE_CBC, IV)
     plaintext='Test'*(ciph.block_size/4)*3
     ciphertext1=obj1.encrypt(plaintext)
@@ -155,9 +155,9 @@ def exerciseStreamCipher(cipher, verbose):
     try:
         ciph = eval(cipher)
     except (NameError):
-        print cipher, 'module not available'
+        #rintcipher, 'module not available'
         return None
-    print cipher + ':',
+    #rintcipher + ':',
     str='1'                             # Build 128K of test data
     for i in xrange(0, 17):
         str=str+str
@@ -231,7 +231,7 @@ def TestBlockModules(args=['aes', 'arc2', 'des', 'blowfish', 'cast', 'des3',
     if 'aes' in args:
         ciph=exerciseBlockCipher('AES', verbose)        # AES
         if (ciph!=None):
-                if verbose: print '  Verifying against test suite...'
+                if verbose: #rint'  Verifying against test suite...'
                 for entry in testdata.aes:
                     key,plain,cipher=entry
                     key=binascii.a2b_hex(key)
@@ -242,7 +242,7 @@ def TestBlockModules(args=['aes', 'arc2', 'des', 'blowfish', 'cast', 'des3',
                     if (ciphertext!=cipher):
                         die('AES failed on entry '+`entry`)
                         for i in ciphertext:
-                            if verbose: print hex(ord(i)),
+                            if verbose: #rinthex(ord(i)),
                         if verbose: print
 
                 for entry in testdata.aes_modes:
@@ -256,21 +256,21 @@ def TestBlockModules(args=['aes', 'arc2', 'des', 'blowfish', 'cast', 'des3',
                     if (ciphertext!=cipher):
                         die('AES encrypt failed on entry '+`entry`)
                         for i in ciphertext:
-                            if verbose: print hex(ord(i)),
+                            if verbose: #rinthex(ord(i)),
                         if verbose: print
 
                     plain2=obj2.decrypt(ciphertext)
                     if plain2!=plain:
                         die('AES decrypt failed on entry '+`entry`)
                         for i in plain2:
-                            if verbose: print hex(ord(i)),
+                            if verbose: #rinthex(ord(i)),
                         if verbose: print
 
 
     if 'arc2' in args:
         ciph=exerciseBlockCipher('ARC2', verbose)           # Alleged RC2
         if (ciph!=None):
-                if verbose: print '  Verifying against test suite...'
+                if verbose: #rint'  Verifying against test suite...'
                 for entry in testdata.arc2:
                     key,plain,cipher=entry
                     key=binascii.a2b_hex(key)
@@ -281,13 +281,13 @@ def TestBlockModules(args=['aes', 'arc2', 'des', 'blowfish', 'cast', 'des3',
                     if (ciphertext!=cipher):
                         die('ARC2 failed on entry '+`entry`)
                         for i in ciphertext:
-                            if verbose: print hex(ord(i)),
+                            if verbose: #rinthex(ord(i)),
                         print
 
     if 'blowfish' in args:
         ciph=exerciseBlockCipher('Blowfish',verbose)# Bruce Schneier's Blowfish cipher
         if (ciph!=None):
-                if verbose: print '  Verifying against test suite...'
+                if verbose: #rint'  Verifying against test suite...'
                 for entry in testdata.blowfish:
                     key,plain,cipher=entry
                     key=binascii.a2b_hex(key)
@@ -298,13 +298,13 @@ def TestBlockModules(args=['aes', 'arc2', 'des', 'blowfish', 'cast', 'des3',
                     if (ciphertext!=cipher):
                         die('Blowfish failed on entry '+`entry`)
                         for i in ciphertext:
-                            if verbose: print hex(ord(i)),
+                            if verbose: #rinthex(ord(i)),
                         if verbose: print
 
     if 'cast' in args:
         ciph=exerciseBlockCipher('CAST', verbose)        # CAST-128
         if (ciph!=None):
-                if verbose: print '  Verifying against test suite...'
+                if verbose: #rint'  Verifying against test suite...'
                 for entry in testdata.cast:
                     key,plain,cipher=entry
                     key=binascii.a2b_hex(key)
@@ -315,7 +315,7 @@ def TestBlockModules(args=['aes', 'arc2', 'des', 'blowfish', 'cast', 'des3',
                     if (ciphertext!=cipher):
                         die('CAST failed on entry '+`entry`)
                         for i in ciphertext:
-                            if verbose: print hex(ord(i)),
+                            if verbose: #rinthex(ord(i)),
                         if verbose: print
 
                 if 0:
@@ -332,9 +332,9 @@ def TestBlockModules(args=['aes', 'arc2', 'des', 'blowfish', 'cast', 'des3',
                         b = obj.encrypt(b[:8]) + obj.encrypt(b[-8:])
 
                     if a!="\xEE\xA9\xD0\xA2\x49\xFD\x3B\xA6\xB3\x43\x6F\xB8\x9D\x6D\xCA\x92":
-                        if verbose: print 'CAST test failed: value of "a" doesn\'t match'
+                        if verbose: #rint'CAST test failed: value of "a" doesn\'t match'
                     if b!="\xB2\xC9\x5E\xB0\x0C\x31\xAD\x71\x80\xAC\x05\xB8\xE8\x3D\x69\x6E":
-                        if verbose: print 'CAST test failed: value of "b" doesn\'t match'
+                        if verbose: #rint'CAST test failed: value of "b" doesn\'t match'
 
     if 'des' in args:
         # Test/benchmark DES block cipher
@@ -370,7 +370,7 @@ def TestBlockModules(args=['aes', 'arc2', 'des', 'blowfish', 'cast', 'des3',
             if x!=binascii.a2b_hex('1B1A2DDB4C642438'):
                 die("DES fails Rivest's test")
 
-            if verbose: print '  Verifying against test suite...'
+            if verbose: #rint'  Verifying against test suite...'
             for entry in testdata.des:
                 key,plain,cipher=entry
                 key=binascii.a2b_hex(key)
@@ -392,7 +392,7 @@ def TestBlockModules(args=['aes', 'arc2', 'des', 'blowfish', 'cast', 'des3',
     if 'des3' in args:
         ciph=exerciseBlockCipher('DES3', verbose)        # Triple DES
         if (ciph!=None):
-                if verbose: print '  Verifying against test suite...'
+                if verbose: #rint'  Verifying against test suite...'
                 for entry in testdata.des3:
                     key,plain,cipher=entry
                     key=binascii.a2b_hex(key)
@@ -403,7 +403,7 @@ def TestBlockModules(args=['aes', 'arc2', 'des', 'blowfish', 'cast', 'des3',
                     if (ciphertext!=cipher):
                         die('DES3 failed on entry '+`entry`)
                         for i in ciphertext:
-                            if verbose: print hex(ord(i)),
+                            if verbose: #rinthex(ord(i)),
                         if verbose: print
                 for entry in testdata.des3_cbc:
                     key, iv, plain, cipher=entry
@@ -417,7 +417,7 @@ def TestBlockModules(args=['aes', 'arc2', 'des', 'blowfish', 'cast', 'des3',
     if 'idea' in args:
         ciph=exerciseBlockCipher('IDEA', verbose)       # IDEA block cipher
         if (ciph!=None):
-                if verbose: print '  Verifying against test suite...'
+                if verbose: #rint'  Verifying against test suite...'
                 for entry in testdata.idea:
                     key,plain,cipher=entry
                     key=binascii.a2b_hex(key)
@@ -432,7 +432,7 @@ def TestBlockModules(args=['aes', 'arc2', 'des', 'blowfish', 'cast', 'des3',
         # Ronald Rivest's RC5 algorithm
         ciph=exerciseBlockCipher('RC5', verbose)
         if (ciph!=None):
-                if verbose: print '  Verifying against test suite...'
+                if verbose: #rint'  Verifying against test suite...'
                 for entry in testdata.rc5:
                     key,plain,cipher=entry
                     key=binascii.a2b_hex(key)
@@ -446,7 +446,7 @@ def TestBlockModules(args=['aes', 'arc2', 'des', 'blowfish', 'cast', 'des3',
                     if (ciphertext!=cipher):
                         die('RC5 failed on entry '+`entry`)
                         for i in ciphertext:
-                            if verbose: print hex(ord(i)),
+                            if verbose: #rinthex(ord(i)),
                         if verbose: print
 
 

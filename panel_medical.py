@@ -54,5 +54,6 @@ class panel_medical(wx.Panel):
         self.data_medical_notes.SetValue(str(blood_group))
     
     def Save(self):
-        print 'save medical'
+        pass
+        #rint'save medical'
         

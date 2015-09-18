@@ -114,7 +114,7 @@ class DlgPaySchoolFee(wx.Dialog):
         loadCmb.courses_forYear(self.choice_rereg_course, gVar.schYr)
         
         self.student_id = student_id
-        print 'displayData', student_id
+        #rint'displayData', student_id
         lastMonthPaid = self.lastMonthPaid()
         
         if lastMonthPaid==12:
@@ -141,7 +141,7 @@ class DlgPaySchoolFee(wx.Dialog):
         self.Layout
             
     def OnChkRereg(self,evt):
-        print 'OnChkRereg'
+        #rint'OnChkRereg'
         self.panel_ctrls_rereg.Show(self.chkbox_rereg.GetValue())
         self.Layout()
         
@@ -158,11 +158,11 @@ class DlgPaySchoolFee(wx.Dialog):
                   AND i.schYr    =%d \
                   AND p.type     = 1 " % (self.student_id, gVar.schYr)
         res = fetch.getDig(sql)
-        print res
+        #rintres
         return  res
             
     def OnSave(self, evt):
-        print 'OnSave'
+        #rint'OnSave'
         self.Close()
         
     def OnCancel(self, evt):
@@ -187,10 +187,10 @@ class DlgPaySchoolFee(wx.Dialog):
         self.text_ctrl_total_fees.SetValue(total)
         
         if  months == self.text_ctrl_months.GetMax():
-            print 'gghfd'
+            #rint'gghfd'
             self.panel_rereg.Show()
         else:
-            print 'jkkk'
+            #rint'jkkk'
             self.panel_rereg.Hide()
         self.Layout()
         

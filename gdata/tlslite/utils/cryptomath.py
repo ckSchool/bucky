@@ -336,7 +336,7 @@ def isPrime(n, iterations=5, display=False):
     #Passed trial division, proceed to Rabin-Miller
     #Rabin-Miller implemented per Ferguson & Schneier
     #Compute s, t for Rabin-Miller
-    if display: print "*",
+    if display: #rint"*",
     s, t = n-1, 0
     while s % 2 == 0:
         s, t = s/2, t+1
@@ -368,7 +368,7 @@ def getRandomPrime(bits, display=False):
     p = getRandomNumber(low, high)
     p += 29 - (p % 30)
     while 1:
-        if display: print ".",
+        if display: #rint".",
         p += 30
         if p >= high:
             p = getRandomNumber(low, high)
@@ -390,7 +390,7 @@ def getRandomSafePrime(bits, display=False):
     q = getRandomNumber(low, high)
     q += 29 - (q % 30)
     while 1:
-        if display: print ".",
+        if display: #rint".",
         q += 30
         if (q >= high):
             q = getRandomNumber(low, high)

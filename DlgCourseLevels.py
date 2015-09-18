@@ -52,7 +52,7 @@ class DlgCourseLevels(wx.Dialog):
         
     def displayData(self):
         res = fetch.courses_levels_all_DATA()
-        print res
+        #rintres
         if not res:
             msg = "No courses levels found"
             
@@ -63,22 +63,22 @@ class DlgCourseLevels(wx.Dialog):
         self.list_ctrl_course_levels.SortListItems(1)
         
     def OnAdd(self, evt):
-        print 'OnAdd open DlgLevelEditor'
+        #rint'OnAdd open DlgLevelEditor'
     
     def OnDelete(self, evt):
-        print 'OnDelete'
+        #rint'OnDelete'
         
         level_id = self.list_ctrl_course_levels.GetSelectedID()
         level = fetch.level_level_id(level_id)
         
         if fetch.level_unused(level_id):
             sql = "DELETE FROM course_levels WHERE level = %d" % level
-            print 'fetch.updateDB(', sql, ')'
+            #rint'fetch.updateDB(', sql, ')'
             self.displayData()
         else:
             courses = fetch.courses_forLevel(level)
-            print courses
-            print 'Level in use by courses ' , courses
+            #rintcourses
+            #rint'Level in use by courses ' , courses
             
     
 if __name__ == "__main__":

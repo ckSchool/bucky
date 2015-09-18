@@ -1,6 +1,4 @@
-import wx, fetch, loadCmb
-
-
+import wx, fetch, loadCmb, gVar
 
 def create(parent):
     return DlgSchYr(parent)
@@ -61,9 +59,9 @@ class DlgSchYr(wx.Dialog):
         self.new_year = 0
         self.schYr = 0
         
-    def displayData(self, schYr):
-        self.schYr = schYr
-        loadCmb.restore_str(self.choice_schYr, str(schYr))
+    def displayData(self):
+        self.schYr = gVar.schYr
+        loadCmb.restore_str(self.choice_schYr, str(gVar.schYr))
         
     def OnAddYear(self, evt):
         if not self.new_year:
@@ -79,14 +77,14 @@ class DlgSchYr(wx.Dialog):
     def OnSave(self, evt):
         if self.new_year:
             sql = "INSERT  INTO schYrs (schYr) VALUES (%d)" % self.new_year
-            print sql
+            #rintsql
             yid = fetch.updateDB(sql)
-            print yid
+            #rintyid
             
         
         self.schYr =  int(self.choice_schYr.GetStringSelection())
                      
-        print self.schYr
+        #rintself.schYr
         self.EndModal(0) 
         
         
@@ -98,6 +96,6 @@ if __name__ == "__main__":
     dlg = DlgSchYr(None, -1, "")
     app.SetTopWindow(dlg)
     dlg.ShowModal()
-    print dlg.schYr
+    #rintdlg.schYr
     dlg.Destroy()
     app.MainLoop()

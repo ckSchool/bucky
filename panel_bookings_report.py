@@ -31,9 +31,9 @@ class bookings_report(wx.Panel):
     def OnRightClick(self, event):
         #
         index = self.listCtrl.GetFirstSelected()
-        print 'item data=', self.listCtrl.GetItemData(index)
+        #rint'item data=', self.listCtrl.GetItemData(index)
         
-        print 'lodilo... have result, publishing it via pubsub'
+        #rint'lodilo... have result, publishing it via pubsub'
         pub.sendMessage('change_statusbar', arg1=123, arg2=dict(a='abc', b='def'))
         
         #self.index = self.listCtrl.GetFirstSelected()
@@ -69,29 +69,29 @@ class bookings_report(wx.Panel):
         menu.Destroy()
     
     def OnPopupOne(self, event):# View Test Results
-        print "Popup one\n"
+        #rint"Popup one\n"
         index = self.listCtrl.GetFirstSelected()
-        print 'item data=', self.listCtrl.GetItemData(index)
+        #rint'item data=', self.listCtrl.GetItemData(index)
         #
-        #print "FindItem:", self.listCtrl.FindItem(-1, "Roxette")
-        #print "FindItemData:", self.listCtrl.FindItemData(-1, 0)
+        ##rint"FindItem:", self.listCtrl.FindItem(-1, "Roxette")
+        ##rint"FindItemData:", self.listCtrl.FindItemData(-1, 0)
 
     def OnPopupTwo(self, event): # Receive Payment
-        print "Selected items:\n"
+        #rint"Selected items:\n"
         index = self.listCtrl.GetFirstSelected()
         
         while index != -1:
-            print "      %s: %s\n" % (self.listCtrl.GetItemText(index), self.listCtrl.GetColumnText(index, 0))
+            #rint"      %s: %s\n" % (self.listCtrl.GetItemText(index), self.listCtrl.GetColumnText(index, 0))
             index = self.listCtrl.GetNextSelected(index)
 
     def OnPopupThree(self, event): # Update Status
-        print "Popup three\n"
+        #rint"Popup three\n"
         #self.listCtrl.ClearAll()
         #wx.CallAfter(self.listCtrl.PopulateList)
 
     def OnPopupFour(self, event): # View Student Details
         item = self.listCtrl.GetItem(self.currentItem)
-        print item.m_text, item.m_itemId, self.listCtrl.GetItemData(self.currentItem)
+        #rintitem.m_text, item.m_itemId, self.listCtrl.GetItemData(self.currentItem)
   
     def OnPopupFive(self, event): # Withdraw Application
         pass # self.listCtrl.DeleteAllItems()
@@ -134,7 +134,7 @@ class bookings_report(wx.Panel):
                 res = fetch.getAllDict(sql)
                 for row in res:
                     mylist.append(row)
-        print mylist
+        #rintmylist
 
         for level in range(3,20):
             # show last years classes & students
@@ -190,7 +190,7 @@ class bookings_report(wx.Panel):
                 FROM courses \
                ORDER BY level, name"
         results = fetch.getAllDict(sql)
-        #print 'courses', results
+        ##rint'courses', results
     
 
     def __do_layout(self):

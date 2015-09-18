@@ -1,6 +1,6 @@
 import wx, gVar
 
-from PanelGuardianData import PanelGuardianData
+from panel_guardian_data import panel_guardian_data
 
 class panel_edit_guardian(wx.Panel):
     def __init__(self, *args, **kwds):
@@ -17,7 +17,7 @@ class panel_edit_guardian(wx.Panel):
         self.button_save  = wx.Button(    self.panel_top, -1, "Save")
         self.button_edit  = wx.Button(    self.panel_top, -1, "Edit")
         
-        self.panel_contact  = PanelGuardianData(self.panel_l, -1)
+        self.panel_contact  = panel_guardian_data(self.panel_l, -1)
   
         self.Bind(wx.EVT_BUTTON, self.OnBack,     self.button_back)
         self.Bind(wx.EVT_BUTTON, self.OnEdit,     self.button_edit)
@@ -57,7 +57,7 @@ class panel_edit_guardian(wx.Panel):
         self.panel_contact.enableCtrls(False)
     
     def displayData(self):
-        print 'displayData'
+        #rint'displayData'
         pass
     
     def OnBack(self, evt):
@@ -65,7 +65,7 @@ class panel_edit_guardian(wx.Panel):
         self.GetTopLevelParent().goBack()
         
     def OnEdit(self, evt):
-        print 'edit'
+        #rint'edit'
         
         """
         if self.button_edit.GetLabelText()=='Cancel':
@@ -84,5 +84,5 @@ class panel_edit_guardian(wx.Panel):
         pass
 
     def OnSave(self, evt):
-        print 'save'
+        #rint'save'
         pass

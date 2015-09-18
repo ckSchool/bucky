@@ -62,7 +62,7 @@ class panel_edit_rereg_status(wx.Panel):
         self.Layout()
         
     def displayData(self, student_id, NoInduk, KKelas):
-        print "panel_edit_rereg_status : displayData"
+        #rint"panel_edit_rereg_status : displayData"
         # query for bookings
         #sql = "SELECT Kode, Nama, Status FROM CSiswa WHERE Kode%d" % student_id
         loadCmb.courses_forYear(self.choice_course, gVar.schYr+1)
@@ -78,7 +78,7 @@ class panel_edit_rereg_status(wx.Panel):
         
         self.next_level = fetch.form_level(KKelas)+1
         
-        print sql, res
+        #rintsql, res
         if res:
             name = res['Nama']
             self.text_ctrl_name.SetValue(name)
@@ -90,7 +90,7 @@ class panel_edit_rereg_status(wx.Panel):
                 self.choice_status.Select(0) # ?
                         
             elif rereg_status == "continue":
-                print  "continue"
+                #rint "continue"
                 loadCmb.courses_forLevel_forYear(self.choice_course, gVar.schYr+1, self.next_level)
                 loadCmb.restore(self.choice_course, course_id)
                     
@@ -120,7 +120,7 @@ class panel_edit_rereg_status(wx.Panel):
         loadCmb
         rereg_status = fetch.cmbValue(self.choice_status)
         if rereg_status =='continue':
-            print "gVar.schYr+1, self.next_level", gVar.schYr+1, self.next_level
+            #rint"gVar.schYr+1, self.next_level", gVar.schYr+1, self.next_level
             loadCmb.courses_forLevel_forYear(self.choice_course, gVar.schYr+1, self.next_level)
             
         if rereg_status =='retake':
@@ -153,7 +153,7 @@ class panel_edit_rereg_status(wx.Panel):
         
         
         sql = "UPDATE SiswaPerKelas SET ReregStatus = '%s' WHERE KKelas =%d AND NoInduk ='%s' " % (ReregStatus, self.KKelas, self.NoInduk)
-        print sql
+        #rintsql
         fetch.updateDB(sql)
 """  
 class TestFrame(wx.Frame):

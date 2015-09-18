@@ -62,7 +62,7 @@ class DateCtrl(wx.Panel):
         self.date = wx.DateTime()
         
     def setDate(self, date):
-        print date
+        #rintdate
         date = wx.DateTime()
         
     def SetValue(self, date):
@@ -72,7 +72,7 @@ class DateCtrl(wx.Panel):
                 return
         except:
             pass
-        print 'SetValue date:', date
+        #rint'SetValue date:', date
         # expects a simple date object like "21 02 2012"
         #rint "DateCtrl.SetValue expects a simple date object like '21 02 2012' . Passed date =", date
         try:
@@ -104,7 +104,7 @@ class DateCtrl(wx.Panel):
         self.date_changed = True
 	
         name = self.GetName()
-	print 'DateCtrl name = ', name
+	#rint'DateCtrl name = ', name
 	if name and name != 'panel': pub.sendMessage('DateCtrl.date_change', name=name)
 	else:
 	    pub.sendMessage('DateCtrl.date_change')
@@ -118,11 +118,11 @@ class DateCtrl(wx.Panel):
         
         self.ctrl_panel.Show()
         if self.date:
-            print 'VALID self.date:', self.date 
+            #rint'VALID self.date:', self.date 
             self.text_ctrl_date.SetValue(self.formatDateForDisplay(self.date))
             
         else:
-            print 'INVALID self.date:', self.date , "Set to todays date"
+            #rint'INVALID self.date:', self.date , "Set to todays date"
             self.date = datetime.datetime.today()
             #rint ' after checkbox', self.date
             # do we need to convert
@@ -148,20 +148,20 @@ class DateCtrl(wx.Panel):
         if upper:
             self.upperlimit = self.db_to_wxDateTime(upper)
         
-        print 'date range', lower, ' > ', upper
+        #rint'date range', lower, ' > ', upper
         	
     def OnCalender(self, event):
-        print 'OnCalender'
-        print 'limit:', self.lowerlimit, " > ", self.upperlimit
+        #rint'OnCalender'
+        #rint'limit:', self.lowerlimit, " > ", self.upperlimit
         newdate = False
-        print 'self.date:',self.date
+        #rint'self.date:',self.date
         dlg = DlgDatePicker(None, self.date)
         try:
             if dlg.ShowModal() == wx.ID_OK:
                 dlgdate = dlg.calendardate
                 
                 if self.lowerlimit:
-                    print dlgdate
+                    #rintdlgdate
                     if dlgdate < self.lowerlimit:
                         dlg.Destroy()
                         return 
@@ -171,28 +171,28 @@ class DateCtrl(wx.Panel):
                         return
                 
                 self.caldate = dlgdate
-                print 'self.caldate = ', self.caldate
+                #rint'self.caldate = ', self.caldate
                 newdate = self.convert_calDate_to_datetimeDate(self.caldate)
                 try:
                     if self.date!= newdate:
                         
-                        #print 'newdate:',newdate
+                        ##rint'newdate:',newdate
                         self.date = newdate # self.convert_calDate_to_datetimeDate(newdate)
                         
-                        #print 'converted_calendar Date_to datetimeDate    self.date:',self.date
+                        ##rint'converted_calendar Date_to datetimeDate    self.date:',self.date
                         
                         self.text_ctrl_date.SetValue(self.formatDateForDisplay(self.date))
                         self.checkbox.SetValue(True)
                         self.date_changed = True
                 except:
-                    print 'help'
+                    #rint'help'
                     self.date = newdate
                     self.text_ctrl_date.SetValue(self.formatDateForDisplay(self.date))
                     self.checkbox.SetValue(True)
                     self.date_changed = True
 		    
 		name = self.GetName()
-		print 'DateCtrl name = ', name
+		#rint'DateCtrl name = ', name
 		if name and name != 'panel': pub.sendMessage('DateCtrl.date_change', name=name)
 		else:
 		    pub.sendMessage('DateCtrl.date_change')
@@ -229,5 +229,5 @@ class DateCtrl(wx.Panel):
         try:
             return self.caldate.FormatDate()
         except:
-            print 'no caldate yet'
+            #rint'no caldate yet'
             return ''

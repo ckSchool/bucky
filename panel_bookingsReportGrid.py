@@ -36,7 +36,7 @@ class panel_bookingsReportGrid(wx.Panel):
         grid.SetColLabelAlignment(wx.ALIGN_LEFT, wx.ALIGN_BOTTOM)
             
     def displayData(self):
-        print "panel_bookingsReportGrid : displayData"
+        #rint"panel_bookingsReportGrid : displayData"
         self.number_of_grids = 0
         
         if self.widgetSizer.GetChildren():
@@ -63,7 +63,7 @@ class panel_bookingsReportGrid(wx.Panel):
         sql ="SELECT course_id \
                 FROM courses_by_year \
                WHERE schYr = %d" % gVar.schYr
-        #print sql
+        ##rintsql
         course_ids = fetch.getList(sql)
 
         sql ="SELECT level \
@@ -71,14 +71,14 @@ class panel_bookingsReportGrid(wx.Panel):
                ORDER BY level"
         course_levels = fetch.getList(sql)
         
-        print 'course_ids, course_levels  ', course_ids, ',', course_levels
+        #rint'course_ids, course_levels  ', course_ids, ',', course_levels
         
         row = 0
         for level in course_levels:
             self.formatRow(row)
   
             if level == course_levels[0]:
-                print '>'
+                #rint'>'
                 row = self.displayDataForLowerLevelNextYearsCourses(level, row)
 
             #row = self.dispalyDataForLastYearsKelases(level, row)
@@ -106,7 +106,7 @@ class panel_bookingsReportGrid(wx.Panel):
         if new_year_courses:
             self.labelRowNew(row);
             grid.AppendRows(1); row += 1
-            #print row, 'B rows=', grid.GetNumberRows()    
+            ##rintrow, 'B rows=', grid.GetNumberRows()    
             for course in new_year_courses:
                 course_id = str(course['id'])
                 course_name = course['name']
@@ -117,7 +117,7 @@ class panel_bookingsReportGrid(wx.Panel):
                 grid.SetRowAttr(row, self.attrDetailsNew)
                 
                 grid.AppendRows(1); row += 1
-                #print row, 'C rows=', grid.GetNumberRows()
+                ##rintrow, 'C rows=', grid.GetNumberRows()
         return row
     
     
@@ -134,7 +134,7 @@ class panel_bookingsReportGrid(wx.Panel):
             self.labelRowKelas(row)
             
             grid.AppendRows(1); row += 1
-            #print row, 'D rows=', grid.GetNumberRows()        
+            ##rintrow, 'D rows=', grid.GetNumberRows()        
             tot_now, tot_out, tot_cont, tot_retake, sub_tot, tot_tot = (0, 0, 0, 0, 0, 0) 
             for myClass in classes:
                 form_id   = myClass['id']
@@ -163,7 +163,7 @@ class panel_bookingsReportGrid(wx.Panel):
                 grid.SetCellValue( row, 7, str(sub_tot))
                 
                 grid.AppendRows(1); row += 1
-                #print row, 'E rows=', grid.GetNumberRows()
+                ##rintrow, 'E rows=', grid.GetNumberRows()
             
             # display totals
             grid.SetRowAttr(row, self.attrTotalsForm)
@@ -175,7 +175,7 @@ class panel_bookingsReportGrid(wx.Panel):
             grid.SetCellValue( row, 7, str(tot_tot))
             
             grid.AppendRows(1); row += 1
-            #print row, 'F rows=', grid.GetNumberRows()
+            ##rintrow, 'F rows=', grid.GetNumberRows()
         return row
     
     def displayDataForLowerLevelNextYearsCourses(self, level, row):
@@ -192,12 +192,12 @@ class panel_bookingsReportGrid(wx.Panel):
                  AND c.level=%d" % (gVar.schYr, int(level))
         res = fetch.getAllDict(sql)
         
-        #print  sql, res
+        ##rint sql, res
 
         return res
     
     def labelRowKelas(self, row):
-        #print 'labelRowKelas'
+        ##rint'labelRowKelas'
         grid = self.grid
         idx=2
         yr = gVar.schYr-1
@@ -211,7 +211,7 @@ class panel_bookingsReportGrid(wx.Panel):
     def labelRowNew(self, row):
         txt ="COURSE %d" % gVar.schYr
         grid = self.grid
-        #print txt
+        ##rinttxt
         grid.SetCellValue(row,2, txt )
         grid.SetCellAlignment(row, 2, wx.ALIGN_RIGHT, wx.ALIGN_CENTRE);
         idx=7
@@ -262,11 +262,11 @@ class panel_bookingsReportGrid(wx.Panel):
 
     def OnCellLeftClick(self, evt):
         txt = "OnCellLeftClick: (%d,%d) %s\n" % (evt.GetRow(), evt.GetCol(), evt.GetPosition())
-        print txt, 'GetCellValues', 
+        #rinttxt, 'GetCellValues', 
         r,c = evt.GetRow(), evt.GetCol()
         val1 = self.grid.GetCellValue(r,0)
         val2 = self.grid.GetCellValue(r,1)
-        print val1, val2
+        #rintval1, val2
         evt.Skip()
 
     def OnCellLeftDClick(self, evt):
@@ -276,11 +276,11 @@ class panel_bookingsReportGrid(wx.Panel):
         
         if val1 =="Forms":
             gVar.form_id = val2
-            print 'gVar.form_id ', gVar.form_id, 'goTo : rereg_list'
+            #rint'gVar.form_id ', gVar.form_id, 'goTo : rereg_list'
             self.GetTopLevelParent().goTo('rereg_list')
             
         elif val1=="course":
-            print 'goTo : course bookings -'
+            #rint'goTo : course bookings -'
             self.GetTopLevelParent().goTo('course_bookings')
             
         evt.Skip()

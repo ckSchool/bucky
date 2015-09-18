@@ -107,7 +107,7 @@ class VirtualList(wx.ListCtrl, listmix.ColumnSorterMixin, listmix.ListCtrlAutoWi
         self.SortItems(col)
 
     def SortItems(self, sorter=None):
-        print 'sort by col', self._col
+        #rint'sort by col', self._col
         """
         Brief: A SortItem which works with virtual lists
         The sorter is not actually used (should it be?) """
@@ -193,16 +193,16 @@ class VirtualList(wx.ListCtrl, listmix.ColumnSorterMixin, listmix.ListCtrlAutoWi
         self.DeleteAllColumns()
         i=0
         for row in columns:
-            print len(row)
+            #rintlen(row)
             if len(row) == 2:
-                print 'len = 2'
+                #rint'len = 2'
                 name, width = row
                 self.InsertColumn(i, name)
                 self.SetColumnWidth(i, width)
                 
             elif len(row)==3:
                 name, width, col_format = row
-                print 'len = 3', name, width, col_format
+                #rint'len = 3', name, width, col_format
                 self.InsertColumn(i, name, format= col_format, width=width)
                 
             i += 1

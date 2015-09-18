@@ -65,6 +65,7 @@ class panel_education(wx.Panel):
         self.disableCtrls()
         
     def Save(self):
-        print 'save education'
+        pass
+        #rint'save education'
         
         

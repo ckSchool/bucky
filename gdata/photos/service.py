@@ -37,12 +37,12 @@ Example:
   albums = pws.GetUserFeed().entry
   # Get all photos in second album
   photos = pws.GetFeed(albums[1].GetPhotosUri()).entry
-  # Get all tags for photos in second album and print them
+  # Get all tags for photos in second album and #rintthem
   tags = pws.GetFeed(albums[1].GetTagsUri()).entry
-  print [ tag.summary.text for tag in tags ]
-  # Get all comments for the first photos in list and print them
+  #rint[ tag.summary.text for tag in tags ]
+  # Get all comments for the first photos in list and #rintthem
   comments = pws.GetCommentFeed(photos[0].GetCommentsUri()).entry
-  print [ c.summary.text for c in comments ]
+  #rint[ c.summary.text for c in comments ]
 
   # Get a photo to work with
   photo = photos[0]
@@ -70,7 +70,7 @@ Example:
   comment = pws.InsertComment(photo, u'I wish the water always was this warm')
 
   # Remove comment because it was silly
-  print "*blush*"
+  #rint"*blush*"
   pws.Delete(comment.GetEditLink().href)
 
 """

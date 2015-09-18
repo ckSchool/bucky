@@ -36,7 +36,7 @@ class panel_bookings(wx.Panel):
         self.Layout()
         
     def displayData(self):
-        print 'panel_student_bookings : displayData'
+        #rint'panel_student_bookings : displayData'
         sql = "SELECT s.id , c.name, s.name , name.reg_status \
                  FROM students s \
                  JOIN courses c ON s.register_course_id = c.id \
@@ -49,7 +49,7 @@ class panel_bookings(wx.Panel):
         if gVar.school == "SMA":           school_id = 4     
   
         if school_id:
-            print "School"
+            #rint"School"
             sqlSch = " AND c.school_id = %d" % school_id
             sql = "%s%s" % (sql, sqlSch)
             

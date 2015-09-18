@@ -20,8 +20,8 @@ from panel_edit_address    import panel_edit_address
 from panel_edit_guardian   import panel_edit_guardian
 from panel_student_details import panel_student_details
 
+from panel_excul           import panel_excul
 
-#from panel_add_edit_course        import panel_add_edit_course
 from panel_course_bookings              import panel_course_bookings
 from panel_form_reregStatus             import panel_form_reregStatus
 from panel_edit_rereg_status            import panel_edit_rereg_status
@@ -29,32 +29,26 @@ from panel_edit_booking_status          import panel_edit_booking_status
 from panel_courses_by_year_picker       import panel_courses_picker
 from panel_edit_booking_student_details import panel_edit_booking_student_details
 
-import DlgCourses
+#import DlgCourses
 
 from wx.lib.pubsub      import setupkwargs
 from wx.lib.pubsub      import pub
 
 from panel_payments_registrations import panel_payments_registrations
 
-
 payment_pages = ['Student Payments',  'Registration Payments']     
 account_pages = ['Journal', 'Ledger', 'Accounts', 'Suppliers']
-school_pages  = ['Course Fees', 'Schools', 'Course Bookings', 'Courses By Year']
+school_pages  = ['Course Fees', 'Schools', 'Course Bookings', 'Courses By Year', 'Excur']
 student_pages = ['Form Rereg Status', ]#'Bookings', 'Guardians',  'Booking Student Details'  ]
 root_items    = {'Payments':payment_pages, 'Accounts':account_pages,
                  'School':school_pages, 'Students':student_pages}
-    
+        
 class CustomStatusBar(wx.StatusBar):
     def __init__(self, parent):
         wx.StatusBar.__init__(self, parent, -1)
-        
-        
-        #sql = "SELECT NoInduk FROM students WHERE name LIKE '%nd%'"
-        
 
         # This status bar has three fields
         self.SetFieldsCount(3)
-        
         
         # Sets the three fields to be relative widths to each other.
         self.SetStatusWidths([-1, -2, -2])
@@ -76,12 +70,14 @@ class CustomStatusBar(wx.StatusBar):
         self.SetStatusText(st, 2)
         
         
+        
+        
 class MyFrame(wx.Frame):
     def __init__(self, *args, **kwds):
         kwds["style"] = wx.DEFAULT_FRAME_STYLE
         wx.Frame.__init__(self, *args, **kwds)
         
-        gVar.schYr = 2014
+        gVar.schYr = 2015
         
         menubar  = wx.MenuBar()
         fileMenu = wx.Menu()
@@ -91,15 +87,15 @@ class MyFrame(wx.Frame):
         
         self.SetMenuBar(menubar)
         
-        self.sb = CustomStatusBar(self)
-        self.SetStatusBar(self.sb)
+        self.statusbar = CustomStatusBar(self)
+        self.SetStatusBar(self.statusbar)
         
         self.panel_tree = wx.Panel(self, -1)
         
         self.panel_tree_top = wx.Panel(self.panel_tree, -1)
         
-        self.logo        = wx.Button(self.panel_tree_top,   -1, 'CKs LOGO')
-        self.button_year = wx.Button(self.panel_tree_top,   -1, '2014/15')
+        self.logo        = wx.Button(self.panel_tree_top,   -1, '')
+        self.button_year = wx.Button(self.panel_tree_top,   -1, '2015/16')
         self.tree        = self.__createTreeCtrl() #self._createComboTreeBox(0)
         
         self.panel_main  = wx.Panel(self, -1)
@@ -117,6 +113,8 @@ class MyFrame(wx.Frame):
         self.pane_edit_guardian = panel_edit_guardian(self.panel_main, -1)
         self.pane_student_list  = panel_student_list(self.panel_main, -1)
         
+        self.pane_excul  = panel_excul(self.panel_main, -1)
+        
         self.pane_student_details     = panel_student_details(self.panel_main, -1)
         self.pane_course_bookings     = panel_course_bookings(self.panel_main, -1)
         self.pane_edit_rereg_status   = panel_edit_rereg_status(self.panel_main, -1)
@@ -132,7 +130,8 @@ class MyFrame(wx.Frame):
                             'Journal':               self.pane_journal,
                             'Student Payments':      self.pane_payments,
                             'Registration Payments': self.pane_payments_registrations,
-                            'Base':                  self.pane_base,           
+                            'Base':                  self.pane_base,
+                            'Excur':                 self.pane_excul,                 
                             'Course Fees':           self.pane_course_fees,     
                             'Schools':               self.pane_edit_school ,   
                             'Bookings':              self.pane_edit_booking  ,    
@@ -148,18 +147,30 @@ class MyFrame(wx.Frame):
                             'Students': self.pane_student_list
                             }
 
-        self.Bind(wx.EVT_MENU,  self.OnForms,   mnuitem1)
-        self.Bind(wx.EVT_MENU,  self.OnCourses, mnuitem2)
-        self.Bind(wx.EVT_CLOSE, self.OnCloseWindow)
-        self.Bind(wx.EVT_BUTTON,    self.OnYear, self.button_year)
+        self.Bind(wx.EVT_MENU,   self.OnForms,   mnuitem1)
+        self.Bind(wx.EVT_MENU,   self.OnCourses, mnuitem2)
+        self.Bind(wx.EVT_CLOSE,  self.OnCloseWindow)
+        self.Bind(wx.EVT_BUTTON, self.OnYear, self.button_year)
         
-        pub.subscribe(self.lockdown,   'lockdown')
-        pub.subscribe(self.unlockdown, 'unlockdown')
-        pub.subscribe(self.updateSB,   'accounts.updateSB')
+        pub.subscribe(self.write_to_statusbar0, 'write.statusbar0')
+        pub.subscribe(self.write_to_statusbar1, 'write.statusbar1')
+        pub.subscribe(self.write_to_statusbar2, 'write.statusbar2')
+        pub.subscribe(self.lockdown,           'lockdown')
+        pub.subscribe(self.unlockdown,         'unlockdown')
+        pub.subscribe(self.updateSB,           'accounts.updateSB')
         
         self.__set_properties()
         self.__do_layout()
         self.__do_main()
+        
+    def write_to_statusbar0(self):
+        self.statusbar.SetStatusText(str(gVar.status), 0)
+        
+    def write_to_statusbar1(self):
+        self.statusbar.SetStatusText(str(gVar.status), 1)
+        
+    def write_to_statusbar2(self):
+        self.statusbar.SetStatusText(str(gVar.status), 2)
         
     def __set_properties(self):
         self.SetMinSize((1000,600))
@@ -245,6 +256,7 @@ class MyFrame(wx.Frame):
                 self.panes_dict[key].Hide()
             p = self.panes_dict[panel_name]
             p.Show()
+        
             print 'showPanel panel DisplayData'
             p.displayData()
         except:
@@ -272,17 +284,17 @@ class MyFrame(wx.Frame):
                 p.unlockdown()    
         
     def updateSB(self, val, idx):
-        self.sb.SetStatusText(str(val), idx)
+        self.statusbar.SetStatusText(str(val), idx)
         
     def OnCloseWindow(self, event):
-        self.sb.timer.Stop()
-        del self.sb.timer
+        self.statusbar.timer.Stop()
+        del self.statusbar.timer
         self.Destroy()
         
     def OnYear(self, evt):
         dlg = DlgSchYr.create(None)
         try:
-            dlg.displayData(gVar.schYr)
+            dlg.displayData()
             dlg.ShowModal()
             if dlg.schYr != gVar.schYr:
                 yr = dlg.schYr
@@ -322,4 +334,5 @@ if __name__ == "__main__":
     frame_1 = MyFrame(None, -1, "")
     app.SetTopWindow(frame_1)
     frame_1.Show()
-    app.MainLoop()        
+    app.MainLoop()
+    

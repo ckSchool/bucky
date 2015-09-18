@@ -98,11 +98,11 @@ class PanelListSwap(wx.Panel):
     
     def makeDictionary(self, mylist):
 	# ecpecting (2, ('name', 'etc'))
-	#print mylist
+	##rintmylist
 	index  = 0
 	myDict = {}
 	for row in mylist:
-	    #print row
+	    ##rintrow
 	    newrow=[]
 	    for x in row:
 		if x: x = str(x)
@@ -114,7 +114,7 @@ class PanelListSwap(wx.Panel):
 	    myDict[index] = newrow
 	    index +=1
 	    
-	#print 'myDict ', myDict
+	##rint'myDict ', myDict
 	return myDict
 
     def refreshSelection(self):

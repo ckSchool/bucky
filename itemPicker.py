@@ -64,8 +64,8 @@ class itemPicker(wx.Panel):
         self.setup_listctrl(self.vlist_ctrl_selection, h2)
 
     def PopulateLists(self, source_list, selection_list=()):
-	print 'item picker  Source:',source_list, '    Selection:', selection_list
-	print 
+	#rint'item picker  Source:',source_list, '    Selection:', selection_list
+	#rint
         self.initial_selection =  self.sel_list = selection_list
 
         try:
@@ -93,7 +93,7 @@ class itemPicker(wx.Panel):
         self.SetSelectionItems(self.sel_list)
 
     def SetSourceItems(self, sourse_list):
-	print 'SetSourceItems', sourse_list
+	#rint'SetSourceItems', sourse_list
         DATA = self.makeDictionary(sourse_list)
         self.vlist_ctrl_pool.SetItemMap(DATA)
 
@@ -104,7 +104,7 @@ class itemPicker(wx.Panel):
         self.label_pool_note.SetLabelText(txt)
 
     def SetSelectionItems(self, selection_list):
-	print 'SetSelectionItems', selection_list
+	#rint'SetSelectionItems', selection_list
         self.sel_list = selection_list
         
         if len(selection_list)==1:
@@ -168,7 +168,7 @@ class itemPicker(wx.Panel):
 	return self.vlist_ctrl_selection.GetAllIds()
 
     def OnRemove(self, event):
-        print 'OnRemove'
+        #rint'OnRemove'
 	try:
 	    remove_id     =  int(self.vlist_ctrl_selection.GetSelectedID())
 	except: return
@@ -178,7 +178,7 @@ class itemPicker(wx.Panel):
 	courses_with_students = (1,2,3)
 	if remove_id in courses_with_students:
 	    txt = "failed test that no students associated with this class : id = %d" % remove_id
-	    print txt
+	    #rinttxt
 	    print
 	    return
         
@@ -186,9 +186,9 @@ class itemPicker(wx.Panel):
         
         for item in self.sel_list:
             item_id =   item[0]
-            #print item_id, remove_id
+            ##rintitem_id, remove_id
             if item_id != remove_id:
-                #print "append : ", item
+                ##rint"append : ", item
                 new_sel_list.append(item)
 
 

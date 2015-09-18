@@ -203,7 +203,7 @@ class panel_ledger(wx.Panel):
     def _do_main(self):
         sql = "SELECT id, name FROM acc_accounts "
         loadCmb.gen(self.choice_account, sql)
-        print sql
+        #rintsql
         self.dateTo   = datetime.date.today()
         self.dateFrom = self.dateTo - datetime.timedelta(days=365)
         
@@ -231,7 +231,7 @@ class panel_ledger(wx.Panel):
         
     def displayData(self):
         account_id, datefrom, dateto = self.getVars()
-        print 'displayData', account_id, datefrom, dateto
+        #rint'displayData', account_id, datefrom, dateto
         if datefrom and dateto:
             sql = "SELECT j.id, j.transaction_date, j.title,  j.details, \
                    FORMAT(IIF (ji.debit = True,  ji.amount,), '#,##0') AS Debit  , \
@@ -417,13 +417,13 @@ class panel_ledger(wx.Panel):
         self.displayData()
         
     def DateChange(self):
-        print 'DateChange'
+        #rint'DateChange'
         self.dateTo   = self.datepicker_ctrl_to.GetDbReadyValue()
         self.dateFrom = self.datepicker_ctrl_from.GetDbReadyValue()
         self.displayData()
         
     def _getStartBalance(self, account_id, datefrom, dateto ):
-        print '_getStartBalance' , account_id, datefrom, dateto
+        #rint'_getStartBalance' , account_id, datefrom, dateto
         sql = "SELECT SUM(ji.amount) \
                  FROM acc_journal  j \
                  JOIN acc_journal_items  d ON j.id = ji.journal_id \
@@ -437,7 +437,7 @@ class panel_ledger(wx.Panel):
         
         debit  = fetch.getSum(sqldebit)
         credit = fetch.getSum(sqlcredit)
-        print 'debit', debit,'     credit',credit
+        #rint'debit', debit,'     credit',credit
         return (credit-debit)
     
     def _GetEndBalance(self, account_id, datefrom, dateto ):
@@ -454,7 +454,7 @@ class panel_ledger(wx.Panel):
         return (fetch.getSum(sqlcredit)-fetch.getSum(sqldebit))
     
     def OnSelectCell(self, pos):
-        print 'OnSelectCell', pos
+        #rint'OnSelectCell', pos
         row, col = pos
         if not row or not col: return
         
@@ -468,7 +468,7 @@ class panel_ledger(wx.Panel):
                      FROM acc_journal  \
                     WHERE id = %d" % int(sid)
             res = fetch.getOneDict(sql)
-            print sql, res
+            #rintsql, res
             if res:
                 ck_ref,  supplier_ref = res['ck_ref'], res['supplier_ref']
                 self.text_ctrl_ref_ck.SetValue(str(ck_ref))

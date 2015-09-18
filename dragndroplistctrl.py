@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # sorted.py
 import wx
-print wx.VERSION_STRING
+#rintwx.VERSION_STRING
 
 import os
 import sys

@@ -43,7 +43,7 @@ class MyCellEditor(gridlib.PyGridCellEditor):
     docstring.
     """
     def __init__(self):
-        print "MyCellEditor ctor\n"
+        #rint"MyCellEditor ctor\n"
         gridlib.PyGridCellEditor.__init__(self)
 
 
@@ -52,7 +52,7 @@ class MyCellEditor(gridlib.PyGridCellEditor):
         Called to create the control, which must derive from wx.Control.
         *Must Override*
         """
-        print "MyCellEditor: Create\n"
+        #rint"MyCellEditor: Create\n"
         self._tc = wx.TextCtrl(parent, id, "")
         self._tc.SetInsertionPoint(0)
         self.SetControl(self._tc)
@@ -67,7 +67,7 @@ class MyCellEditor(gridlib.PyGridCellEditor):
         If you don't fill the cell (the rect) then be sure to override
         PaintBackground and do something meaningful there.
         """
-        print "MyCellEditor: SetSize %s\n"# % rect)
+        #rint"MyCellEditor: SetSize %s\n"# % rect)
         self._tc.SetDimensions(rect.x, rect.y, rect.width+2, rect.height+2,
                                wx.SIZE_ALLOW_MINUS_ONE)
 
@@ -77,7 +77,7 @@ class MyCellEditor(gridlib.PyGridCellEditor):
         Show or hide the edit control.  You can use the attr (if not None)
         to set colours or fonts for the control.
         """
-        print "MyCellEditor: Show(self, %s, %s)\n" #% (show, attr))
+        #rint"MyCellEditor: Show(self, %s, %s)\n" #% (show, attr))
         super(MyCellEditor, self).Show(show, attr)
 
 
@@ -88,7 +88,7 @@ class MyCellEditor(gridlib.PyGridCellEditor):
         attribute.  In this class the edit control fills the whole cell so
         don't do anything at all in order to reduce flicker.
         """
-        print "MyCellEditor: PaintBackground\n"
+        #rint"MyCellEditor: PaintBackground\n"
 
 
     def BeginEdit(self, row, col, grid):
@@ -97,7 +97,7 @@ class MyCellEditor(gridlib.PyGridCellEditor):
         to begin editing.  Set the focus to the edit control.
         *Must Override*
         """
-        print "MyCellEditor: BeginEdit (%d,%d)\n"# % (row, col))
+        #rint"MyCellEditor: BeginEdit (%d,%d)\n"# % (row, col))
         self.startValue = grid.GetTable().GetValue(row, col)
         self._tc.SetValue(self.startValue)
         self._tc.SetInsertionPointEnd()
@@ -115,7 +115,7 @@ class MyCellEditor(gridlib.PyGridCellEditor):
         the value in its string form.
         *Must Override*
         """
-        print  "MyCellEditor: EndEdit (%s)\n" #% oldVal)
+        #rint "MyCellEditor: EndEdit (%s)\n" #% oldVal)
         val = self._tc.GetValue()
         if val != oldVal:
             return val
@@ -130,7 +130,7 @@ class MyCellEditor(gridlib.PyGridCellEditor):
         a non-None value.
         *Must Override*
         """
-        print "MyCellEditor: ApplyEdit (%d,%d)\n" #% (row, col))
+        #rint"MyCellEditor: ApplyEdit (%d,%d)\n" #% (row, col))
         val = self._tc.GetValue()
         grid.GetTable().SetValue(row, col, val) # update the table
 
@@ -143,7 +143,7 @@ class MyCellEditor(gridlib.PyGridCellEditor):
         Reset the value in the control back to its starting value.
         *Must Override*
         """
-        print "MyCellEditor: Reset\n"
+        #rint"MyCellEditor: Reset\n"
         self._tc.SetValue(self.startValue)
         self._tc.SetInsertionPointEnd()
 
@@ -154,7 +154,7 @@ class MyCellEditor(gridlib.PyGridCellEditor):
         version only checks that the event has no modifiers.  F2 is special
         and will always start the editor.
         """
-        print "MyCellEditor: IsAcceptedKey: %d\n"# % (evt.GetKeyCode()))
+        #rint"MyCellEditor: IsAcceptedKey: %d\n"# % (evt.GetKeyCode()))
 
         ## We can ask the base class to do it
         #return super(MyCellEditor, self).IsAcceptedKey(evt)
@@ -171,7 +171,7 @@ class MyCellEditor(gridlib.PyGridCellEditor):
         """
         import string
 
-        print  "MyCellEditor: StartingKey %d\n"# % evt.GetKeyCode())
+        #rint "MyCellEditor: StartingKey %d\n"# % evt.GetKeyCode())
         key = evt.GetKeyCode()
         ch = None
         if key in [ wx.WXK_NUMPAD0, wx.WXK_NUMPAD1, wx.WXK_NUMPAD2, wx.WXK_NUMPAD3, 
@@ -199,12 +199,12 @@ class MyCellEditor(gridlib.PyGridCellEditor):
         called to allow the editor to simulate the click on the control if
         needed.
         """
-        print "MyCellEditor: StartingClick\n"
+        #rint"MyCellEditor: StartingClick\n"
 
 
     def Destroy(self):
         """final cleanup"""
-        print "MyCellEditor: Destroy\n"
+        #rint"MyCellEditor: Destroy\n"
         super(MyCellEditor, self).Destroy()
 
 
@@ -213,7 +213,7 @@ class MyCellEditor(gridlib.PyGridCellEditor):
         Create a new object which is the copy of this one
         *Must Override*
         """
-        print "MyCellEditor: Clone\n"
+        #rint"MyCellEditor: Clone\n"
         return MyCellEditor(self.log)
 
 
@@ -252,7 +252,7 @@ class gridCtrl(gridlib.Grid):
         
     #----------------------------------------------------------------------
     def onCellEdit(self, event):
-        print 'onCellEdit'
+        #rint'onCellEdit'
         '''
         When cell is edited, get a handle on the editor widget
         and bind it to EVT_KEY_DOWN
@@ -283,10 +283,10 @@ class gridCtrl(gridlib.Grid):
         evt.Skip()
         
     def appendItem(self, data):
-        print 'appendItem', data
+        #rint'appendItem', data
         self.AppendRows()
         lastrow = self.GetNumberRows()
-        print 'lastrow', lastrow
+        #rint'lastrow', lastrow
         self.SetCellValue(lastrow-1, 0, str(data[0]))
         self.SetCellValue(lastrow-1, 1, str(data[1]))
         self.SetCellValue(lastrow-1, 2, str(data[2]))
@@ -296,7 +296,7 @@ class gridCtrl(gridlib.Grid):
         self.DeleteRows(row)
     
     def OnSelectCell(self, evt):
-        print 'OnSelectCell'
+        #rint'OnSelectCell'
         row = self.GetGridCursorRow()
         col = self.GetGridCursorCol()
         if row < 0 or col <0: return
@@ -308,7 +308,7 @@ class gridCtrl(gridlib.Grid):
         evt.Skip()
         
     def OnCellChange(self, evt):
-        print "OnCellChange: (%d,%d) %s\n" % (evt.GetRow(), evt.GetCol(), evt.GetPosition())
+        #rint"OnCellChange: (%d,%d) %s\n" % (evt.GetRow(), evt.GetCol(), evt.GetPosition())
         cellstr = self.GetCellValue(evt.GetRow(), evt.GetCol())
         cellstr = cellstr.replace(',','')
         self.SetCellValue(evt.GetRow(), evt.GetCol(), format(int(cellstr), '0,.0f'))
@@ -319,7 +319,7 @@ class gridCtrl(gridlib.Grid):
         return int(self.GetCellValue(row, 1))
     
     def Populate(self, items):
-        print 'Populate Grid', items
+        #rint'Populate Grid', items
         self.resizeGrid(len(items))
         
         index = 0 
@@ -357,17 +357,17 @@ class gridCtrl(gridlib.Grid):
         return self.GetNumberRows()
     
     def calcTotal(self):
-        print 'calcTotal'
+        #rint'calcTotal'
         gVar.listCtrl = self.GetName()
         total = 0
         for row in range(0, self.GetNumberRows()):
-            print row
+            #rintrow
             v =  self.GetCellValue(row, 2)
-            print 'v', v
+            #rint'v', v
             amount = int(v.replace(',',''))
             total += amount
         gVar.dayNo = total
-        print 'values.totaled', total
+        #rint'values.totaled', total
         pub.sendMessage('values.totaled') 
         
 
@@ -590,7 +590,7 @@ class DlgTransaction(wx.Dialog):
                      FROM acc_journal \
                     WHERE id = %d" % self.journal_id
             res = fetch.getOneDict(sql)
-            print sql, res
+            #rintsql, res
 
             
             self.text_ctrl_ckrefno.SetValue(res['ck_ref'])
@@ -640,43 +640,43 @@ class DlgTransaction(wx.Dialog):
         self.listItems(self.grid_credits, False)
     
     def TransTotal(self):
-        print 'TransTotal', gVar.listCtrl
+        #rint'TransTotal', gVar.listCtrl
         if gVar.listCtrl == 'd':
             self.debit_total = gVar.dayNo
-            print 'self.debit_total', self.debit_total
+            #rint'self.debit_total', self.debit_total
             self.text_ctrl_debit_total.SetValue(format(gVar.dayNo, '0,.0f'))
         else:
             self.credit_total = gVar.dayNo
-            print 'self.credit_total', self.credit_total
+            #rint'self.credit_total', self.credit_total
             self.text_ctrl_credits_total.SetValue(format(gVar.dayNo, '0,.0f'))
             
         self.Layout()
     
     def onItemSelected(self, event):
-        print 'onItemSelected', event.GetColumn()
+        #rint'onItemSelected', event.GetColumn()
         currentItem = event.m_itemIndex
-        print currentItem
+        #rintcurrentItem
         
     def OnBeginLabelEditCredit(self, event):
-        print 'OnBeginLabelEditCredit'
+        #rint'OnBeginLabelEditCredit'
         if event.GetColumn() != 2:
             event.Veto()
             #event.Skip()
         
     def OnBeginLabelEditDebit(self, event):
-        print 'OnBeginLabelEditDebit'
+        #rint'OnBeginLabelEditDebit'
         if event.GetColumn() != 2:
             event.Veto()
             #event.Skip()
  
     def loadSuppliers(self):
-        print 'loadSuppliers'
+        #rint'loadSuppliers'
         sql = "SELECT id, name \
                  FROM acc_suppliers ORDER BY name"
         loadCmb.gen(self.choice_supplier, sql, ' ')
         
     def loadDivisions(self):
-        print 'loadDivisions'
+        #rint'loadDivisions'
         sql = "SELECT id, name \
                  FROM acc_divisions ORDER BY name"
         loadCmb.gen(self.choice_division, sql, ' ')
@@ -688,13 +688,13 @@ class DlgTransaction(wx.Dialog):
                         Mid(code, 4,2), '.', \
                         Mid(code, 6,2), ':  ', name) AS title\
                    FROM acc_accounts ORDER BY id"
-        print sql
+        #rintsql
         loadCmb.gen(self.choice_credits, sql, ' ')
         loadCmb.gen(self.choice_debits, sql, ' ')
         
                
     def OnNewSupplier(self, evt):
-        print "open dlgTextEntry 'new supplier' "
+        #rint"open dlgTextEntry 'new supplier' "
         dlg = wx.TextEntryDialog(self, 'Supplier Name', 'New Supplier Name', '')
  
         if dlg.ShowModal() == wx.ID_OK:
@@ -730,7 +730,7 @@ class DlgTransaction(wx.Dialog):
                     sql = "INSERT INTO acc_divisions \
                                        (name) \
                                 VALUES ('%s')" % (new_name)
-                    print sql
+                    #rintsql
                     fetch.updateDB(sql)
                     self.loadDivisions()
                     loadCmb.restore_str(self.choice_division, new_name)
@@ -741,14 +741,14 @@ class DlgTransaction(wx.Dialog):
     def id_in_grid(self, test_id, grid):
         z = grid.GetNumberRows()
         for x in range(0, z) :
-            print x
+            #rintx
             iid = int(grid.GetCellValue(x, 0))
-            print 'list ctrl id = ', iid
+            #rint'list ctrl id = ', iid
             if int(iid) == int(test_id) : return True
         return False   
         
     def OnAddDebit(self, evt):
-        print 'Add debit'
+        #rint'Add debit'
         
         account_id = fetch.cmbID(self.choice_debits)
         gVar.listCtrl = 'd'
@@ -765,7 +765,7 @@ class DlgTransaction(wx.Dialog):
 
         
     def OnAddCredit(self, evt):
-        print 'Add credit'
+        #rint'Add credit'
         gVar.listCtrl = 'c'
         account_id=fetch.cmbID(self.choice_credits)
   
@@ -775,27 +775,27 @@ class DlgTransaction(wx.Dialog):
             fetch.msg('can add this account, already in debits')
         
         account = fetch.cmbValue(self.choice_credits)
-        print 'OnAddCredit', account
+        #rint'OnAddCredit', account
         
         self.grid_credits.appendItem((account_id, account, 0))
         self.grid_credits.calcTotal()
 
   
     def OnDeleteDebit(self, evt):
-        print 'OnDeleteDebit'
+        #rint'OnDeleteDebit'
         gVar.listCtrl = 'd'
         grid = self.grid_debits
         self.deleteRow(grid)    
         
     def OnDeleteCredit(self, evt):
-        print 'OnDeleteCredit'
+        #rint'OnDeleteCredit'
         gVar.listCtrl = 'c'
         grid = self.grid_credits
         self.deleteRow(grid)
         
     def deleteRow(self, grid):
         rows = grid.GetSelectedRows()
-        print 'GetSelectedRows', rows
+        #rint'GetSelectedRows', rows
         if len(rows)==1:
             grid.deleteRow(rows[0])
             grid.calcTotal()
@@ -805,7 +805,7 @@ class DlgTransaction(wx.Dialog):
         
     def OnSave(self, evt):
         print
-        print 'OnSave--------------'
+        #rint'OnSave--------------'
         
         division_id  = fetch.cmbID(self.choice_divisioan)
         date         = self.datepicker_ctrl_1.GetDbReadyValue()
@@ -860,11 +860,11 @@ class DlgTransaction(wx.Dialog):
         supplier_id, date, description, ckRef, supplier_id, supplierRef, pettycash = data
         print
         
-        print 'new entry'
+        #rint'new entry'
         
         
         self.journal_id = fetch.nextID('acc_journal')
-        print  ( supplier_id, date, tran_description,
+        #rint ( supplier_id, date, tran_description,
                                     ckRef, supplierRef, pettycash,
                                     self.journal_id)
         sql = "INSERT INTO  acc_journal \
@@ -872,23 +872,23 @@ class DlgTransaction(wx.Dialog):
                             details = '%s', ck_ref = '%s', supplier_ref = '%s, petty_cash=%s" % (
                             supplier_id, date, tran_description,
                             tran_description[255:], ckRef, supplierRef, pettycash)
-        print 'insert into journal'
-        print sql
+        #rint'insert into journal'
+        #rintsql
         
         
         debit_items  = self.grid_debits.getItemCount()
         credit_items = self.grid_credits.getItemCount()
         
         if debit_items:
-            print 'add debit items to acc_journal_items '
+            #rint'add debit items to acc_journal_items '
             self.insertDebitItems(debit_items)
             
         if credit_items:
-            print 'add credit items to acc_journal_items '
+            #rint'add credit items to acc_journal_items '
             self.insertCreditItems(credit_items)
             
     def insertDebitItems(self, debit_items):
-        if debit_items: print 'add debit_items to acc_journal_items '
+        if debit_items: #rint'add debit_items to acc_journal_items '
         for x in range(0, debit_items):
             account_id = int(self.grid_debits.GetCellValue(x, 0))
             amount = self.grid_debits.GetCellValue(x, 2)
@@ -896,10 +896,10 @@ class DlgTransaction(wx.Dialog):
             sql = "INSERT INTO acc_journal_items \
                       SET (journal_id, account_id, debit, amount) \
                    VALUES (%d, %d, %d, %d)" % (self.journal_id, account_id, True, amount)
-            print sql
+            #rintsql
         
     def insertCreditItems(self, credit_items):
-        if credit_items: print 'add credit items to acc_journal_items '
+        if credit_items: #rint'add credit items to acc_journal_items '
         for x in range(0, credit_items):
             account_id = int(self.grid_credits.GetCellValue(x, 0))
             amount = self.grid_credits.GetCellValue(x, 2)
@@ -907,7 +907,7 @@ class DlgTransaction(wx.Dialog):
             sql = "INSERT INTO acc_journal_items \
                       SET (journal_id, account_id, debit, amount)) \
                    VALUES (%d, %d, %d, %d)" % (self.journal_id, account_id, False, amount)
-            print sql
+            #rintsql
         
         
     def updateEntries(self, data):
@@ -917,17 +917,17 @@ class DlgTransaction(wx.Dialog):
         credit_items = self.grid_credits.getItemCount()
         
         print
-        print 'updateEntries'
+        #rint'updateEntries'
         
         print
-        print 'remove existing entries'
+        #rint'remove existing entries'
         sql = "DELETE FROM acc_journal_items \
                      WHERE journal_id = %d" % self.journal_id
-        print sql
+        #rintsql
             
         sql = "DELETE FROM acc_journal_items \
                      WHERE journal_id = %d" % self.journal_id
-        print "remove all credit & debit items", sql
+        #rint"remove all credit & debit items", sql
         
         if not (debit_items + credit_items)> 0:
             sql1 = "DELETE FROM acc_journal \
@@ -945,11 +945,11 @@ class DlgTransaction(wx.Dialog):
                           supplier_id, date, tran_description,
                           tran_description[255:], ckRef, supplierRef, pettycash, 
                           self.journal_id)
-            print '\nUpdate jurnal details'
-            print sql
+            #rint'\nUpdate jurnal details'
+            #rintsql
             
             # 'insert each debit item'
-            if debit_items: print 'insert each debit item'
+            if debit_items: #rint'insert each debit item'
             for x in range(0, debit_items):
                 account_id = int(self.grid_debits.GetCellValue(x, 0))
                 amount = self.grid_debits.GetCellValue(x, 2)
@@ -958,10 +958,10 @@ class DlgTransaction(wx.Dialog):
                           SET (journal_id, account_id, debit, amount) \
                        VALUES (%d, %d, %d, %d)" % (self.journal_id, account_id, True, amount)
                 
-                print sql
+                #rintsql
             
             # 'insert each debit item'
-            if credit_items: print 'insert each debit item'
+            if credit_items: #rint'insert each debit item'
             for x in range(0, credit_items):
                 account_id = int(self.grid_credits.GetCellValue(x, 0))
                 amount = self.grid_credits.GetCellValue(x, 2)
@@ -970,7 +970,7 @@ class DlgTransaction(wx.Dialog):
                           SET (journal_id, account_id, debit, amount) \
                        VALUES (%d, %d, %d, %d)" % (self.journal_id, account_id, False, amount)
                 
-                print sql
+                #rintsql
         
         self.EndModal(wx.ID_OK)
         

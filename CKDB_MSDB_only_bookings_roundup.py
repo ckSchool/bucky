@@ -47,9 +47,9 @@ class roundup(wx.Panel):
     def OnRightClick(self, event):
         #self.listCtrl.GetCurrentItem()
         self.currentItem =  gVar.course_id
-        print 'self.currentItem', self.currentItem
+        #rint'self.currentItem', self.currentItem
         
-        print 'lodilo... have result, publishing it via pubsub'
+        #rint'lodilo... have result, publishing it via pubsub'
         pub.sendMessage('change_statusbar', arg1=123, arg2=dict(a='abc', b='def'))
         
         #self.index = self.listCtrl.GetFirstSelected()
@@ -85,28 +85,28 @@ class roundup(wx.Panel):
         menu.Destroy()
     
     def OnPopupOne(self, event):# View Test Results
-        print "Popup one\n"
+        #rint"Popup one\n"
         index = self.listCtrl.GetFirstSelected()
-        print 'item data=', self.listCtrl.GetItemData(index)
-        #print "FindItem:", self.listCtrl.FindItem(-1, "Roxette")
-        #print "FindItemData:", self.listCtrl.FindItemData(-1, 0)
+        #rint'item data=', self.listCtrl.GetItemData(index)
+        ##rint"FindItem:", self.listCtrl.FindItem(-1, "Roxette")
+        ##rint"FindItemData:", self.listCtrl.FindItemData(-1, 0)
 
     def OnPopupTwo(self, event): # Receive Payment
-        print "Selected items:\n"
+        #rint"Selected items:\n"
         index = self.listCtrl.GetFirstSelected()
         
         while index != -1:
-            print "      %s: %s\n" % (self.listCtrl.GetItemText(index), self.listCtrl.GetColumnText(index, 0))
+            #rint"      %s: %s\n" % (self.listCtrl.GetItemText(index), self.listCtrl.GetColumnText(index, 0))
             index = self.listCtrl.GetNextSelected(index)
 
     def OnPopupThree(self, event): # Update Status
-        print "Popup three\n"
+        #rint"Popup three\n"
         #self.listCtrl.ClearAll()
         #wx.CallAfter(self.listCtrl.PopulateList)
 
     def OnPopupFour(self, event): # View Student Details
         item = self.listCtrl.GetItem(self.currentItem)
-        print item.m_text, item.m_itemId, self.listCtrl.GetItemData(self.currentItem)
+        #rintitem.m_text, item.m_itemId, self.listCtrl.GetItemData(self.currentItem)
   
     def OnPopupFive(self, event): # Withdraw Application
         pass # self.listCtrl.DeleteAllItems()
@@ -131,7 +131,7 @@ class roundup(wx.Panel):
         
         sql ="SELECT courses FROM courses_by_year WHERE schYr = %s" % gVar.schYr
         course_ids = fetch.getOne_dict(sql)[0].split(',')
-        print sql, course_ids
+        #rintsql, course_ids
         
         sql ="SELECT course_level FROM courses_levels ORDER BY course_level"
         course_levels = fetch.getList(sql)
@@ -140,17 +140,17 @@ class roundup(wx.Panel):
             for course_id in course_ids:
                 sql ="SELECT id, course_name, school_id FROM courses WHERE course_level=%d AND id =%d" % (int(level), int(course_id))
                 res = fetch.getAll_dict(sql)
-                print sql, res
+                #rintsql, res
                 for row in res:
                     mylist.append(row)
-        print mylist
+        #rintmylist
 
         
 
         for level in range(3,20):
             # show last years classes & student
             sql ="SELECT Kode, Nama, Sekolah FROM Kelas WHERE course_level=%d AND TahunAjaran =%d" % (level,gVar.schYr-1)
-            print sql
+            #rintsql
             classes = fetch.getAll_dict(sql)
             
             level_totals =[0,0,0,0,0]
@@ -174,7 +174,7 @@ class roundup(wx.Panel):
             # list of Kelas for sch yr
             sql ="SELECT classes_id, classes.name FROM classes INNER JOIN cSiswa ON (cSiswa.Kelas = classes.id) WHERE cSiswa.TahunAjaran = %d AND classes.course_level=%d" % (gVar.schYr, level )
             res2 = fetch.getAll_dict(sql)
-            print sql, res2
+            #rintsql, res2
             
             for row in res2:
                 self.listCtrl.Append(('New reg','','',''))
@@ -190,15 +190,15 @@ class roundup(wx.Panel):
         mylist.sort(key=lambda tup: tup[1])
         
         mylist = [(tup[1], tup) for tup in mylist]
-        print 'mylist ',mylist 
+        #rint'mylist ',mylist 
         school_ids = list(set(mylist))
-        print 'school_ids', school_ids
+        #rint'school_ids', school_ids
         #[(tup[1], tup) for tup in data]
-        print mylist
+        #rintmylist
         
         sql ="SELECT course_level, course_name FROM courses ORDER BY course_level, course_name"
         results = fetch.getAll_dict(sql)
-        #print 'courses', results
+        ##rint'courses', results
         """
         #for 
         
@@ -213,9 +213,9 @@ class roundup(wx.Panel):
         if gVar.school == "SMP":           schoolKode = 3    
         if gVar.school == "SMA":           schoolKode = 4     
   
-        print gVar.school, schoolKode
+        #rintgVar.school, schoolKode
         if schoolKode:
-            print "School"
+            #rint"School"
             #sqlSch = " AND courses.school_id = %d" % schoolKode
             #sql = "%s%s" % (sql, sqlSch)
   
@@ -227,13 +227,13 @@ class roundup(wx.Panel):
         #sql = "SELECT course_name \
         #        FROM courses "
         
-        print sql
+        #rintsql
         results = fetch.getAll_dict(sql)
-        print len(results), "Results "
+        #rintlen(results), "Results "
         print
 
         results = fetch.DATA(sql)
-        #print "DATA = " , results
+        ##rint"DATA = " , results
         self.listCtrl.SetItemMap(results)"""
 
     def __do_layout(self):

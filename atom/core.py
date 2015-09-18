@@ -351,7 +351,7 @@ class XmlElement(object):
 
     tree_string = ElementTree.tostring(self._to_tree(version, encoding))
 
-    if pretty_print and xmlString is not None:
+    if pretty_#rintand xmlString is not None:
         return xmlString(tree_string).toprettyxml()
  
     return tree_string

@@ -278,9 +278,9 @@ class panel_edit_postcode(wx.Panel):
 		loadCmb.restore_str(self.combo_kelurahan, kelurahan)
 		
 	    else:
-		print 'postcode ', postcode, ' is not digit'
-		print postcode,province,country
-		print kecamatan,kabupaten
+		#rint'postcode ', postcode, ' is not digit'
+		#rintpostcode,province,country
+		#rintkecamatan,kabupaten
 		
 		
 		loadCmb.restore_str(self.combo_country, country)
@@ -289,7 +289,7 @@ class panel_edit_postcode(wx.Panel):
 		loadCmb.restore_str(self.combo_country, kecamatan)
 		loadCmb.restore_str(self.combo_country, kelurahan)
 	except:
-	    print 'oh no'
+	    #rint'oh no'
         
     
     def loadCmbsUnderKecID(self, kecamatanID):
@@ -648,7 +648,7 @@ class panel_edit_postcode(wx.Panel):
         sql = "UPDATE %s \
                   SET %s= '%s' \
                 WHERE Kode =%d" %(table, column, address, self.kode)
-        print sql
+        #rintsql
         #fetch.updateDB(sql)
 
     def OnEdit(self, evt):

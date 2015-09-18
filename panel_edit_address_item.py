@@ -69,7 +69,7 @@ class edit_address_item(wx.Panel):
 
         
     def displayData(self, item_id = 0):
-	print 'panel_edit_address_item : displayData'
+	#rint'panel_edit_address_item : displayData'
         self.item_id = int(item_id)
 
             

@@ -3,8 +3,6 @@ import wx, gVar, fetch, loadCmb
 from datetime  import date
 from DateCtrl  import DateCtrl
 
-import panel_student_list
-
 class panel_bio(wx.Panel):
     def __init__(self, *args, **kwds):
         kwds["style"] = wx.TAB_TRAVERSAL
@@ -146,15 +144,14 @@ class panel_bio(wx.Panel):
         loadCmb.gender(self.choice_gender)
         loadCmb.faiths(self.choice_faith)
    
-    def NewData(self):
-        self.choice_faith.SetSelection(min_level)
-        
     def displayData(self, student_id):
         self.student_details = student_details = fetch.studentDetails_id(student_id)
         if not student_details:
-               print 'not details found'
+               #rint'not details found'
                return
-        else:  print 'student_details : ', student_details
+        else:
+            pass
+            #rint'student_details : ', student_details
         
         name = student_details['name']
         self.text_ctrl_name.SetValue(name)
@@ -185,13 +182,13 @@ class panel_bio(wx.Panel):
         self.choice_birth_order.SetSelection(child_no-1)
         
     def enableCtrls(self):
-        print 'panel_bio enableCtrls'
+        #rint'panel_bio enableCtrls'
         for ctrl in self.text_ctrls:   ctrl.SetEditable(True)
         for ctrl in self.choice_ctrls: ctrl.Enable()
         self.datectrl_dob.Enable()
         
     def disableCtrls(self):
-        print 'panel_bio disableCtrls'
+        #rint'panel_bio disableCtrls'
         for ctrl in self.text_ctrls:   ctrl.SetEditable(False)
         for ctrl in self.choice_ctrls: ctrl.Enable(False)
         self.datectrl_dob.Enable(False)
@@ -199,7 +196,7 @@ class panel_bio(wx.Panel):
     def clearCtrls(self):
         for ctrl in self.text_ctrls:   ctrl.SetLabel('')
         for ctrl in self.choice_ctrls: ctrl.SetSelection(0)
-        
+            
         loadCmb.faiths(self.choice_faith)
         loadCmb.pob(self.choice_pob)
         self.disableCtrls()
@@ -208,7 +205,7 @@ class panel_bio(wx.Panel):
         if val: cmb.SetSelection(val)
         
     def Save(self):
-        print ' save bio '
+        #rint' save bio '
         name     = self.text_ctrl_name.GetValue()
         dob      = self.datectrl_dob.GetDbReadyValue()
         pob      = fetch.cmbValue(self.choice_pob)
@@ -226,7 +223,5 @@ class panel_bio(wx.Panel):
                 WHERE id =%d" % (
                        name, dob, pob, faith_id, gender,
                        siblings_by_birth, siblings_step, siblings_adopted, child_no, gVar.student_id)
-        print sql
+        #rintsql
         fetch.updateDB(sql)
-        
-        

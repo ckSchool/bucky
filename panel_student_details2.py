@@ -42,7 +42,7 @@ class student_details(wx.Panel):
         self.Layout()
         
     def displayData(self, student_id):
-        print 'panel_student_details.displayData', student_id
+        #rint'panel_student_details.displayData', student_id
         
         self.panel_student_bio.displayData(student_id)
         self.contact_panels=[]
@@ -52,9 +52,9 @@ class student_details(wx.Panel):
                      FROM Siswa \
                     WHERE CKID = %d" % int(student_id)
             details = fetch.getOneDict(sql)
-            print sql, details
+            #rintsql, details
             if not details:
-                print 'no KOrangTua'
+                #rint'no KOrangTua'
                 return
             KOrangTua = details['KOrangTua']
             KWali     = details['KWali']
@@ -65,14 +65,14 @@ class student_details(wx.Panel):
                 details = fetch.getOneDict(sql)
     
                 if details['NamaA']:
-                    #print details['NamaA']
+                    ##rintdetails['NamaA']
                     p=self.OnAddGuardian(wx.Event)
                     p.head('FATHER')
                     #p.labelHead.SetBackgroundColour((255, 200, 255))
                     p.displayData(student_id, KOrangTua, 'father')
                     
                 if details['NamaI']:
-                    #print details['NamaI']
+                    ##rintdetails['NamaI']
                     p=self.OnAddGuardian(wx.Event)
                     p.head('MOTHER')
                     #p.labelHead.SetBackgroundColour((255, 255, 200))
@@ -82,7 +82,7 @@ class student_details(wx.Panel):
                 sql = "SELECT * FROM Wali \
                     WHERE Kode = %d" % int(KWali)
                 details = fetch.getOneDict(sql)
-                #print sql, details
+                ##rintsql, details
                 p = self.OnAddGuardian()
                 p.head('GUARDIAN')
                 #p.labelHead.SetBackgroundColour((200, 255, 255))

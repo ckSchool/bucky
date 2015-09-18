@@ -1,13 +1,11 @@
-import wx, datetime, gVar
+import wx, datetime, gVar, loadCmb, fetch
 
-import loadCmbODBC as loadCmb
-import fetchodbc as fetch
 import DlgSelectContact
 
 from PanelSsOwnData     import PanelSsOwnData
 from PanelDetailsEditor import PanelStudentEditor
 
-from PanelGuardianData  import PanelGuardianData
+from panel_guardian_data  import panel_guardian_data
 
 import DlgSelectContact
 
@@ -83,7 +81,7 @@ class PanelStudentDataViewerNB(wx.Panel):
         #self.panel_student.clearCtrls()
               
     def displayData(self, student_id):
-        print 'displayData:',student_id
+        #rint'displayData:',student_id
         if not student_id:  self.clearCtrls()
         
         self.panel_studentView.displayData(student_id)
@@ -92,7 +90,7 @@ class PanelStudentDataViewerNB(wx.Panel):
                  FROM Siswa \
                 WHERE CKID = %d" % int(student_id)
         details = fetch.getOneDict(sql)
-        print sql, details
+        #rintsql, details
         if not details: return
         KOrangTua = details['KOrangTua']
         KWali     = details['KWali']
@@ -103,14 +101,14 @@ class PanelStudentDataViewerNB(wx.Panel):
             details = fetch.getOneDict(sql)
 
             if details['NamaA']:
-                #print details['NamaA']
+                ##rintdetails['NamaA']
                 p=self.OnAddGuardian(wx.Event)
                 p.head('FATHER')
                 #p.labelHead.SetBackgroundColour((255, 200, 255))
                 p.displayData(student_id, KOrangTua, 'father')
                 
             if details['NamaI']:
-                #print details['NamaI']
+                ##rintdetails['NamaI']
                 p=self.OnAddGuardian(wx.Event)
                 p.head('MOTHER')
                 #p.labelHead.SetBackgroundColour((255, 255, 200))
@@ -120,7 +118,7 @@ class PanelStudentDataViewerNB(wx.Panel):
             sql = "SELECT * FROM Wali \
                 WHERE Kode = %d" % int(KWali)
             details = fetch.getOneDict(sql)
-            #print sql, details
+            ##rintsql, details
             p = self.OnAddGuardian(wx.Event)
             p.head('GUARDIAN')
             #p.labelHead.SetBackgroundColour((200, 255, 255))
@@ -142,7 +140,8 @@ class PanelStudentDataViewerNB(wx.Panel):
                 )
         dlg = DlgSelectContact.create(None)
         if dlg.ShowModal() == wx.ID_OK:
-            print 'You selected: %s\n' % dlg.GetStringSelection()
+            pass
+            #rint'You selected: %s\n' % dlg.GetStringSelection()
 
         dlg.Destroy()
         
@@ -150,7 +149,7 @@ class PanelStudentDataViewerNB(wx.Panel):
         self.pane_g.append(x)
         self.sizer_scroll.Add(x, 1, wx.EXPAND, 0)
         self.Layout()
-        #print "OnAddGuardian"#self.HighlightBtn(1)
+        ##rint"OnAddGuardian"#self.HighlightBtn(1)
         return x
     
     def HighlightBtn(self, idxBtn):

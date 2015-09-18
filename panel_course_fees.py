@@ -42,7 +42,7 @@ class panel_course_fees(wx.Panel):
         for school_id in [1,2,3,4]:
             self.list_ctrl.Append(('School','','','',''))
             course_ids = fetch.courses_forSchool_forYear(school_id, gVar.schYr)
-            print 'course_ids ', course_ids
+            #rint'course_ids ', course_ids
             
             for course_id in course_ids:
                 self.list_ctrl.Append(('Course','','','',''))
@@ -50,6 +50,6 @@ class panel_course_fees(wx.Panel):
                          FROM scgool_fees \
                         WHERE schYr = %d AND %d IN (course_ids)" % ( gVar.schYr, course_id)
                 res = fetch.getAllDict(sql)
-                print sql, res
+                #rintsql, res
                 for fee in res:
                     self.list_ctrl.Append(('Fee','2','3','4','5'))

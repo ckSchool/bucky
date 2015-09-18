@@ -2142,7 +2142,7 @@ CODE_SEARCH_FEED = """<?xml version="1.0" encoding="UTF-8"?>
 &lt;/pre&gt;</gcs:match><gcs:match lineNumber="62" type="text/html">&lt;pre&gt;scm_t_bits scm_tc16_&lt;b&gt;malloc&lt;/b&gt;;
 
 &lt;/pre&gt;</gcs:match><gcs:match lineNumber="66" type="text/html">&lt;pre&gt;&lt;b&gt;malloc&lt;/b&gt;_free (SCM ptr)
-&lt;/pre&gt;</gcs:match><gcs:match lineNumber="75" type="text/html">&lt;pre&gt;&lt;b&gt;malloc&lt;/b&gt;_print (SCM exp, SCM port, scm_print_state *pstate SCM_UNUSED)
+&lt;/pre&gt;</gcs:match><gcs:match lineNumber="75" type="text/html">&lt;pre&gt;&lt;b&gt;malloc&lt;/b&gt;_#rint(SCM exp, SCM port, scm_print_state *pstate SCM_UNUSED)
 
 &lt;/pre&gt;</gcs:match><gcs:match lineNumber="77" type="text/html">&lt;pre&gt;  scm_puts(&amp;quot;#&amp;lt;&lt;b&gt;malloc&lt;/b&gt; &amp;quot;, port);
 &lt;/pre&gt;</gcs:match><gcs:match lineNumber="87" type="text/html">&lt;pre&gt;  scm_t_bits mem = n ? (scm_t_bits) &lt;b&gt;malloc&lt;/b&gt; (n) : 0;

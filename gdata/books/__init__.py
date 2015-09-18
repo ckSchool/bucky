@@ -65,7 +65,7 @@ class Creator(_AtomFromString):
 class Date(_AtomFromString): #iso 8601 / W3CDTF profile
     """
     The <dc:date> element indicates the publication date of the specific volume
-    in question. If the book is a reprint, this is the reprint date, not the 
+    in question. If the book is a reprint, this is the re#rintdate, not the 
     original publication date. The date is encoded according to the ISO-8601 
     standard (and more specifically, the W3CDTF profile).
 

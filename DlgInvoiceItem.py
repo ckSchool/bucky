@@ -80,7 +80,7 @@ class DlgInvoiceItem(wx.Dialog):
                               (description, price)  \
                        VALUES ('%s', %d)" % (
                               description, price)
-            print sql
+            #rintsql
             fetch.updateDB(sql)
             self.Destroy()
     

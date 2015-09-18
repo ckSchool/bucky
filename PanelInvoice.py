@@ -107,7 +107,7 @@ class PanelInvoice(wx.Panel):
         self.sizer_inv_items = sizer_inv_items
     
     def displayData(self, student_id):
-        print 'PanelInvoice - displayData'
+        #rint'PanelInvoice - displayData'
         self.student_id = student_id
         iid_list = []
 
@@ -149,7 +149,7 @@ class PanelInvoice(wx.Panel):
             
         
     def OnEnter(self, event):
-        print ' OnEnter '
+        #rint' OnEnter '
         # save and close
         sChildren = self.sizer_inv_items.GetChildren()
         inv_data=[]
@@ -172,9 +172,9 @@ class PanelInvoice(wx.Panel):
         
 
         if self.sizer_inv_items.GetItemCount():
-            #print self.invoice_id, invoiceNo, self.student_id
+            ##rintself.invoice_id, invoiceNo, self.student_id
             
-            #print date, total_ammount, gVar.schYr
+            ##rintdate, total_ammount, gVar.schYr
             """
             sql = " INSERT INTO acc_invoices \
                             SET id=%d, ck_ref ='%s', student_id=%d,  \
@@ -187,7 +187,7 @@ class PanelInvoice(wx.Panel):
                          VALUES (%d, '%s', %d, '%s', %d, %d)" % (
                                 self.invoice_id, invoiceNo, gVar.student_id,
                                 date, total_ammount, gVar.schYr)
-            print sql
+            #rintsql
         
             sChildren = self.sizer_inv_items.GetChildren()
             for data in inv_data:
@@ -209,7 +209,7 @@ class PanelInvoice(wx.Panel):
                                     %d, %d,  %d, %d, %d)" % (
                                     self.invoice_id, data[0],data[1],
                                     data[2], discount, data[3], data[4], data[5])
-                print sql
+                #rintsql
                 #fetch.updateDB(sql)
             
     def updateTotal(self):

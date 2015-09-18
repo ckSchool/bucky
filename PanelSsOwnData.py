@@ -1,7 +1,4 @@
-import wx, gVar
-
-import fetchodbc as fetch
-import loadCmbODBC as loadCmb
+import wx, gVar, fetch, loadCmb
 
 from datetime          import date
 
@@ -210,26 +207,26 @@ class PanelSsOwnData(wx.Panel):
         pass
     
     def displayData(self, student_id):
-        print self.GetName(), "make student id open to class   student_id=", student_id
+        #rintself.GetName(), "make student id open to class   student_id=", student_id
         self.clearCtrls()
         
-        print 'x'
+        #rint'x'
         
         self.student_id = student_id
         if not student_id:  return
         
-        print 'y'
+        #rint'y'
         
         student_details = fetch.studentDetails_id(student_id)
         
-        print 'z', student_details
+        #rint'z', student_details
         
         if not student_details: return
         name = student_details['Nama']
         x  = str(student_details['TgLahir'])
         dob              = x.split(' ')[0]
         
-        print 'x'
+        #rint'x'
         
         ailment          = ''#str(student_details['student_ailment'])
         faith_id         = student_details['Agama']
@@ -251,7 +248,7 @@ class PanelSsOwnData(wx.Panel):
         birth_order      = student_details['AnakKe']
         if not birth_order:   birth_order = 1
         
-        print 'x'
+        #rint'x'
         
         if student_details['Pria']:
             self.data_gender.SetLabel('male')
@@ -280,7 +277,7 @@ class PanelSsOwnData(wx.Panel):
         self.data_status.SetLabel(edu_status)
         self.data_blood_group.SetLabel(blood_group)
         
-        print 'fghdfhgfdh'
+        #rint'fghdfhgfdh'
         
         
     def clearCtrls(self):     

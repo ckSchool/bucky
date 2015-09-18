@@ -157,7 +157,7 @@ def courses_forYear(cmb, yr):
 	     JOIN courses c ON c.id = cby.course_id \
 	    WHERE cby.schYr = %d \
 	    ORDER BY c.level" % yr
-    print sql
+    #rintsql
     gen(cmb, sql)
 
 def courses_forSchool_forYear(cmb, school_id=0, yr=0):
@@ -245,16 +245,16 @@ def enrollmentFees(cmb):
               AND schYr = %d" % gVar.schYr
     gen(cmb,sql)
 
-def excuric_subjects(cmb,sql):
+def excul_subjects(cmb,sql):
     gen(cmb," SELECT id, name \
-                FROM excuric_subjects")
+                FROM excul_subjects")
     
-def excuric_subjectsPool(cmb, excuric_id, edited_activity_id=0):
+def excul_subjectsPool(cmb, excul_id, edited_activity_id=0):
     # collect activity_ids for exculset_id
     sql = " SELECT es.id \
-              FROM excuric_groups eg \
-              JOIN excuric_subjects es ON es.id = eg.excuric_subject_id \
-             WHERE eg.id = %d " % (excuric_id, )
+              FROM excul_groups eg \
+              JOIN excul_subjects es ON es.id = eg.excul_subject_id \
+             WHERE eg.id = %d " % (excul_id, )
     
     activityIDs = fetch.getList(sql)
 
@@ -271,7 +271,7 @@ def excuric_subjectsPool(cmb, excuric_id, edited_activity_id=0):
     listStr = "'%s'" % ','.join(activityIDs)
     
     sql = " SELECT id, name \
-              FROM excuric_subjects \
+              FROM excul_subjects \
              WHERE NOT FIND_IN_SET(id, %s) \
 	     ORDER BY name" % listStr
     #rint sql, fetch.getAllCol(sql)
@@ -555,7 +555,7 @@ def products(cmb, plist=[]):
     else:
 	sql = "SELECT id, description FROM acc_products ORDER BY description"
 	
-    print sql
+    #rintsql
     gen(cmb, sql)
 
 def product_types(cmb):
@@ -575,7 +575,7 @@ def relationship(cmb):
     gen(cmb," SELECT id, name FROM guardian_types")
  
 def restore(cmb, origional_id=0):
-    print 'restore', origional_id
+    #rint'restore', origional_id
     cmb.Freeze()
     if origional_id:
         for y in range(cmb.Count):
@@ -589,12 +589,12 @@ def restore(cmb, origional_id=0):
     return False
 
 def restore_str(cmb, myStr = ''):
-    #print 'myStr', myStr
+    ##rint'myStr', myStr
     cmb.Freeze()
     myStr = str(myStr)
     myStr = myStr.strip()
     idx = cmb.FindString(myStr)
-    #print 'idx=', idx, '   myStr=__', myStr, "___"
+    ##rint'idx=', idx, '   myStr=__', myStr, "___"
     if idx: cmb.Select(idx) # select first item
     else:   cmb.Select(0)
     cmb.Thaw()
@@ -650,7 +650,7 @@ def schMonths(cmb, min_month=0, first_item=''):
     if min_month:
 	sql += " WHERE month_number > %d" % min_month
     sql += " ORDER BY month_number"
-    print sql
+    #rintsql
     gen(cmb, sql, first_item)
   
 def schFees(cmb):
@@ -682,12 +682,16 @@ def studentSchStatus(cmb):
                 FROM studentschstatus s;")
       
 def schDiv(cmb ):
-    genNoBlank(cmb," SELECT id, school_type FROM schools \
-                      WHERE isCK = TRUE", '')
+    sql = " SELECT id, school_type \
+	      FROM schools \
+             WHERE isCK = TRUE"
+    #rintsql
+    genNoBlank(cmb, sql, '')
     
-def schools(cmb, ck='', first=''):
-    sql = "SELECT id, school_name FROM schools "
+def schools(cmb, ck=True, first=''):
+    sql = "SELECT id, name FROM schools "
     if ck: sql +=" WHERE isCK = True"
+    #rintsql
     gen(cmb, sql, first)
      
 def ship(cmb):
@@ -747,11 +751,11 @@ def units(cmb):
     
 #-------------------------------------------------------------------------------
 def gen(cmb, sql , first_item='') : #sql should be designed to return two items 'id' and 'title'
-    #print "loadCmb gen:", sql, len(fetch.getAllCol(sql))
+    ##rint"loadCmb gen:", sql, len(fetch.getAllCol(sql))
     
     origional_id = fetch.cmbID(cmb)
     dataSet      = fetch.getAllCol(sql)
-    #print 'dataSet:' , dataSet
+    ##rint'dataSet:' , dataSet
     
     
     cmb.Freeze()  # locks the combo so that other processes are not called
@@ -836,7 +840,7 @@ def genNoId(cmb, sql , first_item = '') : #sql should be designed to return two 
         origional_str = fetch.cmbValue(cmb)
     except: origional_str = ''
     
-    #print 'origional_str', origional_str
+    ##rint'origional_str', origional_str
     dataSet      = fetch.getList(sql)
     #rint dataSet
     cmb.Freeze()  # locks the combo so that other processes are not called

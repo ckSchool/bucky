@@ -86,12 +86,12 @@ class panel_buttons(wx.Panel):
         self.reset()
         
     def OnNew(self, evt):
-        print 'pbut new'
+        #rint'pbut new'
         self.Lockout()
         evt.Skip()
         
     def OnEdit(self, evt):
-        print 'pbut edit'
+        #rint'pbut edit'
         self.Lockout()
         
     def OnCancel(self, evt):
@@ -107,7 +107,7 @@ class panel_buttons(wx.Panel):
         # pub.sendMessage('unlockdown')
         
     def Lockout(self):
-        print ' sendMessage(lockdown)'
+        #rint' sendMessage(lockdown)'
         # pub.sendMessage('lockdown')
         self.new.Enable(False) 
         self.edit.Enable(False) 

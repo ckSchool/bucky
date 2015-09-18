@@ -1,0 +1,17 @@
+NItem: 
+IIf([item]=1,"SPP",
+IIf([item]=2,"CP / IGCSE",
+IIf([item]=3,"Bus",
+IIf([item]=4,"Voucher lunch",
+IIf([item]=5,"Jaminan loker",
+IIf([item]=6,[nproduk],
+IIf([item]=7,"Isi deposito",
+IIf([item]=8,"Registrasi ulang",
+IIf([item]=9,[lainlain],""
+   )))))))))
+
+ & IIf([item]=1 Or [item]=2 Or [item]=3," bulan " & [nbulan1] & IIf([bulan2] > 0, " - " & [nbulan2], ""),
+
+   IIf([item]=4, Format([tanggal1], "dd/mm/yyyy") 
+
+ & IIf([tanggal2] > [tanggal1], " - " & Format([tanggal2], "dd/mm/yyyy"), ""), "") )

@@ -182,12 +182,12 @@ class panel_edit_postcode(wx.Panel):
 	    
     
     def loadAddress(self, address_id):
-	print 'loadAddress'
+	#rint'loadAddress'
 	
 	sql = "SELECT postcode \
 		 FROM addresses \
 		WHERE id = %d" % address_id
-	print sql
+	#rintsql
         postcode = fetch.getDig(sql)
 	#if postcode:
 	self.num_ctrl_postcode.SetValue(str(postcode))
@@ -198,7 +198,7 @@ class panel_edit_postcode(wx.Panel):
 	dataSet = fetch.getAllCol(sql)
 	if len(dataSet)!=1: # as it should
 
-	    print ' what to do ?'
+	    #rint' what to do ?'
 	    return
 	kecamatanID = dataSet[0][0]
 	loadCmb.restore(self.combo_kecamatan, kecamatanID)
@@ -526,7 +526,7 @@ class panel_edit_postcode(wx.Panel):
         self.OnBack(wx.Event)
 	
     def edit(self, cmb1, cmb2, itemType):
-	print 'editing type:',itemType
+	#rint'editing type:',itemType
 	nextItem = ''
         self.restore_id, restoreString = fetch.cmbIDV(cmb1)
 	if not self.restore_id:
@@ -534,7 +534,7 @@ class panel_edit_postcode(wx.Panel):
 	    if itemType=='country':
 		self.nextItemID = 0
 	    else:
-		print itemType
+		#rintitemType
 		nextItemID, nextItem = fetch.cmbIDV(cmb2)
 		if not nextItemID:
 		    fetch.msg('Please Select A Follow On Item')
@@ -558,7 +558,7 @@ class panel_edit_postcode(wx.Panel):
 			sql = "UPDATE addressItems \
 				  SET itemName ='%s' \
 				WHERE %id = %d" % (itemName, self.restore_id)
-			print sql
+			#rintsql
 			cmb1.SetValue(itemName)
 			
                 else: # insert a new item
@@ -567,7 +567,7 @@ class panel_edit_postcode(wx.Panel):
 		                  (itemName, itemType, nextItemID) \
                            VALUES ('%s', '%s', '%s')" % (
 			           itemName, itemType, self.nextItemID)
-		    print sql
+		    #rintsql
                       
         finally:    
             dlg.Destroy()

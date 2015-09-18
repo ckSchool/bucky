@@ -113,7 +113,7 @@ class DlgInvoice(wx.Dialog):
         
   
     def invoiceData(self):
-        print self.date_picker_ctrl.GetMSDbReadyValue()   
+        #rintself.date_picker_ctrl.GetMSDbReadyValue()   
         datestr = self.date_picker_ctrl.GetMSDbReadyValue()
         return (self.student_id, datestr, self.invoice_no)    
         

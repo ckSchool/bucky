@@ -86,7 +86,7 @@ class XMLRPCTransport(xmlrpclib.Transport, ClientHelper):
         authentication.  Requires the 'cryptoID' argument.
 
         @type x509Fingerprint: str
-        @param x509Fingerprint: Hex-encoded X.509 fingerprint for
+        @param x509Fingerprint: Hex-encoded X.509 finger#rintfor
         server authentication.  Mutually exclusive with the 'cryptoID'
         and 'x509TrustList' arguments.
 

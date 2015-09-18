@@ -185,10 +185,10 @@ class MyFrame(wx.Frame):
         
         
         res = fetch.journal_entries_by_schYr(gVar.schYr)
-        #print res
+        ##rintres
 
         for row in res:
-            print row['id'], row
+            #rintrow['id'], row
             
         # clean up db
         # = "DELETE FROM PembayaranD WHERE amount IS Null"
@@ -293,7 +293,7 @@ class MyFrame(wx.Frame):
             for key in self.panes_dict:
                 self.panes_dict[key].Hide()
             panel.Show()
-            print 'showPanel panel DisplayData'
+            #rint'showPanel panel DisplayData'
             panel.displayData()
         except:
             pass

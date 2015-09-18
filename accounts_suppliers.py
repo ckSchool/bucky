@@ -102,22 +102,23 @@ class panel_suppliers(wx.Panel):
         self.GetTopLevelParent().panel_tree.Enable(False)
             
     def OnNew(self, evt):
-        print 'new'
+        #rint'new'
         self.lockOut()
         for tc in self.tc:
             tc.SetValue('')
         self.editing = False
         
     def OnEdit(self, evt):
-        print 'OnEdit'
+        #rint'OnEdit'
         self.editing = True
         self.lockOut()
     
     def OnDelete(self, evt):
-        print 'OnDelete'
+	pass
+        #rint'OnDelete'
         
     def OnSave(self, evt):
-        print 'OnSave'
+        #rint'OnSave'
         name =    self.text_ctrl_supplier_name.GetValue().strip()
         address = self.text_ctrl_supplier_address.GetValue()
         telp =    self.text_ctrl_supplier_telp.GetValue()
@@ -141,7 +142,7 @@ class panel_suppliers(wx.Panel):
         self.OnCancel(wx.Event)
         
     def OnCancel(self, evt):
-        print 'OnCancel'
+        #rint'OnCancel'
         self.pb.OnCancel()
         self.panel_details.Enable(False)
         self.editing = False
@@ -171,5 +172,6 @@ class panel_suppliers(wx.Panel):
             self.text_ctrl_supplier_telp.SetValue(str(telp))
     
     def OnRefresh(self, evt):
-        print 'OnRefresh'
+	pass
+        #rint'OnRefresh'
 

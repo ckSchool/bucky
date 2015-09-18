@@ -106,10 +106,10 @@ class MyFrame(wx.Frame):
         self.list_ctrl_cSiswa.SetItemMap(results)
         
     def OnMakeSame(self, evt):
-        print 'OnMakeSame'
+        #rint'OnMakeSame'
             
     def OnRightClickSiswa(self, evt):
-        print 'OnRightClickSiswa'
+        #rint'OnRightClickSiswa'
         
     def OnClick_cSiswa(self, evt):
         import time
@@ -130,7 +130,7 @@ class MyFrame(wx.Frame):
             
         else:    
             sql2 = "SELECT id, Nama, TgLahir, KOrangTua, KWali FROM Siswa WHERE Nama = '%s' " % Nama
-        print sql2
+        #rintsql2
         results = fetch.DATA(sql2)
         self.list_ctrl_siswa.SetItemMap(results)
         
@@ -144,10 +144,10 @@ class MyFrame(wx.Frame):
         
 
     def OnClickSiswa(self, evt):
-        print 'OnClickSiswa'
+        #rint'OnClickSiswa'
     
     def OnClickCSiswa(self, evt):
-        print 'OnClickCSiswa'
+        #rint'OnClickCSiswa'
         
     def OnCopy(self, evt):
         print'OnClickCSiswa'

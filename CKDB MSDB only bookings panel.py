@@ -41,9 +41,9 @@ class bookingPanel(wx.Panel):
                
     def OnRightClick(self, event):
         self.currentItem = self.list.currentItem
-        print 'self.currentItem', self.currentItem
+        #rint'self.currentItem', self.currentItem
         
-        print 'lahdida... have result, publishing it via pubsub'
+        #rint'lahdida... have result, publishing it via pubsub'
         pub.sendMessage('change_statusbar', arg1=123, arg2=dict(a='abc', b='def'))
         
         #self.index = self.list.GetFirstSelected()
@@ -79,26 +79,26 @@ class bookingPanel(wx.Panel):
         menu.Destroy()
     
     def OnPopupOne(self, event):# View Test Results
-        print "Popup one\n"
-        print "FindItem:", self.list.FindItem(-1, "Roxette")
-        print "FindItemData:", self.list.FindItemData(-1, 11)
+        #rint"Popup one\n"
+        #rint"FindItem:", self.list.FindItem(-1, "Roxette")
+        #rint"FindItemData:", self.list.FindItemData(-1, 11)
 
     def OnPopupTwo(self, event): # Receive Payment
-        print "Selected items:\n"
+        #rint"Selected items:\n"
         index = self.list.GetFirstSelected()
         
         while index != -1:
-            print "      %s: %s\n" % (self.list.GetItemText(index), self.list.GetColumnText(index, 0))
+            #rint"      %s: %s\n" % (self.list.GetItemText(index), self.list.GetColumnText(index, 0))
             index = self.list.GetNextSelected(index)
 
     def OnPopupThree(self, event): # Update Status
-        print "Popup three\n"
+        #rint"Popup three\n"
         #self.list.ClearAll()
         #wx.CallAfter(self.list.PopulateList)
 
     def OnPopupFour(self, event): # View Student Details
         item = self.list.GetItem(self.currentItem)
-        print item.m_text, item.m_itemId, self.list.GetItemData(self.currentItem)
+        #rintitem.m_text, item.m_itemId, self.list.GetItemData(self.currentItem)
   
     def OnPopupFive(self, event): # Withdraw Application
         pass # self.list.DeleteAllItems()
@@ -117,9 +117,9 @@ class bookingPanel(wx.Panel):
         if gVar.school == "SMP":           schoolKode = 3    
         if gVar.school == "SMA":           schoolKode = 4     
   
-        print gVar.school, schoolKode
+        #rintgVar.school, schoolKode
         if schoolKode:
-            print "School"
+            #rint"School"
             #sqlSch = " AND courses.school_id = %d" % schoolKode
             #sql = "%s%s" % (sql, sqlSch)
   
@@ -131,13 +131,13 @@ class bookingPanel(wx.Panel):
         #sql = "SELECT course_name \
         #        FROM courses "
         
-        print sql
+        #rintsql
         results = fetch.getAll_dict(sql)
-        print len(results), "Results "
+        #rintlen(results), "Results "
         print
 
         results = fetch.DATA(sql)
-        #print "DATA = " , results
+        ##rint"DATA = " , results
         self.list.PopulateList(results)
 
     def __do_layout(self):

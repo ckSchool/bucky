@@ -22,15 +22,15 @@ quiet = "--quiet" in args
 if quiet: args.remove('--quiet')
 
 if not quiet:
-    print '\nStream Ciphers:'
-    print '==============='
+    #rint'\nStream Ciphers:'
+    #rint'==============='
 
 if args: test.TestStreamModules(args, verbose= not quiet)
 else: test.TestStreamModules(verbose= not quiet)
 
 if not quiet:
-    print '\nBlock Ciphers:'
-    print '=============='
+    #rint'\nBlock Ciphers:'
+    #rint'=============='
 
 if args: test.TestBlockModules(args, verbose= not quiet)
 else: test.TestBlockModules(verbose= not quiet)

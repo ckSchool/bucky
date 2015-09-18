@@ -13,11 +13,9 @@ class panel_base(wx.Panel):
         kwds["style"] = wx.TAB_TRAVERSAL
         wx.Panel.__init__(self, *args, **kwds)
         
-        
         self.SetName('panel_base')
         
         self.panel_header       = wx.Panel(self, -1) 
-        
         self.panel_year_sch     = wx.Panel(self.panel_header, -1)
         
         #self.label_1            = wx.StaticText(self.panel_header, -1, "BOOKINGS FOR > ")
@@ -91,7 +89,7 @@ class panel_base(wx.Panel):
         self.Layout()
 
     def displayData(self):
-        print 'panel base : displayData'
+        #rint'panel base : displayData'
         loadCmb.schYrs(self.choice_year)
         self.choice_year.SetSelection(0)
         self.yearChange(wx.Event)
@@ -158,7 +156,7 @@ class panel_base(wx.Panel):
         #p.dispalyData()
     
     def OnEditCourseList(self, event):
-        print 'OnEditCourseList'
+        #rint'OnEditCourseList'
         self.GetTopLevelParent().goTo('edit_courses')
     
     def OnSettings(self, evt):
@@ -228,10 +226,12 @@ class panel_base(wx.Panel):
         self.GetTopLevelParent().goTo('course_fees')
     
     def OnEditProfile(self, evt):
-        print 'OnEditProfile'
+        pass
+        #rint'OnEditProfile'
     
     def OnEditUsers(self, evt):
-        print 'OnEditUsers'
+        pass
+        #rint'OnEditUsers'
     
     def OnSchools(self, evt):
         self.GetTopLevelParent().goTo('edit_schools')

@@ -76,7 +76,7 @@ class panel_student_list(wx.Panel):
         self.displayData()
  
     def displayData(self):
-        print 'panel_student_payments ---------------- : displayData'
+        #rint'panel_student_payments ---------------- : displayData'
         
         sql = "SELECT s.id, s.name, f.name \
                  FROM students s \
@@ -116,7 +116,7 @@ class panel_student_list(wx.Panel):
         self.displayData()
     
     def OnSelectForm(self, evt):
-        print 'OnSelectForm'
+        #rint'OnSelectForm'
         self.displayData()
     
     def OnCheckSchool(self, evt):
@@ -145,7 +145,7 @@ class panel_student_list(wx.Panel):
         #loadCmb.gen(self.choice_forms, sql)
     
     def OnCheckCourse(self, evt):
-        print 'OnCheckCourse'
+        #rint'OnCheckCourse'
         if self.checkbox_filter_by_form.GetValue():
             self.choice_forms.Show()
             self.loadForms()
@@ -155,7 +155,7 @@ class panel_student_list(wx.Panel):
         self.displayData()
 
     def OnItemSelected(self, evt):
-        print 'OnItemSelected'
+        #rint'OnItemSelected'
         student_id   = self.vList.GetSelectedID()
         index        = self.vList.GetFirstSelected()
         gVar.student_id = self.vList.getColumnText(index, 1)
@@ -272,36 +272,39 @@ class payment_details(wx.Panel):
         self.SetSizer(sizer_main)
 
     def OnNew(self, evt):
-        print 'psp OnNew'
+        #rint'psp OnNew'
         self.GetParent().lockdown()
         evt.Skip()
         
     def OnEdit(self, evt):
-        print 'edit'
+        #rint'edit'
         sid = self.payments_list.GetId_firstSelected()
-        #print 'sid',sid
+        ##rint'sid',sid
         if sid>0:
             self.payments_list.Enable(False)
             self.GetParent().lockdown()
             evt.Skip()
         
     def OnDelete(self, evt):
-        print 'psp OnDelete'
+        pass
+        #rint'psp OnDelete'
         
     def OnSave(self, evt):
         self.GetParent().uklockdown()
-        print 'psp OnSave'
+        #rint'psp OnSave'
         
     def OnCancel(self, evt):
-        print 'psp OnCancel'
+        #rint'psp OnCancel'
         self.GetParent().uklockdown()
         self.payments_list.Enable()
         evt.Skip()
         
     def OnRefresh(self, evt):
-        print 'psp OnRefresh'  
+        pass
+        #rint'psp OnRefresh'  
         
     def displayData(self):
+        pass
         sql = "SELECT acc_invoices.ck_ref, \
                         Format(invoices.date, 'DD-MM-YYYY'), \
                         Format(int(invoice_items.amount),'#,###') \
@@ -384,7 +387,7 @@ class payment_details(wx.Panel):
         sql = "SELECT Format(SUM(amount),'#,###') \
                  FROM invoice_items  \
                 WHERE ck_ref='%s'" % reciptNo 
-        print sql
+        #rintsql
         self.txt_ctrl_details_total.SetValue(str(fetch.getStr(sql)))
         
 
@@ -431,7 +434,7 @@ class panel_student_payments(wx.Panel):
         self.panel_student_list.displayData()
         
     def displayData(self):
-        print 'panel_student_payments -- displayData'
+        #rint'panel_student_payments -- displayData'
         self.panel_student_list.displayData()
         
         

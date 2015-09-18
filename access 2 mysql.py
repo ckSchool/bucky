@@ -37,7 +37,7 @@ def get_external_command_output(command):
 def get_pipe_series_output(commands, stdinput=None):
     # Python arrays indexes are zero-based, i.e. an array is indexed from 0 to len(array)-1.
     # The range/xrange commands, by default, start at 0 and go to one less than the maximum specified.
-    # print commands
+    # #rintcommands
     processes = []
     for i in xrange(len(commands)):
         if (i==0): # first processes
@@ -63,19 +63,19 @@ user = raw_default("MySQL username", "root")
 password = getpass.getpass("MySQL password: ")
 mysqldb = raw_input("MySQL database to create: ")
 
-print "Getting list of tables"
+#rint"Getting list of tables"
 tablecmd = "mdb-tables -1 "+mdbfile
     # -1: one per line (or table names with spaces will cause confusion)
 tables = get_external_command_output(tablecmd).splitlines()
-print tables
+#rinttables
 
-print "Creating new database"
+#rint"Creating new database"
 createmysqldbcmd = "mysqladmin create %s --host=%s --port=%s --user=%s --password=%s" % (mysqldb, host, port, user, password)
     # we could omit the actual password and the user would be prompted, but we need to send it this way later (see below), so this is not a huge additional security weakness!
     # Linux/MySQL helpfully obscures the password in the "ps" list.
-print get_external_command_output(createmysqldbcmd)
+#rintget_external_command_output(createmysqldbcmd)
 
-print "Shipping table definitions (sanitized), converted to MySQL types, through some syntax filters, to MySQL"
+#rint"Shipping table definitions (sanitized), converted to MySQL types, through some syntax filters, to MySQL"
 schemacmd="mdb-schema "+mdbfile+" mysql"
 
 # JAN 2013: Since my previous script, mdb-schema's mysql dialect has got much better.
@@ -127,13 +127,13 @@ schemasyntax = get_external_command_output(schemacmd)
 # "COMMENT ON COLUMN" produced by mdb-schema and rejected by MySQL:
 schemasyntax = re.sub("^COMMENT ON COLUMN.*$", "", schemasyntax, 0, re.MULTILINE)
 
-print "-----------------"
-print schemasyntax
-print "-----------------"
+#rint"-----------------"
+#rintschemasyntax
+#rint"-----------------"
 
 mysqlcmd = "mysql --host=%s --port=%s --database=%s --user=%s --password=%s" % (host, port, mysqldb, user, password) # regrettably we need the password here, as stdin will be coming from a pipe
-# print schemasyntax
-print get_pipe_series_output( [mysqlcmd], schemasyntax )
+# #rintschemasyntax
+#rintget_pipe_series_output( [mysqlcmd], schemasyntax )
 
 # For the data, we won't store the intermediate stuff in Python's memory, 'cos it's vast; I had one odd single-character mutation
 # from "TimeInSession_ms" to "TimeInSession_mc" at row 326444 (perhaps therefore 37Mb or so into a long string).
@@ -146,18 +146,18 @@ print get_pipe_series_output( [mysqlcmd], schemasyntax )
 # This improvement was from 20 Hz to the whole database in a couple of minutes (~13 kHz).
 # Subsequent export from MySQL: takes a second or two to write whole DB (177M textfile).
 
-print "Copying data to MySQL"
+#rint"Copying data to MySQL"
 #semicolonfilter = "sed -e 's/)$/)\;/'"
 #groupfilter = "perl -pe 's/([\ \t]+)group([\ \t\),]+)/$1_group$2/gi'"
 for t in tables:
-    print "Processing table", t
+    #rint"Processing table", t
     #exportcmd = "mdb-export -I mysql -D \"%Y-%m-%d %H:%M:%S\" " + mdbfile + " " + t
         # -I backend: INSERT statements, not CSV
         # -D: date format
         #     MySQL's DATETIME field has this format: "YYYY-MM-DD HH:mm:SS"
         #     so we want this from the export
-    #print get_pipe_series_output( [exportcmd, semicolonfilter, groupfilter, mysqlcmd] )
-    #print get_pipe_series_output( [exportcmd, mysqlcmd] )
+    ##rintget_pipe_series_output( [exportcmd, semicolonfilter, groupfilter, mysqlcmd] )
+    ##rintget_pipe_series_output( [exportcmd, mysqlcmd] )
 
     os.system('echo "SET autocommit=0;" > ' + tempfile)
     exportcmd = 'mdb-export -I mysql -D "%Y-%m-%d %H:%M:%S" ' + mdbfile + ' "' + t + '" >> ' + tempfile
@@ -166,4 +166,4 @@ for t in tables:
     importcmd = mysqlcmd + " < " + tempfile
     os.system(importcmd)
 
-print "Finished."
+#rint"Finished."

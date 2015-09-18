@@ -80,7 +80,7 @@ class panel_guardian_details(wx.Panel):
         self.editing=False
         
     def OnTab(self, evt):
-        print 'OnTab'
+        #rint'OnTab'
         if self.editing: return
         
         tab = evt.GetEventObject()
@@ -101,7 +101,7 @@ class panel_guardian_details(wx.Panel):
         
         
     def onlyShow(self, tabname):
-        print 'panel_guardian_details > onlyShow', tabname 
+        #rint'panel_guardian_details > onlyShow', tabname 
         for n in self.notebook_panes:
             if  n.GetName() == self.tabname:
                 n.Show()
@@ -123,12 +123,12 @@ class panel_guardian_details(wx.Panel):
         pass
     
     def enableAllCtrls(self):
-        print 'panel_guardian_details > enableAllCtrls'
+        #rint'panel_guardian_details > enableAllCtrls'
         for nb in self.notebook_panes:
             nb.Enable()
         
     def enableCtrls(self, state = True):
-        print 'panel_guardian_details > enableCtrls'
+        #rint'panel_guardian_details > enableCtrls'
         if self.IsShown():
             for nb in self.notebook_panes:
                 nb.Enable(state)
@@ -140,9 +140,9 @@ class panel_guardian_details(wx.Panel):
         
     def displayData(self, student_id):
         self.student_id = student_id
-        print 'panel_guardian_details > student_id', student_id
+        #rint'panel_guardian_details > student_id', student_id
         sql = "SELECT father_id, mother_id, guardian_id FROM students WHERE id=%d" % student_id
-        #print sql
+        ##rintsql
         student_details = fetch.getOneDict(sql)
         
  

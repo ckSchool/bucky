@@ -230,7 +230,7 @@ class panel_edit_booking(wx.Panel):
     def displayData(self):
         self.student_id = student_id = gVar.student_id
         #return
-        print "panel_edit_booking : displayData"
+        #rint"panel_edit_booking : displayData"
         self.clearCtrls()
         
         if student_id == 0:
@@ -335,7 +335,7 @@ class panel_edit_booking(wx.Panel):
     
     def OnEdit(self, evt):
         if self.button_edit.GetLabelText()=='Cancel':
-            print 'Cancel'
+            #rint'Cancel'
             self.button_edit.SetLabelText('Edit')
             self.enableCtrls(False)
             self.button_save.Hide()

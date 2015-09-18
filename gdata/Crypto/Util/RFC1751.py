@@ -330,13 +330,13 @@ if __name__=='__main__':
            ]
 
     for key, words in data:
-        print 'Trying key', key
+        #rint'Trying key', key
         key=binascii.a2b_hex(key)
         w2=key_to_english(key)
         if w2!=words:
-            print 'key_to_english fails on key', repr(key), ', producing', str(w2)
+            #rint'key_to_english fails on key', repr(key), ', producing', str(w2)
         k2=english_to_key(words)
         if k2!=key:
-            print 'english_to_key fails on key', repr(key), ', producing', repr(k2)
+            #rint'english_to_key fails on key', repr(key), ', producing', repr(k2)
 
 

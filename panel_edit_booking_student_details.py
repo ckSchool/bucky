@@ -31,7 +31,7 @@ class panel_edit_booking_student_details(wx.Panel):
 
         
     def displayData(self, student_id=0):
-        print 'displayData ; panel_edit_booking_student_details'
+        #rint'displayData ; panel_edit_booking_student_details'
         self.student_id = student_id
         #self.panel_details.displayData(student_id)
         #self.panel_details.enableCtrls()

@@ -77,7 +77,7 @@ class Option(object):
       if self.secret:
         value = getpass.getpass(prompt)
       else:
-        print 'You can specify this on the command line using --%s' % self.name
+        #rint'You can specify this on the command line using --%s' % self.name
         value = raw_input(prompt)
     return value
 

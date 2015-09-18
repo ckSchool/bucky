@@ -8,10 +8,10 @@ import print_spp
 
 import win32print, win32api
 
-buttonDefs = {814 : ('PrintSPP',      'Print SPP')}
+buttonDefs = {814 : ('PrintSPP',      '#rintSPP')}
 #import win32print
 #printers = win32print.EnumPrinters(5)
-#print printers
+##rintprinters
 
 class MyPrintout(wx.Printout):
     def __init__(self, canvas):
@@ -239,8 +239,8 @@ class TablePanel(wx.Panel):
         self.SetMinSize((800,400))        
         
         btn_setup   = wx.Button(self, -1, "Page Setup")
-        btn_preview = wx.Button(self, -1, "Print Preview")
-        btn_print   = wx.Button(self, -1, "Print")
+        btn_preview = wx.Button(self, -1, "#rintPreview")
+        btn_#rint  = wx.Button(self, -1, "Print")
         
         self.box = wx.BoxSizer(wx.VERTICAL)
         subbox   = wx.BoxSizer(wx.HORIZONTAL)
@@ -313,10 +313,10 @@ class TablePanel(wx.Panel):
         self.preview = wx.PrintPreview(printout, printout2, self.printData )#data)
 
         if not self.preview.Ok():
-            print "Houston, we have a problem..."
+            #rint"Houston, we have a problem..."
             return
 
-        pfrm = wx.PreviewFrame(self.preview, self.GetParent(), "This is a print preview")
+        pfrm = wx.PreviewFrame(self.preview, self.GetParent(), "This is a #rintpreview")
 
         pfrm.Initialize()
         pfrm.SetPosition(self.GetPosition())

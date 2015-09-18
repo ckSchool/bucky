@@ -95,7 +95,7 @@ class gridCtrl(gridlib.Grid):
         self.SetRowLabelValue(r, '>')
         
     def OnIdle(self, evt):
-        # print 'OnIdle'
+        # #rint'OnIdle'
         if self.moveTo != None:
             self.SetGridCursor(self.moveTo[0], self.moveTo[1])
             self.moveTo = None
@@ -103,7 +103,7 @@ class gridCtrl(gridlib.Grid):
         
     def appendItem(self, data):
         global invoice_items
-        print 'appendItem', data
+        #rint'appendItem', data
         self.AppendRows()
         lastrow = self.GetNumberRows()-1
         product_id = data['product_id']
@@ -143,14 +143,14 @@ class gridCtrl(gridlib.Grid):
                 self.SetCellValue(row, 2, txt)
     
     def OnSelectCell(self, evt):
-        print 'OnSelectCell'
+        #rint'OnSelectCell'
          
         # Another way to stay in a cell that has a bad value...
         self.row = row = self.GetGridCursorRow()
         col = self.GetGridCursorCol()
         
         if self.IsCellEditControlEnabled():
-            print 'IsCellEditControlEnabled'
+            #rint'IsCellEditControlEnabled'
             self.HideCellEditControl()
             self.DisableCellEditControl()
         
@@ -161,7 +161,7 @@ class gridCtrl(gridlib.Grid):
                 return  # cancels the cell selection
 
         col = self.GetGridCursorCol()
-        print 'col', col
+        #rint'col', col
         if row < 0 or col <0: return
         
         if self.IsCellEditControlEnabled():
@@ -171,7 +171,7 @@ class gridCtrl(gridlib.Grid):
         evt.Skip()
         
     def onCellEdit(self, event):
-        print 'onCellEdit'
+        #rint'onCellEdit'
         '''  When cell is edited, get a handle on the editor widget
              and bind it to EVT_KEY_DOWN  '''
         editor = event.GetControl()        
@@ -179,13 +179,13 @@ class gridCtrl(gridlib.Grid):
         event.Skip()
         
     def onEditorKey(self, evt):
-        print 'onEditorKey'
+        #rint'onEditorKey'
         #if evt.GetKeyCode() >= 48 and evt.GetKeyCode() <= 57:
         evt.Skip()
         
     def OnCellChange(self, evt):
         col = evt.GetCol()
-        print "OnCellChange", col
+        #rint"OnCellChange", col
         
         if col == 2 or col == 4: return
         row = evt.GetRow()
@@ -203,19 +203,19 @@ class gridCtrl(gridlib.Grid):
         product_type_id = fetch.get_product_type_id(product_id)
         
         if product_type_id == 1: # school fee
-            print ' change fee description'
+            #rint' change fee description'
             # prevent excess months
         
         elif product_type_id == 9: # bus fee
             # prevent excess months
-            print ' change bus description'
+            #rint' change bus description'
             pub.sendMessage('bus.grid.change')
         
     def get_product_id(self, row):
         return int(self.GetCellValue(row, 0))
     
     def Populate(self, items):
-        print 'Populate Grid', items
+        #rint'Populate Grid', items
         self.resizeGrid(len(items))
         
         index = 0 
@@ -256,7 +256,7 @@ class gridCtrl(gridlib.Grid):
         return self.GetNumberRows()
     
     def calcTotal(self):
-        print 'calcTotal'
+        #rint'calcTotal'
         gVar.listCtrl = self.GetName()
         total = 0
         for row in range(0, self.GetNumberRows()):
@@ -279,7 +279,7 @@ class gridCtrl(gridlib.Grid):
             total += sub
             
         gVar.dayNo = total
-        print 'values.totaled', total
+        #rint'values.totaled', total
         pub.sendMessage('values.totaled') 
         
 
@@ -411,7 +411,7 @@ class panel_fees(wx.Panel):
         self.OnCourse(wx.Event)
         
     def __do_settings(self):
-        print '__do_settings      crtghfue'
+        #rint'__do_settings      crtghfue'
         
         self.text_ctrl_months.SetMinSize((40, -1))
         self.text_ctrl_months.SetMaxSize((40, -1))
@@ -482,7 +482,7 @@ class panel_fees(wx.Panel):
         self.SetSizer(sizer_main)
         
     def displayData(self, student_id):
-        print 'panel_fees displayData'
+        #rint'panel_fees displayData'
         self.student_id = student_id
         self.course_id = fetch.courseID_forStudent(student_id)
         self.monthly_fee = fetch.fee_monthly(self.course_id, gVar.schYr)
@@ -504,18 +504,18 @@ class panel_fees(wx.Panel):
         self.text_ctrl_months.SetMinSize((50, -1))
         self.text_ctrl_months.SetMaxSize((50, -1))
         self.Layout()
-        print 'text_ctrl_months.Refresh()'
+        #rint'text_ctrl_months.Refresh()'
         self.text_ctrl_months.SetFocus()
         self.text_ctrl_months.SelectAll()
     
     def OnCourse(self, evt):
-        print 'OnCourse'
+        #rint'OnCourse'
         course_id = fetch.cmbID(self.choice_course)
         sql = "SELECT course_fee_monthly \
                  FROM courses_by_year \
                 WHERE id =%d" % course_id
         res = fetch.getDig(sql)
-        print 'course_fee_monthly', res
+        #rint'course_fee_monthly', res
         self.text_ctrl_course_fee.SetValue(str(res))
         self.calcFeeTotal()
         
@@ -524,10 +524,10 @@ class panel_fees(wx.Panel):
         
     def calcFeeTotal(self):
         months    = self.text_ctrl_months.GetValue()
-        print months
+        #rintmonths
         
         if months == 12:
-            print ' whole year'
+            #rint' whole year'
             fee = fetch.fee_yearly(self.course_id, gVar.schYr)
             self.text_ctrl_description.SetValue('One off payment for whole year')
             self.text_ctrl_fee.Hide()
@@ -717,7 +717,7 @@ class DlgPayments(wx.Dialog):
         self.panel_fees.OnChFee(wx.Event)    
         
     def displayData(self, sid):
-        print 'displayData', sid
+        #rint'displayData', sid
         
         global student_id, NoInduk, student_name, form_name
         student_id = sid
@@ -768,15 +768,15 @@ class DlgPayments(wx.Dialog):
         
         
     def bus_details_changed(self):
-        print 'bus_details_changed'
+        #rint'bus_details_changed'
     
         month_from = fetch.cmbID(self.choice_bus_from)
         month_to   = fetch.cmbID(self.choice_bus_to)
-        print 'month_from=', month_from, '    month_to=', month_to
+        #rint'month_from=', month_from, '    month_to=', month_to
         
         self.months = months = month_to - month_from +1
     
-        print 'months=', months
+        #rint'months=', months
         
         if months == 1:
             month = fetch.cmbValue(self.choice_bus_from)
@@ -802,20 +802,20 @@ class DlgPayments(wx.Dialog):
         try:
             dlg.displayPreview(data)
             if dlg.ShowModal():
-                print 'ok'
+                #rint'ok'
                 self.post_invoice()
                 self.Close()
             else:
-                print 'not ok'
+                #rint'not ok'
         finally:
-            print 'finally'
+            #rint'finally'
             dlg.Destroy()
         
         # if print
         
         
     def post_invoice(self):
-        print 'post invoice'
+        #rint'post invoice'
         
     def totaled(self, ):
         grid_total = gVar.dayNo
@@ -835,9 +835,9 @@ class DlgPayments(wx.Dialog):
         self.recurring_monthly = fetch.is_recurring_monthly(product_id)
    
     def OnAdd(self, evt):
-        print 'OnAdd'
+        #rint'OnAdd'
         product_id = fetch.cmbID(self.choice_products)
-        print 'product_id.GetSelection():', product_id
+        #rint'product_id.GetSelection():', product_id
         if not product_id or self.grid_product.inGrid(product_id):
             return
         
@@ -848,7 +848,7 @@ class DlgPayments(wx.Dialog):
         product_type_id = fetch.get_product_type_id(product_id)
         
         if product_type_id == 1: # school fee
-            print ' append fee '
+            #rint' append fee '
             month_no = fetch.month_last_paid(student_id, gVar.schYr, 9)+1
             if month_no > 12:
                 self.panel_fees.Hide()
@@ -861,7 +861,7 @@ class DlgPayments(wx.Dialog):
             
             
         elif product_type_id == 9: # bus fee
-            print ' append bus '
+            #rint' append bus '
 
             # last paid for month
             # if last month == 12 : return
@@ -892,11 +892,11 @@ class DlgPayments(wx.Dialog):
         
         
     def fees_details_changed(self):
-        print 'fees_details_changed'
+        #rint'fees_details_changed'
             
     def OnDelete(self, evt):
         row = self.grid_product.GetSelectedRows()[0]
-        print row
+        #rintrow
         self.grid_product.deleteRow(row)
         
         # if item deleted was school fee

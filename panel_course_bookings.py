@@ -33,7 +33,7 @@ class panel_course_bookings(wx.Panel):
 
         
     def displayData(self):
-        print "panel_course_bookings : displayData"
+        #rint"panel_course_bookings : displayData"
         sql = "SELECT id, name, reg_status \
                  FROM students \
                 WHERE register_course_id = %d \

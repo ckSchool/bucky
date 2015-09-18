@@ -318,7 +318,7 @@ class panel_journal(wx.Panel):
         self.grid.ForceRefresh()
     
     def OnNew(self, evt):
-        print 'OnNew'
+        #rint'OnNew'
         dlg = DlgTransaction.create(None)
         try:
             dlg.displayData()
@@ -329,7 +329,7 @@ class panel_journal(wx.Panel):
         
     def OnEdit(self, evt):
         tid = self.grid.getSelectedTransactionID()
-        print 'OnEdit', tid
+        #rint'OnEdit', tid
         
         dlg = DlgTransaction.create(None)
         try:
@@ -366,7 +366,7 @@ class panel_journal(wx.Panel):
         self.displayData()
         
     def OnSelectCell(self):
-        print 'OnSelectCell'
+        #rint'OnSelectCell'
         row, col = self.grid.get_location()
         #row, col = evt.GetRow(), evt.GetCol()
         if not row or not col: return
@@ -429,13 +429,13 @@ class panel_journal(wx.Panel):
         return sql
     
     def displayData(self):
-        print 'displayData'
+        #rint'displayData'
         wx.BeginBusyCursor()
         
         debit_total  = 0; credit_total = 0
         
         sql = self.prepareQuery()
-        print sql
+        #rintsql
         res = fetch.getAllDict(sql)
         
         self.resizeGrid(res)

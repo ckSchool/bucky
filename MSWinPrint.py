@@ -22,12 +22,12 @@
 # OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
   
-"""MSWinPrint -- Windows Printing Subsystem
+"""MSWin#rint-- Windows Printing Subsystem
   
-MSWinPrint defines a class for use by programs needing to print complex
+MSWin#rintdefines a class for use by programs needing to #rintcomplex
 output on Windows 9x/2K/XP hosts.
   
-document is a class for creating and running print jobs.
+document is a class for creating and running #rintjobs.
   
 listprinters() returns a list of printer names.  The default printer is the 
 first element of the list, and all other printers follow in alphabetical order.
@@ -111,7 +111,7 @@ class document:
             rc.append(int(p * scale_factor))
         return tuple(rc)
   
-    def begin_document(self, desc = "MSWinPrint.py print job"):
+    def begin_document(self, desc = "MSWinPrint.py #rintjob"):
   
         # open the printer
         if self.printer is None:
@@ -199,7 +199,7 @@ class document:
         self.dc.SelectObject(self.font)
   
     def image(self, position, image, size):
-        "print PIL image at position with given size"
+        "#rintPIL image at position with given size"
         if ImageWin is None:
             raise NotImplementedError, "PIL required for image method"
         if self.page == 0:

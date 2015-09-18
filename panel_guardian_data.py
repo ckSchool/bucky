@@ -170,7 +170,7 @@ class panel_guardian_data(wx.Panel):
 	    else:
 		self.editMode = False
 		
-        # print 'Guardian displayData', guardian_type, guardian_id, student_id
+        # #rint'Guardian displayData', guardian_type, guardian_id, student_id
         self.guardian_type = guardian_type
         self.guardian_id   = guardian_id
         self.student_id    = student_id
@@ -203,9 +203,8 @@ class panel_guardian_data(wx.Panel):
 	# nationality
 
         if guardian_type == 'guardian':
-	    try:
-		relationship = fetch.guardianRelationship(student_id)
-            
+	    relationship = fetch.guardianRelationship(student_id)
+            try:
                 index = self.combo_box_relationship.FindString(relationship)
                 self.combo_box_relationship.SetSelection(index)
 		self.label_relationship.Show()
@@ -296,7 +295,7 @@ class panel_guardian_data(wx.Panel):
 				    '%s', '%s', '%s', \
 				    '%s', '%s', %d, \
 				    '%s', %d, %d)" % tuple(data)
-	print sql
+	#rintsql
 	guardian_id = fetch.updateDB(sql)
 	
 	sql = "UPDATE students SET "
@@ -316,7 +315,7 @@ class panel_guardian_data(wx.Panel):
 	else:               relationship = 'mother'
 	data.append(relationship)
 	
-	#print 'DATA Update Guardian >>', data
+	##rint'DATA Update Guardian >>', data
 		
 	sql = "UPDATE guardians \
 	          SET (name='%s', address='%s', faith_id=%d, \
@@ -324,11 +323,11 @@ class panel_guardian_data(wx.Panel):
 			wilayah  = '%s', pob='%s', occ_main_id=%d, \
 			occ_other = '%s', nationality_id = %d, relationship='s') \
 		WHERE id = %d" % (tuple(data), self.guardian_id)
-	print sql
+	#rintsql
 	fetch.updateDB(sql)
 	
     def OnEditAddress(self, evt):
-	print 'panel_guardian_data    OnEditAddress'
+	#rint'panel_guardian_data    OnEditAddress'
 	if not self.guardian_id:
 	    fetch.msg('can not enter address before guardian has been created')
 	    return
@@ -343,20 +342,21 @@ class panel_guardian_data(wx.Panel):
             gVar.address = dlg.getEditedAddress()
 	    if address == gVar.address:
 		pass
-	    else: 
-		print 'update g'
+	    else:
+		pass
+		#rint'update g'
         finally:
             dlg.Destroy()
             
     def updateStudentRecord(self, guardian_id):
-        print 'updateStudentRecord id '
+        #rint'updateStudentRecord id '
 
 	sql = " UPDATE students SET "
         if self.guardian_type == 'guardian': sql += " guardian_id "
 	if self.guardian_type == 'mother':   sql += "  mother_id "
 	else:                                sql += "  father_id  "  
         sql += " = %d  WHERE id = %d" % ( guardian_id, self.student_id)
-        print sql
+        #rintsql
         #fetch.updateDB(sql)
   
     def OnBtnG_dob(self, event):  #

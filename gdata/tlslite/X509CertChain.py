@@ -41,7 +41,7 @@ class X509CertChain:
         return self.x509List[0].publicKey
 
     def getFingerprint(self):
-        """Get the hex-encoded fingerprint of the end-entity certificate.
+        """Get the hex-encoded finger#rintof the end-entity certificate.
 
         @rtype: str
         @return: A hex-encoded fingerprint.

@@ -66,7 +66,7 @@ class panel_student_list(wx.Panel):
         self.vList.SetColumns(headings)
         
     def displayData(self):
-        #print 'resistration_payments ---------------displayData--'
+        ##rint'resistration_payments ---------------displayData--'
         
         sql = "SELECT s.id, s.name, c.name \
                  FROM students s \
@@ -79,16 +79,16 @@ class panel_student_list(wx.Panel):
                 WHERE s.register_schYr = %d " % (gVar.schYr,)"""
 
         if self.checkbox_filter_by_course.GetValue():
-            #print 'filter by course'
+            ##rint'filter by course'
             course_id = fetch.cmbID(self.choice_courses)
             sql = "%s AND c.id = %d" % (sql,  course_id)
         
         elif self.checkbox_filter_by_school.GetValue():
-            #print 'filter by school'
+            ##rint'filter by school'
             school_id = fetch.cmbID(self.choice_schools)
             sql = "%s AND c.school_id = %d" % (sql,  school_id)
             
-        #print sql 
+        ##rintsql 
         res = fetch.DATA(sql)
     
         self.vList.SetItemMap(res)
@@ -100,7 +100,7 @@ class panel_student_list(wx.Panel):
         self.text_ctrl_record_count.SetValue(txt)
         
     def OnSelectSchool(self, evt):
-        #print 'OnSelectSchool'
+        ##rint'OnSelectSchool'
         
         self.loadCourses()
         self.displayData()
@@ -132,14 +132,14 @@ class panel_student_list(wx.Panel):
         self.displayData()
         
     def loadCourses(self):
-        #print 'loadCourses'
+        ##rint'loadCourses'
         school_id = fetch.cmbID(self.choice_schools)
         sql = "SELECT c.id, c.name \
                  FROM courses c \
                  JOIN courses_by_year cby ON cby.course_id = c.id \
                 WHERE c.school_id = %d \
                   AND cby.schYr = %d" % (school_id, gVar.schYr)
-        #print sql
+        ##rintsql
         loadCmb.gen(self.choice_courses, sql)
     
     def OnCheckCourse(self, evt):
@@ -230,25 +230,28 @@ class payment_details(wx.Panel):
     
         
     def OnNew(self, evt):
-        print 'ppr OnNew'
+        #rint'ppr OnNew'
         evt.Skip()
         
     def OnEdit(self, evt):
-        print 'ppr OnEdit'
+        #rint'ppr OnEdit'
         evt.Skip()
         
     def OnDelete(self, evt):
-        print 'ppr OnDelete'
+        evt.Skip()
+        #rint'ppr OnDelete'
         
     def OnSave(self, evt):
-        print 'ppr OnSave'
+        evt.Skip()
+        #rint'ppr OnSave'
         
     def OnCancel(self, evt):
-        print 'ppr OnCancel'
+        #rint'ppr OnCancel'
         evt.Skip()
         
     def OnRefresh(self, evt):
-        print 'ppr OnRefresh'  
+        evt.Skip()
+        #rint'ppr OnRefresh'  
           
         
     def __layout(self):
@@ -278,7 +281,8 @@ class payment_details(wx.Panel):
         self.SetSizer(sizer_main)
         
     def displayData(self):
-        print ' reg pay - details'
+        pass
+        #rint' reg pay - details'
         
 
 

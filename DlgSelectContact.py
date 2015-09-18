@@ -1,7 +1,4 @@
-import wx, datetime, gVar
-
-import loadCmbODBC as loadCmb
-import fetchodbc as fetch
+import wx, datetime, gVar, loadCmb, fetch
 from myListCtrl import VirtualList
 
 #from fuzzywuzzy import fuzz
@@ -101,7 +98,7 @@ class DlgSelectContact(wx.Dialog):
 
         l = []
         for r in res:
-            #print r
+            ##rintr
             k = r['Kode']+10000
             a = r['NamaA']
             i = r['NamaI']
@@ -134,7 +131,7 @@ class DlgSelectContact(wx.Dialog):
         d = {}
         index = 0
         for guardian_id in contacts:
-            #print i
+            ##rinti
             #guardian_id = i[0]
             name = contacts[guardian_id]# i[1]
             if not name: name ='-'
@@ -160,7 +157,7 @@ class DlgSelectContact(wx.Dialog):
                     
                 d[index]=(guardian_id, name, mtype, students)
                 index += 1
-        #print d      
+        ##rintd      
         # (index : (id,'data','data'....))
         self.vList.SetItemMap(d)
 
@@ -190,7 +187,7 @@ class DlgSelectContact(wx.Dialog):
             
         elif gid > 10000:# father
             gid = gid -10000
-            print self.guardian_type
+            #rintself.guardian_type
             self.choice_relation.SetSelection(0)
             
         else:
@@ -205,10 +202,10 @@ class DlgSelectContact(wx.Dialog):
         self.text_ctrl_name.SetValue(self.name)
         
         self.real_id = self.getType(contact_id)
-        print 'OnDblCheck'
+        #rint'OnDblCheck'
 
     def OnSave(self, event):  # wxGlade: DlgSelectContact.<event_handler>
-        print event.GetEventObject().GetName()
+        #rintevent.GetEventObject().GetName()
         name = self.text_ctrl_name.GetValue()
         
         if name == self.name:
@@ -220,21 +217,21 @@ class DlgSelectContact(wx.Dialog):
             #get insert_id
             self.flag = ('insert', self.contact_id)
             self.guardian_type =self.choice_type.GetCurrentSelection()
-            print self.guardian_type
+            #rintself.guardian_type
         
-        print sql
+        #rintsql
 
     def OnCancel(self, event):  # wxGlade: DlgSelectContact.<event_handler>
-        print "Event handler `OnCancel' not implemented!"
+        #rint"Event handler `OnCancel' not implemented!"
         self.Close()
     
     def KeyDown(self, evt):
-        print 'a'
+        #rint'a'
         event.Skip()
         
     def OnEnterText(self, event):  # wxGlade: DlgSelectContact.<event_handler>
         k = self.text_ctrl_name.GetValue().strip(' ')
-        print 'b', k
+        #rint'b', k
         event.Skip()
         self.updateList(self.testName(k))
     
@@ -244,10 +241,11 @@ class DlgSelectContact(wx.Dialog):
             for key in self.contacts: 
                 name = self.contacts[key]
                 if name:
+                    pass
                     #x=fuzz.token_set_ratio(k, name)
-                    print x
+                    #rintx
                     #if x>75: 
-                            #print fuzz.token_set_ratio(k, name), k,name
+                    ##rintfuzz.token_set_ratio(k, name), k,name
                     #    new_dict[key]=name
                 
             return(new_dict)

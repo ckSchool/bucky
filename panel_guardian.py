@@ -40,7 +40,7 @@ class guardian_data(wx.Panel):
         self.label_relationship  = wx.StaticText(self.panel_name, -1, "Relationship")
         self.choice_relationship = wx.Choice(self.panel_name,     -1, choices=[])
         self.label_faith         = wx.StaticText(self.panel_name, -1, "Faith")
-        self.choice_faith        = wx.Choice(self.panel_name,     -1, choices=["Buddhist", "Muslim", "Christian", "Hindu", "Other"])
+        self.choice_faith        = wx.Choice(self.panel_name,     -1, choices=[])
         
         self.panel_occupation    = wx.Panel(self.panel_top_right, -1)
         
@@ -184,7 +184,7 @@ class guardian_data(wx.Panel):
         self.editMode=False
      
     def displayData(self, student_id, guardian_id=0, guardian_type=''):
-        print 'Guardian displayData'
+        #rint'Guardian displayData'
         self.current_address=''
         self.guardian_type = guardian_type
         self.guardian_id   = guardian_id
@@ -210,7 +210,7 @@ class guardian_data(wx.Panel):
         sql = "SELECT * FROM OrangTua WHERE Kode = %d" % gid
         res = fetch.getOneDict(sql)
         if not res: return
-        #print res
+        ##rintres
         makeStr = self.makeStr
         Nama = res['NamaA']
         TgLahir = makeStr(res['TgLahirA'])
@@ -268,12 +268,12 @@ class guardian_data(wx.Panel):
         self.setData(Nama,TgLahir,Pekerjaan,PekerjaanLain,Alamat,HP,Telepon,Agama)
     
     def setData(self,Nama,TgLahir,Pekerjaan,PekerjaanLain,Alamat,HP,Telepon,Agama):
-        print Nama,TgLahir,Pekerjaan,PekerjaanLain,Alamat,HP,Telepon,Agama
+        #rintNama,TgLahir,Pekerjaan,PekerjaanLain,Alamat,HP,Telepon,Agama
         
         self.current_address=Alamat=Alamat.replace(",", "\n")
         
         self.text_ctrl_name.SetValue(str(Nama))
-        print 'TgLahir:',TgLahir
+        #rint'TgLahir:',TgLahir
 
         self.date_ctrl_dob.SetValue(TgLahir)
         #self.choice_occupation_main.SetValue(str(Pekerjaan))
@@ -310,7 +310,7 @@ class guardian_data(wx.Panel):
 
     def saveData(self):
         birth_date    = self.date_ctrl_dob.GetDbReadyValue()
-        print 'birth_date:',birth_date
+        #rint'birth_date:',birth_date
         name    = self.text_ctrl_name.GetValue()
         
         occupation    = self.choice_occupation_main.GetValue()
@@ -395,7 +395,7 @@ class guardian_data(wx.Panel):
     def OnEditDate(self, event):  #
         import OpenDlg
         dateObject = self.date_ctrl_dob.GetDbReadyValue()
-        print 'dateObject:',dateObject
+        #rint'dateObject:',dateObject
         OpenDlg.DatePicker(dateObject)
         event.Skip()
 

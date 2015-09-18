@@ -234,12 +234,12 @@ Where:
 
     --aslong
     -l
-        Print the encoded message blocks as long integers instead of base64
+        #rintthe encoded message blocks as long integers instead of base64
         encoded strings
 
     --help
     -h
-        Print this help message
+        #rintthis help message
 '''
 
     ciphermodule = 'AES'
@@ -247,8 +247,8 @@ Where:
 
     def usage(code, msg=None):
         if msg:
-            print msg
-        print usagemsg % {'program': sys.argv[0],
+            #rintmsg
+        #rintusagemsg % {'program': sys.argv[0],
                           'ciphermodule': ciphermodule}
         sys.exit(code)
 
@@ -273,23 +273,23 @@ Where:
     module = __import__('Crypto.Cipher.'+ciphermodule, None, None, ['new'])
 
     a = AllOrNothing(module)
-    print 'Original text:\n=========='
-    print __doc__
-    print '=========='
+    #rint'Original text:\n=========='
+    #rint__doc__
+    #rint'=========='
     msgblocks = a.digest(__doc__)
-    print 'message blocks:'
+    #rint'message blocks:'
     for i, blk in map(None, range(len(msgblocks)), msgblocks):
         # base64 adds a trailing newline
-        print '    %3d' % i,
+        #rint'    %3d' % i,
         if aslong:
-            print bytes_to_long(blk)
+            #rintbytes_to_long(blk)
         else:
-            print base64.encodestring(blk)[:-1]
+            #rintbase64.encodestring(blk)[:-1]
     #
     # get a new undigest-only object so there's no leakage
     b = AllOrNothing(module)
     text = b.undigest(msgblocks)
     if text == __doc__:
-        print 'They match!'
+        #rint'They match!'
     else:
-        print 'They differ!'
+        #rint'They differ!'

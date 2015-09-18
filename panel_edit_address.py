@@ -320,7 +320,8 @@ class panel_edit_address(wx.Panel):
 		loadCmb.restore_str(self.combo_country, kecamatan)
 		loadCmb.restore_str(self.combo_country, kelurahan)
 	except:
-	    print 'oh no'
+	    pass
+	    #rint'oh no'
 
     def loadCmbsUnderKecID(self, kecamatanID):
         loadCmb.restore(self.combo_kecamatan, kecamatanID)
@@ -376,7 +377,7 @@ class panel_edit_address(wx.Panel):
         self.enableCombos()
         
     def OnPostcode(self, evt):
-        print 'OnPostcode'
+        #rint'OnPostcode'
         if self.numCtrlActive:  return
         
         postcode = self.num_ctrl_postcode.GetValue()
@@ -668,14 +669,14 @@ class panel_edit_address(wx.Panel):
 	    return
 	
 	address =','.join((street,house,estate,block,road,kelurahan,kecamatan,kabupaten,postcode,province,country))
-        print gVar.table, gVar.column, address, gVar.guardian_id
+        #rintgVar.table, gVar.column, address, gVar.guardian_id
 	sql = "UPDATE %s \
                   SET %s= '%s' \
                 WHERE id = %d" %(gVar.table, gVar.column, address, gVar.guardian_id)
-        print sql
+        #rintsql
         fetch.updateDB(sql)
 	gVar.editedFlag = True
-	print 'set gVar.editedFlag to True'
+	#rint'set gVar.editedFlag to True'
 	self.GetTopLevelParent().goBack()
 	
 

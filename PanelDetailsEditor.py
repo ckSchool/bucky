@@ -1,7 +1,4 @@
-import wx, gVar
-
-import fetchodbc as fetch
-import loadCmbODBC as loadCmb
+import wx, gVar, fetch, loadCmb
 
 from datetime          import date
 
@@ -134,7 +131,7 @@ class PanelStudentEditor(wx.Panel):
         pass
     
     def OnNB_changePage(self, evt):
-        print 'OnNB_changePage'
+        #rint'OnNB_changePage'
         if self.editmode:
             evt.Veto()
         #rint 'OnNB_changePage ', x
@@ -281,7 +278,7 @@ class PanelStudentEditor(wx.Panel):
         loadCmb.blood(  self.choice_blood_group)
     
     def displayData(self, student_id):
-        print self.GetName(), "make student id open to class   student_id=", student_id
+        #rintself.GetName(), "make student id open to class   student_id=", student_id
         self.clearCtrls()
         
         self.student_id = student_id
@@ -435,7 +432,7 @@ class PanelStudentEditor(wx.Panel):
                 WHERE Kode = %d" % (name, dob, pob, faith,  blood_group,  gender,
                                     siblings_by_birth, siblings_by_marrige, siblings_by_adoption, birth_order, iprevious_school_id,
                                     self.student_id)
-        print sql
+        #rintsql
         #fetch.updateDB(sql)
         
     def addRegpanels(self):

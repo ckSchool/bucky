@@ -232,7 +232,7 @@ def construct_c(tuple):
     return DSAobj_c(key)
 
 if _fastmath:
-    #print "using C version of DSA"
+    ##rint"using C version of DSA"
     generate = generate_c
     construct = construct_c
     error = _fastmath.error

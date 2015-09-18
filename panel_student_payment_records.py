@@ -109,7 +109,7 @@ class panel_student_list(wx.Panel):
         
             
     def displayData(self):
-        print 'panel_student_payment_record_list : displayData'
+        #rint'panel_student_payment_record_list : displayData'
         
         paymentType_id, datefrom, dateto = self.getVars()
         
@@ -156,7 +156,7 @@ class panel_student_list(wx.Panel):
             sql = "%s AND pd.Item = %d" % (sql,  salesItem_id)
         
         res = fetch.DATA(sql)
-        #print sql, len(res)
+        ##rintsql, len(res)
         
         self.vList.SetItemMap(res)
         self.records = len(res)
@@ -215,24 +215,28 @@ class payment_details(wx.Panel):
         # get student id
         # open dlg
         
-        print 'pspr OnNew'
+        #rint'pspr OnNew'
         evt.Skip()
         
     def OnEdit(self, evt):
-        print 'pspr OnEdit'
+        #rint'pspr OnEdit'
         evt.Skip()
         
     def OnDelete(self, evt):
-        print 'pspr OnDelete'
+        evt.Skip()
+        #rint'pspr OnDelete'
         
     def OnSave(self, evt):
-        print 'pspr OnSave'
+        evt.Skip()
+        #rint'pspr OnSave'
         
     def OnCancel(self, evt):
-        print 'pspr OnCancel'
+        #rint'pspr OnCancel'
         evt.Skip()
         
-    def OnRefresh(self, evt):   print 'pspr OnRefresh'  
+    def OnRefresh(self, evt):
+        evt.Skip()
+        #rint'pspr OnRefresh'  
         
     def __layout(self):
         sizer_main            = wx.BoxSizer(wx.VERTICAL)
@@ -253,7 +257,8 @@ class payment_details(wx.Panel):
         self.SetSizer(sizer_main)
         
     def displayData(self):
-        print 'student payment records - student selected - display details'
+        pass
+        #rint'student payment records - student selected - display details'
         
         
       
@@ -291,7 +296,7 @@ class panel_student_payment_records(wx.Panel):
         pass
         
     def displayData(self):
-        print ' iiiiiiiiiiiiiiiiiiiii'
+        #rint' iiiiiiiiiiiiiiiiiiiii'
         self.panel_student_list.displayData()
     
 

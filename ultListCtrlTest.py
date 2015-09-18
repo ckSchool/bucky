@@ -19,32 +19,32 @@ class DataXfervalidator(wx.PyValidator):
         self.data = data
         self.key = key
         #self.TransferFromWindow()
-        #print "validating"
-        print data
-        print "VALIDATOR CLASS TRIGGRED"
-        #print key
+        ##rint"validating"
+        #rintdata
+        #rint"VALIDATOR CLASS TRIGGRED"
+        ##rintkey
         
     def Clone (self):
-        print "VAL CLONE TRIGGERED"
+        #rint"VAL CLONE TRIGGERED"
         return DataXfervalidator(self.data, self.key)
     
     def Validate(self):
-        print 'here we go'
+        #rint'here we go'
     
     
     def TransferToWindow(self):
-        print "TransferTO"
-        print data
+        #rint"TransferTO"
+        #rintdata
         textCtrl = self.GetWindow()
         textCtrl.SetValue(self.data.get(self.key, ""))
         return True
 
     def TransferFromWindow(self):
         textCtrl = self.GetWindow()
-        print "TransferFROM"
-        #print textCtrl
+        #rint"TransferFROM"
+        ##rinttextCtrl
         self.data[self.key] = textCtrl.GetValue()
-        print data
+        #rintdata
         return True
 
 class TestUltimateListCtrl(ULC.UltimateListCtrl):

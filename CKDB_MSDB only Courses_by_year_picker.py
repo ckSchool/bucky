@@ -141,11 +141,11 @@ class ItemsPickerDialog(wx.Dialog):
         dlg = DlgNewEditCourse.create(None)
         try:
             if dlg.ShowModal():
-                print 'Dlg Created New Course'
+                #rint'Dlg Created New Course'
                 source_list = self.PopulateSourceList()
                 self.item_picker.RepopulateSourceList(source_list)
             else:
-                print 'do nothing'
+                #rint'do nothing'
             
         finally:
             dlg.Destroy()

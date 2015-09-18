@@ -88,7 +88,7 @@ class MainFrame(wx.Frame):
         self.SetStatusText(gVar.msg)
 
     def loggedIn(self):
-        print 'logged in'
+        #rint'logged in'
         
         #self.EnableCloseButton(False)
         self.SetSize((1280,680))
@@ -106,21 +106,21 @@ class MainFrame(wx.Frame):
             self.panes[key].Hide()
     
     def goBack(self):
-        print 'gVar.editedFlag = ', gVar.editedFlag
+        #rint'gVar.editedFlag = ', gVar.editedFlag
         p = gVar.panelHistory.pop()
         
         p.Hide()
         last_panel_in_list = gVar.panelHistory[-1]
-        print 'goBack to ', last_panel_in_list.GetName()
+        #rint'goBack to ', last_panel_in_list.GetName()
         last_panel_in_list.Show()
         if gVar.editedFlag == True:
-            print 'gVar.editedFlag = True'
+            #rint'gVar.editedFlag = True'
             last_panel_in_list.displayData()
             gVar.editedFlag == False
         self.Layout()
     
     def goTo(self, to_panel):
-        print to_panel
+        #rintto_panel
         last_panel_in_list = gVar.panelHistory[-1]
         last_panel_in_list.Hide()
         
@@ -143,7 +143,7 @@ class MainFrame(wx.Frame):
         
         dlg = wx.MessageDialog(parent=None, message=msg, caption=caption, style=style)
         x = dlg.ShowModal()
-        print (x == wx.ID_NO)
+        #rint(x == wx.ID_NO)
         if x == wx.ID_NO:
             dlg.Destroy()
             evt.Destroy()
@@ -210,8 +210,8 @@ class panel_login(wx.Panel):
         x = m.hexdigest()
   
         sql = "SELECT * FROM users WHERE name ='%s' AND password='%s'" % (name, password)
-        print sql
-        print fetch.getAllDict(sql)
+        #rintsql
+        #rintfetch.getAllDict(sql)
         if fetch.getAllDict(sql): # change to check and set up user privilages
             
             # temp

@@ -232,10 +232,10 @@ def generate_c(bits, randfunc, progress_func = None):
     key = _fastmath.rsa_construct(n,e,d,p,q,u)
     obj = RSAobj_c(key)
 
-##    print p
-##    print q
-##    print number.size(p), number.size(q), number.size(q*p),
-##    print obj.size(), bits
+##    #rintp
+##    #rintq
+##    #rintnumber.size(p), number.size(q), number.size(q*p),
+##    #rintobj.size(), bits
     assert bits <= 1+obj.size(), "Generated key is too small"
     return obj
 
@@ -250,7 +250,7 @@ generate_py = generate
 construct_py = construct
 
 if _fastmath:
-    #print "using C version of RSA"
+    ##rint"using C version of RSA"
     generate = generate_c
     construct = construct_c
     error = _fastmath.error

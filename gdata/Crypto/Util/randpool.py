@@ -380,8 +380,8 @@ class KeyboardRandomPool (PersistentRandomPool):
             bits = N*8
         if bits == 0:
             return
-        print bits,'bits of entropy are now required.  Please type on the keyboard'
-        print 'until enough randomness has been accumulated.'
+        #rintbits,'bits of entropy are now required.  Please type on the keyboard'
+        #rint'until enough randomness has been accumulated.'
         kb = KeyboardEntry()
         s=''    # We'll save the characters typed and add them to the pool.
         hash = self._hash
@@ -396,26 +396,26 @@ class KeyboardRandomPool (PersistentRandomPool):
             self.add_event(s+hash.new(s).digest() )
         finally:
             kb.close()
-        print '\n\007 Enough.  Please wait a moment.\n'
+        #rint'\n\007 Enough.  Please wait a moment.\n'
         self.stir_n()   # wash the random pool.
         kb.close(4)
 
 if __name__ == '__main__':
     pool = RandomPool()
-    print 'random pool entropy', pool.entropy, 'bits'
+    #rint'random pool entropy', pool.entropy, 'bits'
     pool.add_event('something')
-    print `pool.get_bytes(100)`
+    #rint`pool.get_bytes(100)`
     import tempfile, os
     fname = tempfile.mktemp()
     pool = KeyboardRandomPool(filename=fname)
-    print 'keyboard random pool entropy', pool.entropy, 'bits'
+    #rint'keyboard random pool entropy', pool.entropy, 'bits'
     pool.randomize()
-    print 'keyboard random pool entropy', pool.entropy, 'bits'
+    #rint'keyboard random pool entropy', pool.entropy, 'bits'
     pool.randomize(128)
     pool.save()
     saved = open(fname, 'rb').read()
-    print 'saved', `saved`
-    print 'pool ', `pool._randpool.tostring()`
+    #rint'saved', `saved`
+    #rint'pool ', `pool._randpool.tostring()`
     newpool = PersistentRandomPool(fname)
-    print 'persistent random pool entropy', pool.entropy, 'bits'
+    #rint'persistent random pool entropy', pool.entropy, 'bits'
     os.remove(fname)

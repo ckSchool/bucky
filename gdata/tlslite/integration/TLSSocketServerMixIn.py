@@ -39,7 +39,7 @@ class TLSSocketServerMixIn:
                   tlsConnection.ignoreAbruptClose = True
                   return True
               except TLSError, error:
-                  print "Handshake failure:", str(error)
+                  #rint"Handshake failure:", str(error)
                   return False
 
         httpd = MyHTTPServer(('localhost', 443), SimpleHTTPRequestHandler)

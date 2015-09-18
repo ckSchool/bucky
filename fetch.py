@@ -3,7 +3,6 @@ import wx, gVar
 import re
 import pyodbc as MySQLdb
 import MySQLdb
-import socket
 
 from wx.lib.pubsub import setupkwargs
 from wx.lib.pubsub import pub
@@ -18,14 +17,9 @@ ALPHABET = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
 Printon = False
 # Printon = True #
 
-print (socket.gethostname())
-if socket.gethostname().find('sp-510')>=0:
-    Dell   = ('192.168.0.251', 'andrew', 'andrew123', 'chandrakusuma', 3306)
-    Vostro = ('localhost',     'root',   'passwordroot','ckdb', 3306)
-else:
-    Dell   = ('192.168.0.251', 'andrew', 'andrew123', 'chandrakusuma', 3306)
-    Vostro = ('localhost',     'root',   'andrewroot','ckdb', 3306)
-    
+Dell   = ('192.168.0.251', 'andrew', 'andrew123', 'chandrakusuma', 3306)
+Vostro = ('localhost',     'root',   'andrewroot','ckdb', 3306)
+
 useConnection =   Vostro # Dell #
 
 c=''
@@ -987,7 +981,6 @@ def get_all_student_ids_for_schedule_id(schedule_id):
     ##rint 'get_all_student_ids_for_schedule_id:', sql, getList(sql)
     return getList(sql)
 
-
 def excul_unallocated(schedule_id):
     school_id = get_school_id_for_schedule_id(schedule_id)
     print 'excul_unallocated > school_id', school_id
@@ -996,12 +989,10 @@ def excul_unallocated(schedule_id):
     else:
         l_lev = 8; u_lev = 11
         
-        
     allocated_students = get_all_student_ids_for_schedule_id(schedule_id)
-    print 'allocated_students', allocated_students
-    
+
     id_list = ', '.join(str(x) for x in allocated_students)
-    print 
+
     sql = "   SELECT s.id, s.name, f.name AS form_name \
                     FROM students s \
                     JOIN students_by_form sbf ON sbf.student_id = s.id\
@@ -1011,31 +1002,19 @@ def excul_unallocated(schedule_id):
                      AND FIND_IN_SET(s.id, '%s') = 0 " % (l_lev, u_lev,
                                                           gVar.schYr,
                                                           id_list)
-    print sql
-    return getAllDict(sql)
 
+    return getAllDict(sql)
 
 def excul_unallocatedDATA(schedule_id):
     school_id = get_school_id_for_schedule_id(schedule_id)
-    print 'excul_unallocatedDATA > school_id', school_id
     if school_id == 4 or school_id == 3:
         l_lev = 12; u_lev = 18
     else:
         l_lev = 8; u_lev = 11
         
-        
     allocated_students = get_all_student_ids_for_schedule_id(schedule_id)
     
     id_list = ', '.join(str(x) for x in allocated_students)
-    sql = "   SELECT s.id, s.name, f.name AS form_name \
-                    FROM students s \
-                    JOIN students_by_form sbf ON sbf.student_id = s.id\
-                    JOIN forms              f ON sbf.form_id    = f.id \
-                   WHERE f.level BETWEEN %d AND %d \
-                     AND f.schYr = %d \
-                     AND FIND_IN_SET(s.id, '%s') = 0 AND f.name ='6 SD C'" % (l_lev, u_lev,
-                                                          gVar.schYr,
-                                                          id_list)
     
     sql = "   SELECT s.id, s.name, f.name AS form_name \
                     FROM students s \
@@ -1047,7 +1026,6 @@ def excul_unallocatedDATA(schedule_id):
                                                           gVar.schYr,
                                                           id_list) # AND f.name ='6 SD C'
     
-    print sql, getDATA(sql)
     return getDATA(sql)
 
 
@@ -1076,13 +1054,13 @@ def excul_info(excul_id):
   
 def excul_groupDATA_forDaySchSemYr(dayNo, semester, sch_id):
     sql = " SELECT ex.id, ea.id AS subject_id, ea.name AS subject_name, e.id, st.name AS teacher_name \
-              FROM excuric ex \
+              FROM excul_groups   ex \
               JOIN excul_schedule es ON es.id = ex.exculset_id \
          LEFT JOIN excul_subjects ea ON ea.id = ex.subject_id \
-         LEFT JOIN staff            st ON st.id = ex.staff_id \
+         LEFT JOIN staff          st ON st.id = ex.staff_id \
              WHERE es.day = %d AND es.semester = %d AND es.schYr = %d AND es.school_id = %d " % (
                    dayNo, semester, gVar.schYr, sch_id)
-    #rintsql
+    print sql
     return  getDATA(sql)
 
 def excul_groupInfo(schedule_id):
@@ -1164,11 +1142,11 @@ def exculSchedule_forSchSemYr(school_id, semester, schYr):
 
     return getAllDict(sql)
 
-def subject_by_excuric(excul_id):
+def subject_by_excul_id(excul_id):
     sql = "SELECT s.name \
              FROM excul_subjects s \
-             JOIN excuric ex ON s.id = ex.subject_id \
-            WHERE ex.id = %d" % int(excul_id)
+             JOIN excul_groups eg ON s.id = eg.subject_id \
+            WHERE eg.id = %d" % int(excul_id)
     #rint sql
     return getStr(sql)
 
@@ -1531,28 +1509,7 @@ def gradesForAssignment(student_id, assignment_id):
               AND g.student_id = %d" % (int(assignment_id), int(student_id))
     return getOneDict(sql)
 
-def ck_ref_last():
-    sql = "SELECT MAX(ck_ref) FROM acc_invoices"
-    res = getList(sql)
-    schYr = str(gVar.schYr)
-    schYr = schYr[-2:]
-    if any(res):
-        ck_ref = res[0].split('-')
-        ck_ref_new = int(ck_ref[1]) + 1
-       
-        if ck_ref_new > 999:
-            ck_ref_new = str(ck_ref_new).zfill(5)
-        elif ck_ref_new > 99:
-            ck_ref_new = str(ck_ref_new).zfill(5)
-        elif ck_ref_new > 9:
-            ck_ref_new = str(ck_ref_new).zfill(5)
-        else:
-            ck_ref_new = str(ck_ref_new).zfill(5)
-        
-        ck_ref = 'CK'+schYr+'-'+str(ck_ref_new)
-    else:
-        ck_ref = 'CK'+schYr+'-00001'
-    return ck_ref
+
 
 # h -------------------------------
 

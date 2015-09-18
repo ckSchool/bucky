@@ -49,7 +49,7 @@ class DlgAddrItemEditor(wx.Dialog):
   
     def displayData(self, itemID, itemType, nextItem=''):
         if itemID:
-            print 'Dlg item editor > hasid'
+            #rint'Dlg item editor > hasid'
             itemName = fetch.addrItemName(itemID)
             txt = 'Editing %s : %s' % (itemType, itemName)
             self.SetTitle(txt)

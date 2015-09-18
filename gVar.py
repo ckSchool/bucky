@@ -37,7 +37,7 @@ address = ''
 gDate     = '17-10-2012'
 schYr     = 0
 regYr     = schYr + 1
-
+status    = ''
 monthNo   = 1
 dayNo     = 1
 semester  = 1

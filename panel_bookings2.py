@@ -69,7 +69,7 @@ class panel_bookings(wx.Panel):
         #grid.AppendRows(150)
 
         sql ="SELECT courses FROM courses_by_year WHERE schYr = %s" % gVar.schYr
-        #print sql
+        ##rintsql
         course_ids = fetch.getList(sql)
 
         sql ="SELECT course_level FROM courses_levels ORDER BY course_level"
@@ -98,7 +98,7 @@ class panel_bookings(wx.Panel):
         if new_year_courses:
             self.labelRowNew(row);
             grid.AppendRows(1); row += 1
-            #print row, 'B rows=', grid.GetNumberRows()    
+            ##rintrow, 'B rows=', grid.GetNumberRows()    
             for course in new_year_courses:
                 courseid = str(course['id'])
                 course_name = course['course_name']
@@ -109,7 +109,7 @@ class panel_bookings(wx.Panel):
                 grid.SetRowAttr(row, self.attrDetailsNew)
                 
                 grid.AppendRows(1); row += 1
-                print row, 'C rows=', grid.GetNumberRows()
+                #rintrow, 'C rows=', grid.GetNumberRows()
         return row
     
     
@@ -123,7 +123,7 @@ class panel_bookings(wx.Panel):
             self.labelRowKelas(row)
             
             grid.AppendRows(1); row += 1
-            print row, 'D rows=', grid.GetNumberRows()        
+            #rintrow, 'D rows=', grid.GetNumberRows()        
             tot_now, tot_out, tot_cont, tot_retake, sub_tot, tot_tot = (0, 0, 0, 0, 0, 0) 
             for myClass in classes:
                 KKode   = myClass['Kode']
@@ -152,7 +152,7 @@ class panel_bookings(wx.Panel):
                 grid.SetCellValue( row, 7, str(sub_tot))
                 
                 grid.AppendRows(1); row += 1
-                print row, 'E rows=', grid.GetNumberRows()
+                #rintrow, 'E rows=', grid.GetNumberRows()
             
             # display totals
             grid.SetRowAttr(row, self.attrTotalsKelas)
@@ -164,7 +164,7 @@ class panel_bookings(wx.Panel):
             grid.SetCellValue( row, 7, str(tot_tot))
             
             grid.AppendRows(1); row += 1
-            print row, 'F rows=', grid.GetNumberRows()
+            #rintrow, 'F rows=', grid.GetNumberRows()
         return row
     
     def displayDataForLowerLevelNextYearsCourses(self, level, row):
@@ -181,12 +181,12 @@ class panel_bookings(wx.Panel):
                  AND courses.course_level=%d" % (gVar.schYr, int(level))
         res = fetch.getAllDict(sql)
         
-        #print  sql, res
+        ##rint sql, res
 
         return res
     
     def labelRowKelas(self, row):
-        print 'labelRowKelas'
+        #rint'labelRowKelas'
         grid = self.grid
         idx=2
         yr = gVar.schYr-1
@@ -200,7 +200,7 @@ class panel_bookings(wx.Panel):
     def labelRowNew(self, row):
         txt ="COURSE %d" % gVar.schYr
         grid = self.grid
-        #print txt
+        ##rinttxt
         grid.SetCellValue(row,2, txt )
         grid.SetCellAlignment(row, 2, wx.ALIGN_RIGHT, wx.ALIGN_CENTRE);
         idx=7
@@ -251,11 +251,11 @@ class panel_bookings(wx.Panel):
 
     def OnCellLeftClick(self, evt):
         txt = "OnCellLeftClick: (%d,%d) %s\n" % (evt.GetRow(), evt.GetCol(), evt.GetPosition())
-        print txt
+        #rinttxt
         r,c = evt.GetRow(), evt.GetCol()
         val1 = self.grid.GetCellValue(r,0)
         val2 = self.grid.GetCellValue(r,1)
-        print val1, val2
+        #rintval1, val2
         evt.Skip()
 
     def OnCellLeftDClick(self, evt):
@@ -265,7 +265,7 @@ class panel_bookings(wx.Panel):
         
         if val1 =="Kelas":
             gVar.KKelas = val2
-            print 'gVar.KKelas ', gVar.KKelas, 'openPanel:rereg_list'
+            #rint'gVar.KKelas ', gVar.KKelas, 'openPanel:rereg_list'
 
             gVar.previousPanel = gVar.lastPanel
             gVar.lastPanel = self
@@ -273,7 +273,7 @@ class panel_bookings(wx.Panel):
             
             
         elif val1=="course":
-            print 'open course bookings -'
+            #rint'open course bookings -'
             self.GetTopLevelParent().openPanel('course_bookings','bookings_report')
             
         evt.Skip()

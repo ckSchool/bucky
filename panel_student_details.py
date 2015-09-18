@@ -36,7 +36,7 @@ class panel_student_details(wx.Panel):
         self.Layout()
         
     def displayData(self, student_id):
-        print 'panel_student_details.displayData', student_id
+        #rint'panel_student_details.displayData', student_id
         return
         self.panel_student_bio.displayData(student_id)
         self.contact_panels=[]
@@ -46,9 +46,9 @@ class panel_student_details(wx.Panel):
                      FROM students \
                     WHERE id = %d" % int(student_id)
             details = fetch.getOneDict(sql)
-            print sql, details
+            #rintsql, details
             if not details:
-                print 'no guardians'
+                #rint'no guardians'
                 return
             mother_id   = details['mother_id']
             father_id   = details['mother_id']
@@ -71,7 +71,7 @@ class panel_student_details(wx.Panel):
                 details = fetch.getOneDict(sql)
     
                 if details['name']:
-                    #print details['name']
+                    ##rintdetails['name']
                     p=self.OnAddGuardian(wx.Event)
                     p.head('MOTHER')
                     #p.labelHead.SetBackgroundColour((255, 200, 255))

@@ -137,16 +137,16 @@ class DlgInvoiceItem(wx.Dialog):
             fetch.msg('Not all fields complete')
         
     
-        print "values",  description, price, is_recurring, monthly, valid_from, valid_to, product_type
+        #rint"values",  description, price, is_recurring, monthly, valid_from, valid_to, product_type
         
         if fetch.is_unique_product(description):
             sql = "INSERT INTO acc_products \
                               (description, price, is_recurring, \
-                               recurring_monthly, valid_from, valid_to, type_id) \
+                               recurring_monthly, valid_from, valid_to, type) \
                         VALUES ('%s', %d, %d, %d, '%s', '%s', %d) " % (
                                 description, int(price), is_recurring,
                                 monthly, valid_from, valid_to, product_type)
-            print sql
+            #rintsql
             fetch.updateDB(sql)
         self.Close()
     

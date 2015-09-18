@@ -89,7 +89,7 @@ class panel_student_list(wx.Panel):
         return (paymentType_id, datefrom, dateto)
      
     def displayData(self):
-        print 'panel_registration_payment_records ---------displayData'
+        #rint'panel_registration_payment_records ---------displayData'
         paymentType_id, datefrom, dateto = self.getVars()
     
 
@@ -162,25 +162,28 @@ class payment_details(wx.Panel):
         self.SetSizer(sizer_main)
         
     def OnNew(self, evt):
-        print 'prpr OnNew'
+        #rint'prpr OnNew'
         evt.Skip()
         
     def OnEdit(self, evt):
-        print 'prpr OnEdit'
+        #rint'prpr OnEdit'
         evt.Skip()
         
     def OnDelete(self, evt):
-        print 'rppr OnDelete'
+        evt.Skip()
+        #rint'rppr OnDelete'
         
     def OnSave(self, evt):
-        print 'rppr OnSave'
+        evt.Skip()
+        #rint'rppr OnSave'
         
     def OnCancel(self, evt):
-        print 'prpr OnCancel'
+        #rint'prpr OnCancel'
         evt.Skip()
         
     def OnRefresh(self, evt):
-        print 'prpr OnRefresh'  
+        evt.Skip()
+        #rint'prpr OnRefresh'  
         
         
         

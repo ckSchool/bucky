@@ -13,7 +13,6 @@ from wx.lib.pubsub import setupkwargs
 from wx.lib.pubsub import pub
 
 import DlgEditStudentDetails
-import DlgNewStudent
 
 tab_selected   = 'white'
 tab_unselected = (240,245,250)
@@ -38,7 +37,6 @@ class panel_student_bio(wx.Panel):
         self.pane_fees        = panel_fees(self.panel_panels, -1)
         self.pane_contacts    = panel_guardian_details(self.panel_panels, -1)
         
-        self.button_new      = wx.Button(self, -1, "New")
         self.button_edit      = wx.Button(self, -1, "Edit")
 
         self.panes =[self.pane_biodata, self.pane_education,
@@ -54,8 +52,7 @@ class panel_student_bio(wx.Panel):
                     self.button_medical, self.button_contacts, self.button_fees]
         
         pub.subscribe(self.displayData, 'student.selected')
-        
-        self.Bind(wx.EVT_BUTTON, self.OnNew,     self.button_new)
+
         self.Bind(wx.EVT_BUTTON, self.OnEdit,     self.button_edit)
         
         self.Bind(wx.EVT_BUTTON, self.OnBio,      self.button_biodata)
@@ -89,7 +86,6 @@ class panel_student_bio(wx.Panel):
         sizer_panels = wx.BoxSizer(wx.VERTICAL)
         sizer_tabs   = wx.BoxSizer(wx.HORIZONTAL)
         sizer_main   = wx.BoxSizer(wx.VERTICAL)
-        sizer_main_horz   = wx.BoxSizer(wx.HORIZONTAL)
 
         for t in self.tabs:
             sizer_tabs.Add(t, 0, wx.RIGHT, 2)
@@ -105,11 +101,7 @@ class panel_student_bio(wx.Panel):
         sizer_main.Add(self.panel_tabs,   0, wx.LEFT | wx.RIGHT | wx.EXPAND, 10)
         sizer_main.Add(self.panel_panels, 1, wx.ALL | wx.EXPAND, 10)
         sizer_main.Add(line,              0, wx.ALL | wx.EXPAND, 10)
-        #sizer_main.Add(self.button_edit,  0, wx.ALL | wx.EXPAND, 10)
-        sizer_main.Add(sizer_main_horz,   0, wx.ALL | wx.EXPAND, 0)
-        sizer_main_horz.Add(self.button_new,  0, wx.ALL | wx.EXPAND, 10)
-        sizer_main_horz.Add(self.button_edit,  0, wx.ALL | wx.EXPAND, 10)
-        
+        sizer_main.Add(self.button_edit,  0, wx.ALL | wx.EXPAND, 10)
         self.SetSizer(sizer_main)
         
         self.Layout()
@@ -128,7 +120,7 @@ class panel_student_bio(wx.Panel):
             return
         else:
             for p in self.panes:
-                print p.GetName()
+                #rintp.GetName()
                 p.displayData(student_id)
         
     def setCmb(self, cmb, val):
@@ -144,10 +136,10 @@ class panel_student_bio(wx.Panel):
         for p in self.panes: p.disableCtrls()
  
     def OnEdit(self, evt):
-        print 'panel_student_bio >>>  OnEdit'
+        #rint'panel_student_bio >>>  OnEdit'
         
         pane_name = self.current_pane.GetName()
-        print 'current_pane  pane_name>',pane_name
+        #rint'current_pane  pane_name>',pane_name
         
         
         
@@ -157,45 +149,25 @@ class panel_student_bio(wx.Panel):
             if  pane_name== 'pane_contacts':
                 
                 tabname = self.pane_contacts.getCurrentTabname()
-                print 'pane_contacts shown only ', tabname
+                #rint'pane_contacts shown only ', tabname
                 dlg.onlyShow(tabname)
             dlg.displayData()
             dlg.showPane(pane_name)
             dlg.ShowModal()
             
         finally:
-            dlg.Destroy()
-            
-    def OnNew(self, evt):
-        print 'panel_student_bio >>>  OnNew'
-        
-        pane_name = self.current_pane.GetName()
-        print 'current_pane  pane_name >> ',pane_name
-        #pub.sendMessage("New_bio")
-        dlg = DlgEditStudentDetails.create(None)
-        
-        try:
-            if  pane_name== 'pane_contacts':
-                
-                tabname = self.pane_contacts.getCurrentTabname()
-                print 'pane_contacts shown only ', tabname
-                dlg.onlyShow(tabname)
-            dlg.NewData()
-            dlg.showPane(pane_name)
-            dlg.ShowModal()
-            
-        finally:
-            dlg.Destroy()
+            dlg.Destroy()   
         
 
     def OnSave(self, evt):
-        #print 'OnSave >>>>>',
-        #print self.current_pane.GetName()
+        ##rint'OnSave >>>>>',
+        ##rintself.current_pane.GetName()
         self.current_pane.Save()
         self.OnEdit(wx.Event)
         
     def Save(self):
-        print 'save -------------------'
+        pass
+        #rint'save -------------------'
 
     def OnBio(self, evt):
         self.current_pane = self.pane_biodata
@@ -210,7 +182,7 @@ class panel_student_bio(wx.Panel):
         self.showPane(self.current_pane, self.button_medical)
         
     def OnContacts(self, evt):
-        print 'OnContacts ..................'
+        #rint'OnContacts ..................'
         self.current_pane = self.pane_contacts
         self.showPane(self.current_pane, self.button_contacts)
         
@@ -219,7 +191,7 @@ class panel_student_bio(wx.Panel):
         self.showPane(self.current_pane, self.button_fees)
         
     def showPane(self, pane, btn):
-        #print 'showPane', self.editing
+        ##rint'showPane', self.editing
         
         self.current_pane = pane
         if self.editing: return

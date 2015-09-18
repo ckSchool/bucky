@@ -129,7 +129,7 @@ class SettingsUtil(object):
           private_key = private_key_file.read()
           private_key_file.close()
         except IOError:
-          print 'Unable to read private key from file'
+          #rint'Unable to read private key from file'
 
       if private_key is not None:
         if client.auth_token is None:
@@ -149,7 +149,7 @@ class SettingsUtil(object):
 
         auth_url = gdata.gauth.generate_auth_sub_url(
             'http://gauthmachine.appspot.com/authsub', scopes, True)
-        print 'with a private key, get ready for this URL', auth_url
+        #rint'with a private key, get ready for this URL', auth_url
 
       else:
         if client.auth_token is None:
@@ -170,11 +170,11 @@ class SettingsUtil(object):
           auth_url = gdata.gauth.generate_auth_sub_url(
               'http://gauthmachine.appspot.com/authsub', scopes)
 
-      print 'Visit the following URL in your browser to authorize this app:'
-      print str(auth_url)
-      print 'After agreeing to authorize the app, copy the token value from'
-      print ' the URL. Example: "www.google.com/?token=ab12" token value is'
-      print ' ab12'
+      #rint'Visit the following URL in your browser to authorize this app:'
+      #rintstr(auth_url)
+      #rint'After agreeing to authorize the app, copy the token value from'
+      #rint' the URL. Example: "www.google.com/?token=ab12" token value is'
+      #rint' ab12'
       token_value = raw_input('Please enter the token value: ')
       if private_key is not None:
         single_use_token = gdata.gauth.SecureAuthSubToken(
@@ -219,26 +219,26 @@ class SettingsUtil(object):
           private_key = private_key_file.read()
           private_key_file.close()
         except IOError:
-          print 'Unable to read private key from file'
+          #rint'Unable to read private key from file'
 
         request_token = client.get_oauth_token(
             scopes, 'http://gauthmachine.appspot.com/oauth', consumer_key,
             rsa_private_key=private_key)
       else:
-        print 'Invalid OAuth signature type'
+        #rint'Invalid OAuth signature type'
         return None
 
       # Authorize the request token in the browser.
-      print 'Visit the following URL in your browser to authorize this app:'
-      print str(request_token.generate_authorization_url())
-      print 'After agreeing to authorize the app, copy URL from the browser\'s'
-      print ' address bar.'
+      #rint'Visit the following URL in your browser to authorize this app:'
+      #rintstr(request_token.generate_authorization_url())
+      #rint'After agreeing to authorize the app, copy URL from the browser\'s'
+      #rint' address bar.'
       url = raw_input('Please enter the url: ')
       gdata.gauth.authorize_request_token(request_token, url)
       # Exchange for an access token.
       client.auth_token = client.get_access_token(request_token)
     else:
-      print 'Invalid authorization type.'
+      #rint'Invalid authorization type.'
       return None
     if client.auth_token:
       self.prefs['client_auth_token'] = gdata.gauth.token_to_blob(
@@ -265,5 +265,5 @@ def authorize_client(client, auth_type=None, service=None, source=None,
 def print_options():
   """Displays usage information, available command line params."""
   # TODO: fill in the usage description for authorizing the client.
-  print ''
+  #rint''
 

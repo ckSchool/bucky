@@ -35,7 +35,7 @@ class MyPrintout(wx.Printout):
         return (1, 2, 1, 2)
 
     def OnPrintPage(self, page):
-        print 'MyCanvas OnPrintPage'
+        #rint'MyCanvas OnPrintPage'
         dc = self.GetDC()
 
         #-------------------------------------------
@@ -89,12 +89,12 @@ class conv_number_to_words(int):
     
     def __init__(self, n):
         global NUMBER_IN_WORDS
-        print 'n', n
+        #rint'n', n
         n = int(n)
         #n = 95505896639631893 # int(raw_input("Please enter an integer:\n>> "))
         #expected='ninety-five quadrillion, five hundred and five trillion, eight hundred and ninety-six billion, six hundred and thirty-nine million, six hundred and thirty-one thousand, eight hundred and ninety-three'
         NUMBER_IN_WORDS = self.get_number_as_words(n).capitalize()
-        print 'get_number_as_words;', n,'    got;', NUMBER_IN_WORDS
+        #rint'get_number_as_words;', n,'    got;', NUMBER_IN_WORDS
         
     def subThousand(self, n):
         assert(isinstance(n,(int, long)))
@@ -288,7 +288,7 @@ class MyCanvas(wx.Panel):
         s = no_str.replace(',','')
         conv_number_to_words(int(s))
         number_in_words = NUMBER_IN_WORDS
-        print s, '  number_to_words', number_in_words
+        #rints, '  number_to_words', number_in_words
         return number_in_words
     
     def getWidth(self): # callback

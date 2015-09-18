@@ -856,7 +856,7 @@ class Query(object):
     self.alt = alt
     self.updated_min = updated_min
     self.updated_max = updated_max
-    self.pretty_print = pretty_print
+    self.pretty_#rint= pretty_print
     self.published_min = published_min
     self.published_max = published_max
     self.start_index = start_index

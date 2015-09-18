@@ -1,6 +1,4 @@
-import wx, gVar
-import fetchodbc as fetch
-import loadCmbODBC as loadCmb
+import wx, gVar, fetch, loadCmb
 import datetime
 
 from DateCtrl import DateCtrl
@@ -83,12 +81,12 @@ class PanelRegProcess(wx.Panel):
         self.clear_ctrls() 
 
     def clear_ctrls(self):
-        ##Print 'PanelRegProcess clear_ctrls'
+        ###rint'PanelRegProcess clear_ctrls'
         ctrl_list =  [self.datectrl_Admission_Fee, self.datectrl_Offer_Letter,
                       self.datectrl_Booking_Fee, self.datectrl_Observation]
         for ctrl in ctrl_list:
             invalidDate = wx.DateTime()
-            # #Print str(invalidDate)
+            # ##rintstr(invalidDate)
             ctrl.SetValue(invalidDate)
             
         self.text_ctrl_booking.SetValue('')
@@ -98,18 +96,18 @@ class PanelRegProcess(wx.Panel):
     def db_to_wxDateTime(self, d):
         try:
             x = fetch.convert_fromDBdate(d)
-            # #Print x
+            # ##rintx
             return x
         except:
             return None
 
-        ##Print d
+        ###rintd
         '''try:
             day=d.day 
             month=d.month-1 
             year=d.year 
             c = wx.DateTimeFromDMY(day=day, month=month, year=year)
-            #Print c
+            ##rintc
             return c
         except:
             pass'''
@@ -121,7 +119,7 @@ class PanelRegProcess(wx.Panel):
         self.clear_ctrls()
         if not student_id:  return
         student_details = fetch.registation_details(student_id)
-        ##Print student_details
+        ###rintstudent_details
         # booking
         self.setTxtCrl(self.datectrl_Booking_Fee, student_details['booking_date'])
         # observation  / assesment
@@ -168,7 +166,7 @@ class PanelRegProcess(wx.Panel):
         
         observation_note = self.text_ctrl_observation_note.GetValue()
        
-        ##Print booking_date, observation_date, offering_letter_date, admission_fee_date
+        ###rintbooking_date, observation_date, offering_letter_date, admission_fee_date
         a = " booking_date = '%s'"         % booking_date        
         b = " observation_date = '%s'"     % observation_date
         c = " offering_letter_date = '%s'" % offering_letter_date
@@ -176,11 +174,11 @@ class PanelRegProcess(wx.Panel):
         e = " admission_fee = %d"          % int(admission_fee)
         f = " booking_fee = %d"            % int(booking_fee)
         g = " observation_note = '%s'"     % observation_note
-        ##Print  ' a,b,c,d, student_id', a,b,c,d, student_id
+        ###rint ' a,b,c,d, student_id', a,b,c,d, student_id
         sql = "UPDATE students SET \
                       %s, %s, %s,%s, %s, %s, %s \
                 WHERE id = %d" % (
                       a,b,c,d,e,f,g,
                       student_id)
-        ##Print sql
+        ###rintsql
         fetch.updateDB(sql)

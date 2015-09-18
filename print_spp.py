@@ -7,7 +7,7 @@ import pyodbc
 
 import win32print
 printers = win32print.EnumPrinters(5)
-print 'printers', printers
+#rint'printers', printers
 
 invoice_date = {1:['NIS: 0123 ______ KELAS: VII A','No. Kwitansi: CK1516/666666'],
                 2:['Nama: Akbar Muhammad Amil Siregar ','Tanggal: 1 Januari 2015'],
@@ -29,7 +29,7 @@ def PrintSPP():
         data.append(['BUS bulan Juli','500000'])
         
         
-        print data
+        #rintdata
         
         new_data = []
         for val in data:
@@ -37,7 +37,7 @@ def PrintSPP():
                               str(val[0]),
                               str(val[1])
                               ])
-        print new_data
+        #rintnew_data
         
         #prt = printout.PrintTable(self.frame)
         prt = printout.PrintTable()
@@ -351,7 +351,7 @@ class MyFrame(wx.Frame):
         self.Bind(wx.EVT_BUTTON, self.OnPageSetup, btn)
         subbox.Add(btn, 1, wx.GROW | wx.ALL, 2)
 
-        btn = wx.Button(self, -1, "Print Preview")
+        btn = wx.Button(self, -1, "#rintPreview")
         self.Bind(wx.EVT_BUTTON, self.OnPrintPreview, btn)
         subbox.Add(btn, 1, wx.GROW | wx.ALL, 2)
 
@@ -400,7 +400,7 @@ class MyFrame(wx.Frame):
         # a reference to the one inside the PrintDialogData that will
         # be destroyed when the dialog is destroyed
         self.printData = wx.PrintData( dlg.GetPageSetupData().GetPrintData() )
-        print 'self.printData',self.printData
+        #rint'self.printData',self.printData
         dlg.Destroy()
         
  
@@ -416,7 +416,7 @@ class MyFrame(wx.Frame):
             #self.log.WriteText("Houston, we have a problem...\n")
             return
 
-        pfrm = wx.PreviewFrame(self.preview, self, "This is a print preview")
+        pfrm = wx.PreviewFrame(self.preview, self, "This is a #rintpreview")
 
         pfrm.Initialize()
         pfrm.SetPosition(self.GetPosition())
@@ -457,8 +457,8 @@ overview = """\
 <body>
 <h1>PrintFramework</h1>
 
-This is an overview of the classes and methods used to print documents.
-It also demonstrates how to do print previews and invoke the printer
+This is an overview of the classes and methods used to #rintdocuments.
+It also demonstrates how to do #rintpreviews and invoke the printer
 setup dialog.
 
 <p>Classes demonstrated here:<P>
@@ -473,13 +473,13 @@ setup dialog.
         printers and printer device contexts. This class is used to create a 
         wx.PrinterDC and a wx.PostScriptDC. It is also used as a data member of 
         wx.PrintDialogData and wx.PageSetupDialogData, as part of the mechanism for 
-        transferring data between the print dialogs and the application.<p><p>
+        transferring data between the #rintdialogs and the application.<p><p>
 
-    <li><b>wx.PrintDialog()</b> - This class represents the print and print setup 
+    <li><b>wx.PrintDialog()</b> - This class represents the #rintand #rintsetup 
         common dialogs. You may obtain a wx.PrinterDC device context from a 
-        successfully dismissed print dialog.<p><p>
+        successfully dismissed #rintdialog.<p><p>
         
-    <li><b>wx.PrintPreview()</b> - Objects of this class manage the print preview 
+    <li><b>wx.PrintPreview()</b> - Objects of this class manage the #rintpreview 
         process. The object is passed a wx.Printout object, and the wx.PrintPreview 
         object itself is passed to a wx.PreviewFrame object. Previewing is started by 
         initializing and showing the preview frame. Unlike wxPrinter.Print, flow of 

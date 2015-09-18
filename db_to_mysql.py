@@ -40,7 +40,7 @@ def moveSiswaPerKelas():
     
     sql = "SELECT KKelas, NoInduk FROM SiswaPerKelas WHERE TahunAjaran > 2013"
     res = getAllDict(sql)
-    print sql, res
+    #rintsql, res
     for row in res:
        
         form_id = row['KKelas']
@@ -50,7 +50,7 @@ def moveSiswaPerKelas():
         student_id = fetch.getDig(sql)
         
         sql = "INSERT INTO students_by_form (form_id, student_id) VALUES (%d, %d)" % (form_id, student_id)
-        print sql
+        #rintsql
         fetch.updateDB(sql)
 # moveSiswaPerKelas()
     
@@ -64,7 +64,7 @@ def moveStaff():
                     KJabatan, Pria \
                     FROM Staf " 
     res = getAllDict(sql)
-    print sql
+    #rintsql
     for row in res:
         
         ID = row['ID']
@@ -129,7 +129,7 @@ def moveStaff():
                             name, int(faith_id), join_date, NoInduk,
                             address, telp, hp, int(salary), pob, int(fulltime),
                             int(salary_type_id), int(deposit), int(division_id), int(position_id), gender )
-        print sql
+        #rintsql
         
         fetch.updateDB(sql)
         
@@ -158,7 +158,7 @@ def moveForms():
              FROM Kelas WHERE Kode >  0"
     res = getAllDict(sql)
      
-    print len(res) 
+    #rintlen(res) 
     for row in res:
         name      = row['Nama']
         level     = row['course_level']
@@ -169,7 +169,7 @@ def moveForms():
         KKelas = row['Kode']
         sql = "INSERT INTO forms (name, level, school_id, staff_id, schYr, KKelas) \
                VALUES ('%s', %d, %d, %d, %d, %d)" % (name, level, school_id, staff_id, schYr, KKelas)
-        print sql
+        #rintsql
         fetch.updateDB(sql)
 # moveForms()
 
@@ -227,7 +227,7 @@ def moveStudents():
         a = "%s, %d, %s," % ( NISN, int(CKID), NoInduk,)
         
         TgLahir = fetch.convertDate_fromAccess_toMYSQL(TgLahir)
-        print 'TgLahir', TgLahir
+        #rint'TgLahir', TgLahir
         b = "%s, %s, %s, %s," %  (Nama, Panggilan,  TgLahir, TempatLahir,)
         
         if   Pria =='N': Pria = 0
@@ -309,7 +309,7 @@ def moveStudents():
         
    
         
-        print sql
+        #rintsql
         fetch.updateDB(sql)
         
 # moveStudents()
@@ -319,16 +319,16 @@ def addColumns_toGuardians():
     res = fetch.getAllDict(sql)
     for row in res:
         COLUMN_NAME = row['COLUMN_NAME']
-        print COLUMN_NAME
+        #rintCOLUMN_NAME
         sql = "ALTER TABLE guardians ADD %s INT(4)" % COLUMN_NAME
-        print sql
+        #rintsql
         #fetch.c.execute(sql)
         #fetch.mySQLconn.commit()
         
 def move_fromWali_toGuardians():
     #sql = "SELECT COLUMN_NAME  FROM INFORMATION_SCHEMA.COLUMNS  WHERE table_name =  'wali'"
     #res = fetch.getAllDict(sql)
-    #print res
+    ##rintres
     sql = "TRUNCATE guardians"
     fetch.updateDB(sql)
     
@@ -337,7 +337,7 @@ def move_fromWali_toGuardians():
                   Pekerjaan,PekerjaanLain,Alamat,Wilayah,Telepon,HP FROM wali "
     res = fetch.getAllDict(sql)
     for row in res:
-        # print 'row', row
+        # #rint'row', row
         Kode        = row['Kode']
         Nama        = row['Nama']
         TempatLahir = row['TempatLahir']
@@ -356,7 +356,7 @@ def move_fromWali_toGuardians():
         if not TempatLahir : TempatLahir = ''
         
         if TgLahir:
-            print 'TgLahir'
+            #rint'TgLahir'
             #TgLahir = fetch.convertDate_fromAccess_toMYSQL(TgLahir)
         else:
             TgLahir = '0000-00-00'
@@ -380,19 +380,19 @@ def move_fromWali_toGuardians():
                             Kode, Nama, TempatLahir, TgLahir, Agama, Kewarganegaraan,
                             Pekerjaan, PekerjaanLain, Alamat,
                             Wilayah, Telepon, HP)
-        print sql
+        #rintsql
         inserted_id = fetch.updateDB(sql)
-        print inserted_id
+        #rintinserted_id
         
         sql = "UPDATE Wali SET new_id = %d WHERE Kode=%d" % (inserted_id, Kode)
-        print sql
+        #rintsql
         fetch.updateDB(sql)
 
  
 def move_fromOrangTua_toGuardians():
     #sql = "SELECT COLUMN_NAME  FROM INFORMATION_SCHEMA.COLUMNS  WHERE table_name =  'wali'"
     #res = fetch.getAllDict(sql)
-    #print res
+    ##rintres
     #sql = "TRUNCATE guardians"
     #fetch.updateDB(sql)
     
@@ -402,7 +402,7 @@ def move_fromOrangTua_toGuardians():
                   PekerjaanA,PekerjaanLainA,AlamatA,WilayahA,TeleponA,HPA FROM OrangTua "
     res = fetch.getAllDict(sql)
     for row in res:
-        # print 'row', row
+        # #rint'row', row
         Kode        = row['Kode']
         Nama        = row['NamaA']
         TempatLahir = row['TempatLahirA']
@@ -421,7 +421,7 @@ def move_fromOrangTua_toGuardians():
         if not TempatLahir : TempatLahir = ''
         
         if TgLahir:
-            print 'TgLahir'
+            #rint'TgLahir'
             #TgLahir = fetch.convertDate_fromAccess_toMYSQL(TgLahir)
         else:
             TgLahir = '0000-00-00'
@@ -445,12 +445,12 @@ def move_fromOrangTua_toGuardians():
                             Kode, Nama, TempatLahir, TgLahir, Agama, Kewarganegaraan,
                             Pekerjaan, PekerjaanLain, Alamat,
                             Wilayah, Telepon, HP)
-        print sql
+        #rintsql
         inserted_id = fetch.updateDB(sql)
-        print inserted_id
+        #rintinserted_id
         
         sql = "UPDATE OrangTua SET father_id = %d WHERE Kode=%d" % (inserted_id, Kode)
-        print sql
+        #rintsql
         fetch.updateDB(sql)
         
         
@@ -460,7 +460,7 @@ def move_fromOrangTua_toGuardians():
                   PekerjaanI, PekerjaanLainI, AlamatA, SamaDenganAyah, AlamatI, WilayahI, TeleponI, HPI FROM OrangTua "
     res = fetch.getAllDict(sql)
     for row in res:
-        # print 'row', row
+        # #rint'row', row
         Kode        = row['Kode']
         Nama        = row['NamaI']
         TempatLahir = row['TempatLahirI']
@@ -486,7 +486,7 @@ def move_fromOrangTua_toGuardians():
         if not TempatLahir : TempatLahir = ''
         
         if TgLahir:
-            print 'TgLahir'
+            #rint'TgLahir'
             #TgLahir = fetch.convertDate_fromAccess_toMYSQL(TgLahir)
         else:
             TgLahir = '0000-00-00'
@@ -510,14 +510,14 @@ def move_fromOrangTua_toGuardians():
                             Kode, Nama, TempatLahir, TgLahir, Agama, Kewarganegaraan,
                             Pekerjaan, PekerjaanLain, Alamat,
                             Wilayah, Telepon, HP)
-        print sql
+        #rintsql
         inserted_id = fetch.updateDB(sql)
-        print inserted_id
+        #rintinserted_id
         
         sql = "UPDATE OrangTua \
                   SET mother_id = %d \
                 WHERE Kode=%d" % (inserted_id, Kode)
-        print sql
+        #rintsql
         fetch.updateDB(sql)
         
 #move_fromWali_toGuardians()
@@ -531,17 +531,17 @@ def update_father_mother_guardian_id_into_students():
         sid = row['id']
         KOrangTua = row['KOrangTua']
         KWali     = row['KWali']
-        print 'Student:', sid, 'KOrangTua:', KOrangTua, ' KWali:', KWali
+        #rint'Student:', sid, 'KOrangTua:', KOrangTua, ' KWali:', KWali
         if KWali:
             sql = "SELECT new_id FROM Wali WHERE Kode = %d" % KWali
-            print sql
+            #rintsql
             new_id = fetch.getDig(sql)
             sql = "UPDATE students SET guardian_id = %d WHERE id =%d" % (new_id, sid)
             fetch.updateDB(sql)
             
         if KOrangTua:
             sql = "SELECT father_id, mother_id FROM OrangTua WHERE Kode = %d" % KOrangTua
-            print sql
+            #rintsql
             res = fetch.getOneDict(sql)
             father_id = res['father_id']
             mother_id = res['mother_id']
@@ -554,10 +554,10 @@ def update_father_mother_guardian_id_into_students():
 # update_father_mother_guardian_id_into_students()
 
 def prepDateForMysql(date):
-    print date
+    #rintdate
     if date:
         yr,m,d = date.split('-')
-        print yr, m, d
+        #rintyr, m, d
         
         
     else:
@@ -569,25 +569,25 @@ def fixDobStudent():
     for row in res:
         sid = row['id']
         dob = row['dob']
-        #print 'sid', sid, '   dob:',dob
+        ##rint'sid', sid, '   dob:',dob
         if not dob : dob ='0000-00-00'
         sql = "UPDATE students SET dob2 = '%s' WHERE id =%d"  % (dob, int(sid))
-        #print sql
+        ##rintsql
         try:
-            print fetch.updateDB(sql)
+            #rintfetch.updateDB(sql)
         except:
-            print 'failed', sql
+            #rint'failed', sql
     
 # fixDobStudent()
 def addColumnsToStudents():
     sql = "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE table_name =  'siswa'"
     res = fetch.getAllDict(sql)
-    print res[0]
+    #rintres[0]
     
     for row in res:
         COLUMN_NAME = row['COLUMN_NAME']
         sql = "ALTER TABLE students ADD %s INT(1)" % COLUMN_NAME
-        print sql
+        #rintsql
         fetch.c.execute(sql)
         fetch.mySQLconn.commit()
         
@@ -595,14 +595,14 @@ def addColumnsToStudents():
         
 def moveAddressItems():
     sql = "TRUNCATE address_items "
-    print sql
+    #rintsql
     fetch.c.execute(sql)
     fetch.mySQLconn.commit()
     
 
     sql = "SELECT id, itemName, itemType, nextItemID, postcode \
              FROM addressItems"
-    print sql
+    #rintsql
     cursor.execute(sql)
     res = cursor.fetchall()
     i = 0
@@ -612,7 +612,7 @@ def moveAddressItems():
                            (aiID, name, type, next_item_id, postcode) \
                     VALUES (%d, '%s','%s',%d,'%s')"  % (
                             iid, itemName, itemType, nextItemID, str(postcode))
-        print sql
+        #rintsql
         fetch.updateDB(sql)
         #i += 1
         #if i == 10: return
@@ -629,13 +629,13 @@ def updateAddressIDs():
         iid, aiID, nextItemID = row
         
         sql = "SELECT id FROM address_items WHERE aiID = %d" % nextItemID
-        #print sql
+        ##rintsql
         next_item_id = fetch.getDig(sql)
         
         sql = "UPDATE address_items \
                   SET next_item_id = %d \
                 WHERE id = %d" % (next_item_id, iid)
-        #print sql
+        ##rintsql
         fetch.updateDB(sql)
         #i+=1
         #if i >8 :return
@@ -646,16 +646,16 @@ def updateAddressIDs():
 def moveAccounts():
     sql = "TRUNCATE acc_accounts"
     fetch.updateDB(sql)
-    print 'moveAccounts'
+    #rint'moveAccounts'
     sql = "SELECT Kode, Nama, Saldo, Kunci FROM Perkiraan"
     res = getAllCol(sql)
-    print sql, res
+    #rintsql, res
     for row in res:
-        print 'row', row
+        #rint'row', row
         Kode, Nama, Saldo, Kunci = row
         sql = "INSERT INTO acc_accounts (code, name, balance, locked) \
               VALUES ('%s', '%s', %d, %d)" % (Kode, Nama, Saldo, Kunci)
-        print sql
+        #rintsql
         fetch.updateDB(sql)
 # moveAccounts()
         

@@ -304,7 +304,8 @@ class DlgEditAddress(wx.Dialog):
 		self.restore_str(self.combo_country, kecamatan)
 		self.restore_str(self.combo_country, kelurahan)
 	except:
-	    print 'oh no'
+            pass
+	    #rint'oh no'
         
     
     def loadCmbsUnderKecID(self, kecamatanID):
@@ -415,11 +416,11 @@ class DlgEditAddress(wx.Dialog):
         loadCmb.restore_str(self.combo_kelurahan,  'Sampali')
           
     def OnCountry(self, evt):
-        print 'OnCountry'
+        #rint'OnCountry'
         print
         countryID = self.cmbID(self.combo_country)
         if countryID:
-            print ' List provinces For Country'
+            #rint' List provinces For Country'
             provinceList        = fetch.provincesForCountryID(countryID)
             selectedProvinceID  = self.cmbID(self.combo_province)
             provinceID          = self.setComboItems(self.combo_province, provinceList)
@@ -434,14 +435,14 @@ class DlgEditAddress(wx.Dialog):
                 if provinceList:
                     kabupatenID = self.kabupatenForProvinces(provinceIDlist)
         else:
-            print 'No country load all provinces '
+            #rint'No country load all provinces '
             provinceList        = fetch.provincesForCountryID()
             selectedProvinceID  = self.cmbID(self.combo_province)
             provinceID          = self.setComboItems(self.combo_province, provinceList)
-            print ' List All Provinces'
+            #rint' List All Provinces'
 
     def kabupatenForProvinces(self, provinceIDlist):
-        print ' List All Kabupaten For All Provinces In Province List'
+        #rint' List All Kabupaten For All Provinces In Province List'
         kabupatenList   = fetch.kabupatenForProvinceList(provinceIDlist)
         if kabupatenList:# load combo_kabupaten up with kabupaten for provinceID
             return self.setComboItems(self.combo_kabupaten, kabupatenList)
@@ -449,28 +450,28 @@ class DlgEditAddress(wx.Dialog):
             return 0
     
     def OnProvince(self, event):
-        print 'OnProvince '
+        #rint'OnProvince '
         print
         selectedProvinceID = self.cmbID(self.combo_province)
         province           = fetch.cmbValue(self.combo_province)
         
         if selectedProvinceID:
-            print 'Selected province ', selectedProvinceID , ':', province
-            print 'work down'
+            #rint'Selected province ', selectedProvinceID , ':', province
+            #rint'work down'
             
-            print 'Get country for selected province (there should only be one)', selectedProvinceID
+            #rint'Get country for selected province (there should only be one)', selectedProvinceID
             countryList = fetch.countriesForProvinceID(selectedProvinceID)
-            print 'countryList ',countryList
+            #rint'countryList ',countryList
             if countryList:
                 selectedCountryID = self.cmbID(self.combo_country)
-                print ' this should select the country if there is one'
+                #rint' this should select the country if there is one'
                 self.setGen(selectedCountryID, countryList, self.combo_country)
             
             # work up ---------------------
-            print ' work up'
+            #rint' work up'
             kabupatenList       = fetch.kabupatenForProvinceID(selectedProvinceID)
             selectedKabupatenID = self.cmbID(self.combo_kabupaten)
-            print 'kabupatenList, ',kabupatenList , ',    SelectedKabupatenID', selectedKabupatenID
+            #rint'kabupatenList, ',kabupatenList , ',    SelectedKabupatenID', selectedKabupatenID
             if selectedKabupatenID in self.idList(kabupatenList):
                 return
             self.clearPostcodeCtrls((self.combo_kecamatan,
@@ -478,14 +479,15 @@ class DlgEditAddress(wx.Dialog):
                                      self.combo_kelurahan))
             #  kabupaten --------------------------
             if kabupatenList:
-                print 'Has kabupatenList'
+                #rint'Has kabupatenList'
                 kabupatenID = self.setComboItems(self.combo_kabupaten, kabupatenList)
                 if selectedKabupatenID != kabupatenID:
                     pass
                     # select kecamatan for all kabupaten in list
                     
         else:
-            print 'No province selected'
+            pass
+            #rint'No province selected'
             # if country :
             # select all kab for country
             # else:
@@ -497,12 +499,12 @@ class DlgEditAddress(wx.Dialog):
             
 
     def OnKab(self, event):
-        print 'OnKab  get cmbID(self.combo_kabupaten)'
-        print
+        #rint'OnKab  get cmbID(self.combo_kabupaten)'
+        pass
         selectedKabupatenID = self.cmbID(self.combo_kabupaten)
-        #print 'selectedKabupatenID =', selectedKabupatenID
+        ##rint'selectedKabupatenID =', selectedKabupatenID
         if not selectedKabupatenID:
-            #print 'selectedKabupatenID = None ?????', selectedKabupatenID 
+            ##rint'selectedKabupatenID = None ?????', selectedKabupatenID 
             return
         
         kabupaten           = fetch.cmbValue(self.combo_kabupaten)
@@ -522,7 +524,7 @@ class DlgEditAddress(wx.Dialog):
                 self.resetCmb(self.combo_kelurahan)
 
     def OnKec(self, event):
-        print 'OnKec'
+        #rint'OnKec'
         selectedKecamatanID = self.cmbID(self.combo_kecamatan)
         kecamatan           = fetch.cmbValue(self.combo_kecamatan)
         selectedKabupatenID = self.cmbID(self.combo_kabupaten)
@@ -546,7 +548,7 @@ class DlgEditAddress(wx.Dialog):
             self.setComboItems(self.combo_kelurahan, alist)
     
     def OnKel(self, event):
-        print 'OnKel'
+        #rint'OnKel'
         selectedKecamatanID = self.cmbID(self.combo_kecamatan)
         selectedKabupatenID = self.cmbID(self.combo_kabupaten)
         selectedProvinceID  = self.cmbID(self.combo_province)
@@ -562,7 +564,7 @@ class DlgEditAddress(wx.Dialog):
         self.countriesForProvince(provinceID, selectedProvinceID)
 
     def clearPostcodeCtrls(self, ctrls):
-        print 'clearPostcodeCtrls'
+        #rint'clearPostcodeCtrls'
         for cmb in ctrls:
             cmb.Freeze()
             cmb.Clear()
@@ -574,7 +576,7 @@ class DlgEditAddress(wx.Dialog):
         self.num_ctrl_postcode.Thaw()
         
     def setComboItems(self, cmb, itemsList):
-        print 'setComboItems'
+        #rint'setComboItems'
         selectedID = self.cmbID(cmb)
         cmb.Freeze()
         cmb.Clear()
@@ -591,19 +593,19 @@ class DlgEditAddress(wx.Dialog):
         return selectedID
     
     def restore(self, cmb, origional_id=0):
-        print 'restore id:', cmb.GetName()
+        #rint'restore id:', cmb.GetName()
         cmb.Freeze()
         try:
             if origional_id:
-                #print ' try to find origional_id', origional_id
-                #print 'cmb.GetCount()',cmb.GetCount()
+                ##rint' try to find origional_id', origional_id
+                ##rint'cmb.GetCount()',cmb.GetCount()
                 for y in range(cmb.GetCount()):
                     
                     cmb.Select(y) # select first item
                     itemId = self.cmbID(cmb)
-                    #print 'y=', y, 'itemId=', itemId
+                    ##rint'y=', y, 'itemId=', itemId
                     if itemId == origional_id:
-                        #print 'itemId == origional_id'
+                        ##rint'itemId == origional_id'
                         
                         cmb.Thaw()
                         return True
@@ -616,7 +618,7 @@ class DlgEditAddress(wx.Dialog):
         
     
     def postcodeForKecamatan(self, kecamatanID):
-        print 'postcodeForKecamatan'
+        #rint'postcodeForKecamatan'
         self.numCtrlActive = True
         try:     self.num_ctrl_postcode.SetValue(fetch.postcodeForKecID(kecamatanID))
         except:  self.num_ctrl_postcode.Clear()
@@ -630,7 +632,7 @@ class DlgEditAddress(wx.Dialog):
         return myl
 
     def countriesForProvince(self, setID, selectedID):
-        print 'countriesForProvince'
+        #rint'countriesForProvince'
         cmb = self.combo_country
         cmbID = self.cmbID(cmb)
         if selectedID: aList = fetch.countriesForProvinceID(selectedID)
@@ -638,7 +640,7 @@ class DlgEditAddress(wx.Dialog):
         return self.setGen(cmbID, aList, cmb)
         
     def provincesForKabupaten(self, setID, selectedID):
-        print 'provincesForKabupaten'
+        #rint'provincesForKabupaten'
         cmb = self.combo_province
         cmbID = self.cmbID(cmb)
         if selectedID: aList = fetch.provinceForKabupatenID(selectedKabupatenID)
@@ -646,7 +648,7 @@ class DlgEditAddress(wx.Dialog):
         return self.setGen(cmbID, aList, cmb)
     
     def kabupatenForKecamatan(self,  setID, selectedID):
-        print 'kabupatenForKecamatan'
+        #rint'kabupatenForKecamatan'
         cmb = self.combo_kabupaten
         cmbID = self.cmbID(cmb)
         if selectedID: aList = fetch.kabForKacID(selectedID)
@@ -654,7 +656,7 @@ class DlgEditAddress(wx.Dialog):
         return self.setGen(cmbID, aList, cmb)
     
     def kecForKel(self, kelID, selectedKelID):
-        print 'kecForKel'
+        #rint'kecForKel'
         cmb = self.combo_kecamatan
         cmbID = self.cmbID(cmb)
         if selectedID: aList = fetch.kecForKelID(selectedKelID)
@@ -662,21 +664,21 @@ class DlgEditAddress(wx.Dialog):
         return self.setGen(cmbID, aList, cmb)
     
     def bForA(self, AID, selectedID, cmb, call):
-        print 'bForA'
+        #rint'bForA'
         cmbID = self.cmbID(cmb)
         if selectedAID: aList = call(selecteID)
         else:           aList = call(AID)
         return self.setGen(cmbID, aList, cmb)
     
     def doForKabupaten(self, kecamatanID, selectedKecamatanID):
-        print 'doForKabupaten'
+        #rint'doForKabupaten'
         selectedKabupatenID = self.cmbID(self.combo_kabupaten)
         if kecamatanID: kabupatenList = fetch.provinceForKabupaten(selectedKecamatanID)
         else:           kabupatenList = fetch.proviceForKecamatan(selectedKecamatanID)
         return self.setGen(selectedKabupatenID, kabupatenList, self.combo_kabupaten)
             
     def upFillKel(self, kelurahanList):
-        print 'upFillKel'
+        #rint'upFillKel'
         self.setComboItems(self.combo_kelurahan, kelurahanList)
         """if kelurahanList:
             self.setComboItems(self.combo_kelurahan, kelurahanList)
@@ -687,15 +689,15 @@ class DlgEditAddress(wx.Dialog):
                 self.restore(self.combo_box_kel, kelurahanID)"""
 
     def setKecamatan(self, selectedKecamatanID, kecamatanList):
-        print 'setKecamatan'
+        #rint'setKecamatan'
         self.setGen(selectedKecamatanID, kecamatanList, self.combo_kecamatan)
         self.postcodeClear()
         return 0
 
     def setGen(self, selectedItemID, aList, cmb):
-        print 'set gen'
+        #rint'set gen'
         if aList:
-            print ' we have a list'
+            #rint' we have a list'
             r = aList[0]
             if len(r) != 2:
                 fetch.msg('list error')
@@ -704,15 +706,15 @@ class DlgEditAddress(wx.Dialog):
                 selectedItemID = self.setComboItems(cmb, aList)
                 
             elif len(aList)==1:
-                #print 'aList on one: ', aList
+                ##rint'aList on one: ', aList
                 selectedItemID =  int(aList[0][0])
-                #print 'selectedItem>ID>', selectedItemID, cmb, cmb.GetName()
+                ##rint'selectedItem>ID>', selectedItemID, cmb, cmb.GetName()
                 if selectedItemID:
                     self.restore(cmb, selectedItemID)
                     
             else:
                 self.clearPostcodeCtrls((cmb,))
-        #print 'setCmn return id', selectedItemID
+        ##rint'setCmn return id', selectedItemID
         return selectedItemID
    
     def postcodeClear(self):
@@ -763,28 +765,28 @@ class DlgEditAddress(wx.Dialog):
         sql = "UPDATE %s \
                   SET address = '%s' \
                 WHERE id =%d" %(table, address, self.guardian_id)
-        print sql
+        #rintsql
         fetch.updateDB(sql)
 
     def OnEdit(self, evt):
         self.Close()
         
     def cmbID(self, cmb):
-        print 'cmbID ', cmb.GetName()
+        #rint'cmbID ', cmb.GetName()
         index = cmb.GetSelection()
-        print 'index', index
+        #rint'index', index
         if index > 0:
-            print ' has index', index
-            #print 'CurrentSelection=', index
+            #rint' has index', index
+            ##rint'CurrentSelection=', index
             selected_id = cmb.GetClientData(index)
-            #print 'selected_id', selected_id
+            ##rint'selected_id', selected_id
         else:
             selected_id = 0
         return selected_id
         
         
     def edit(self, cmb1, cmb2, itemType):
-        print 'edit   type:',itemType
+        #rint'edit   type:',itemType
         
         nextItem = ''
         
@@ -797,7 +799,7 @@ class DlgEditAddress(wx.Dialog):
             else:
                 if cmb2:
                     next_item_id = self.cmbID(cmb2)
-                    print cmb2.GetName(), 'next_item_id', next_item_id
+                    #rintcmb2.GetName(), 'next_item_id', next_item_id
                     nextItem   = fetch.cmbValue(cmb2)
                     if not next_item_id:
                         fetch.msg('Please Select A Follow On Item')
@@ -835,7 +837,7 @@ class DlgEditAddress(wx.Dialog):
                                       (name, type) \
                                VALUES ('%s', '%s')" % (
                                        itemName, itemType)
-                    print sql
+                    #rintsql
                     fetch.updateDB(sql)
                       
         finally:    

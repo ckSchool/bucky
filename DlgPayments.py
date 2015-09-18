@@ -1,4 +1,4 @@
-import wx, gVar, sys, fetch, loadCmb, datetime, time
+import wx, gVar, sys, fetch, loadCmb
 
 import DlgProduct as DlgInvoiceItem
 import DlgSelectMonthsPeriod
@@ -17,8 +17,8 @@ NoInduk      = ''
 student_name = ''
 form_name    = ''
 invoice_items = {}
-#invoice_date  = 'xxxx-xx-xx'
-#ck_ref  = 'xxxx-xxxx'
+invoice_date  = 'xxxx-xx-xx'
+ck_ref  = 'xxxx-xxxx'
 
 totals_size = (200, -1)
 qnty_size   = ( 91, -1)
@@ -164,7 +164,7 @@ class panel_bus(wx.Panel):
         self.SetSizer(sizer_main)
 
     def displayData(self, student_id, product_id):
-        print 'panel bus fees: displayData'
+        #rint'panel bus fees: displayData'
         self.product_id = product_id
         self.monthly_bus_fee = fetch.bus_fee_monthly(student_id, gVar.schYr)
         lastMonthPaid = fetch.month_last_paid(student_id, gVar.schYr, 1)
@@ -207,7 +207,7 @@ class panel_bus(wx.Panel):
         self.bus_details_changed()
         
     def bus_details_changed(self):
-        print 'bus_details_changed'
+        #rint'bus_details_changed'
         self.month_from = fetch.cmbID(self.choice_bus_from)
         self.month_to   = fetch.cmbID(self.choice_bus_to)
         self.months       = self.month_to - self.month_from + 1
@@ -236,7 +236,7 @@ class panel_bus(wx.Panel):
                 self.month_from,
                 self.month_to
                 )
-        print 'bus_data ', bus_data
+        #rint'bus_data ', bus_data
         return bus_data
 
 
@@ -249,10 +249,10 @@ class panel_fees(wx.Panel):
         self.monthly_fee  = 0
         
         self.button_remove          = wx.Button(self, -1, '-')
-        self.text_ctrl_months       = NumCtrl(self, -1, value=1)
+        self.text_ctrl_months       = masked.NumCtrl(self, -1, value=1)
         self.text_ctrl_description  = wx.TextCtrl(self, -1)
-        self.text_ctrl_fee          = NumCtrl(self, -1, style = wx.ALIGN_RIGHT)
-        self.text_ctrl_total_fees   = NumCtrl(self, -1, value=0)
+        self.text_ctrl_fee          = masked.NumCtrl(self, -1, style = wx.ALIGN_RIGHT)
+        self.text_ctrl_total_fees   = masked.NumCtrl(self, -1, value=0)
         
         self.Bind(wx.EVT_TEXT,     self.OnMonthsChange, self.text_ctrl_months)
         self.Bind(wx.EVT_BUTTON, self.OnRemove,       self.button_remove)
@@ -292,9 +292,9 @@ class panel_fees(wx.Panel):
           
         
     def displayData(self, student_id, product_id):
-        print '-------------------fees ---------displayData-----------'
+        #rint'-------------------fees ---------displayData-----------'
         self.month_from = 1
-        print 'self.monthFrom', self.month_from
+        #rint'self.monthFrom', self.month_from
         
         
         self.product_id  = product_id
@@ -305,7 +305,7 @@ class panel_fees(wx.Panel):
         lastMonthPaid    = fetch.month_last_paid(student_id, gVar.schYr, 1)
         
         if lastMonthPaid:
-            print ' xxxxxxxxxxxxxx '
+            #rint' xxxxxxxxxxxxxx '
             self.month_from = lastMonthPaid + 1
         else:
             self.month_from = 1
@@ -378,7 +378,7 @@ class panel_fees(wx.Panel):
                 self.month_from,
                 self.month_to
                 )
-        print 'fee data', fee_data
+        #rint'fee data', fee_data
         return fee_data
  
 class panel_item(wx.Panel):
@@ -466,7 +466,7 @@ class panel_item(wx.Panel):
                 0,
                 0
                 )
-        print 'item_data ', item_data
+        #rint'item_data ', item_data
         return item_data
     
         
@@ -586,20 +586,17 @@ class DlgPayments(wx.Dialog):
         sql = "TRUNCATE acc_invoice_items"
         fetch.updateDB(sql)"""
         
-        global student_id, NoInduk, student_name, form_name, invoice_date, ck_ref, inv_date
         
-        ck_ref = fetch.ck_ref_last()
         
-        student_id    = sid
-        gVar.user_id  = 1234
-        NoInduk       = fetch.NoInduk(student_id, gVar.schYr)
-        student_name  = fetch.studentFullName(student_id)
-        form_name     = fetch.formName(fetch.formID_forStudent(sid))
-        invoice_date  = str(datetime.date.today().strftime("%d %B %Y"))
+        global student_id, NoInduk, student_name, form_name
+        student_id = sid
+        gVar.user_id = 1234
+        NoInduk      = fetch.NoInduk(student_id, gVar.schYr)
+        student_name = fetch.studentFullName(student_id)
+        form_name    = fetch.formName(fetch.formID_forStudent(sid))
         
-        self.ck_ref       = ck_ref
-        self.inv_date     = str(datetime.date.today().strftime("%Y-%m-%d")) #'2015-12-1'
-        print self.inv_date
+        self.ck_ref       = 'xxxx-xxx'
+        self.inv_date     = '2015-12-1'
         self.grand_total  = 0
         
         self.panel_header.display_header()
@@ -620,7 +617,7 @@ class DlgPayments(wx.Dialog):
     def displayInvDetails(self, invoice_id):
         sql = "SELECT id, date, ck_ref, student_id, amount, schYr FROM acc_invoices WHERE id = %d" % invoice_id
         res = fetch.getOneDict(sql)
-        print sql, res
+        #rintsql, res
         if not res: return
         
         invoice_date = res["date"]
@@ -637,7 +634,7 @@ class DlgPayments(wx.Dialog):
                  FROM acc_invoice_items \
                 WHERE invoice_id=%d" % invoice_id
         
-        print sql
+        #rintsql
         
         mylist = fetch.getAllDict(sql)
         return
@@ -678,7 +675,7 @@ class DlgPayments(wx.Dialog):
         sql = "SELECT SUM(total_amount) \
                  FROM acc_invoice_items  \
                 WHERE invoice_id = %d" % invoice_id 
-        print sql
+        #rintsql
         self.num_ctrl_details_total.SetValue(fetch.getDig(sql))
         
     def OnSave(self, evt):
@@ -692,18 +689,19 @@ class DlgPayments(wx.Dialog):
         try:
             dlg.displayPreview(data)
             if dlg.ShowModal():
-                print 'ok'
+                #rint'ok'
                 self.post_invoice()
                 self.Close()
             else:
-                print 'not ok'
+                pass
+                #rint'not ok'
         finally:
-            print 'finally'
+            #rint'finally'
             dlg.Destroy()
         # if print
         
     def post_invoice(self):
-        print 'post invoice'
+        #rint'post invoice'
         
         if not self.widget_dict:
             fetch.msg('Can not save - there are not items to record')
@@ -714,8 +712,8 @@ class DlgPayments(wx.Dialog):
         sql = "INSERT INTO acc_invoices (date, ck_ref, amount, student_id, schYr, staff_id) \
                VALUES ('%s', '%s', %d, %d, %d, %d)" % (
                         self.inv_date, self.ck_ref, self.grand_total, student_id, gVar.schYr, gVar.user_id)
-        print 'fetch.updateDB(sql)', fetch.updateDB(sql)
-        print sql
+        #rint'fetch.updateDB(sql)', fetch.updateDB(sql)
+        
         for key in self.widget_dict:
             product_id = key,
             p = self.widget_dict[key]
@@ -735,11 +733,11 @@ class DlgPayments(wx.Dialog):
                                     description, qnty,
                                     unit_price, total_amount,
                                     month_from, month_to)
-                print ' bus or fee ', (
-                                    invoice_id, product_id, 
-                                    description, qnty,
-                                    unit_price, total_amount,
-                                    month_from, month_to), sql
+                                    #rint' bus or fee ', (
+                                    #invoice_id, product_id, 
+                                    #description, qnty,
+                                    #unit_price, total_amount,
+                                    #month_from, month_to), sql
          
             else:
                 sql = "INSERT INTO acc_invoice_items (\
@@ -749,7 +747,7 @@ class DlgPayments(wx.Dialog):
                                     %d, %d,  %d)" % (
                                     invoice_id, product_id, description,
                                     qnty, unit_price, total_amount)
-                print 'item ', sql
+                #rint'item ', sql
                 
             fetch.updateDB(sql)
             
@@ -778,7 +776,7 @@ class DlgPayments(wx.Dialog):
          
     def OnAdd(self, evt):
         product_id = fetch.cmbID(self.choice_products)
-        print 'OnAdd    product_id.GetSelection():', product_id
+        #rint'OnAdd    product_id.GetSelection():', product_id
         
         if product_id in self.product_id_list:   return
         product_type_id = fetch.get_product_type_id(product_id)
@@ -816,7 +814,8 @@ class DlgPayments(wx.Dialog):
         return p
         
     def fees_details_changed(self):
-        print 'fees_details_changed'
+        pass
+        #rint'fees_details_changed'
 
     def OnNewProduct(self, evt):
         dlg = DlgInvoiceItem.create(None)

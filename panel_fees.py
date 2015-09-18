@@ -35,4 +35,4 @@ class panel_fees(wx.Panel):
         pass
     
     def Save(self):
-        print 'save fees'
+        #rint'save fees'

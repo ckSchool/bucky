@@ -241,8 +241,8 @@ class panel_edit_postcode(wx.Panel):
 		if self.restore_str: # update an edited item
 		    if itemName and itemName != self.restore_str:
 			# test to make sure name is unique
-			print 'save ', itemName
-			print 'next item id ='
+			#rint'save ', itemName
+			#rint'next item id ='
 			cmb1.SetValue(itemName)
 		    else: # insert a new item
 			sql = "INSERT INTO addressItems (itemName, itemType, nextItemID) \
@@ -387,12 +387,12 @@ class panel_edit_postcode(wx.Panel):
 	cmb.Insert('-new-', 0)
         cmb.Thaw()
         selected = loadCmb.restore_str(cmb, selected)
-	print ' restored item',selected 
+	#rint' restored item',selected 
 	if not selected:
-	    print ' nothing selected'
+	    #rint' nothing selected'
 	    if len(items)==1:
 		selected = items[0]
-		print 'only one in the list', selected
+		#rint'only one in the list', selected
 		loadCmb.restore_str(cmb, selected)
         return selected
     
@@ -450,7 +450,7 @@ class panel_edit_postcode(wx.Panel):
 	self.loadKelurahanProvince(province)
 
     def loadKelurahanProvince(self, province):
-	print 'loadKelurahanProvince'
+	#rint'loadKelurahanProvince'
 	selectedKelurahan = fetch.cmbValue(self.combo_kelurahan)
 	kelurahanList     = fetch.kelurahanForProvince(province)	    
 	if kelurahanList:
@@ -461,7 +461,7 @@ class panel_edit_postcode(wx.Panel):
 		loadCmb.restore_str(self.combo_box_kel, kelurahan)
 
     def loadCmbsUnderKab(self, kabupaten):
-        print 'loadCmbsUnderKab',kabupaten
+        #rint'loadCmbsUnderKab',kabupaten
 	
 	# step 1: work down -------------------------------
         provinceList = fetch.provinceForKabupaten(kabupaten)
@@ -487,7 +487,7 @@ class panel_edit_postcode(wx.Panel):
 
     def loadCmbsUnderKec(self, kecamatan):
         self.postcodeForKecamatan(kecamatan)
-	print 'loadCmbsUnderKec', kecamatan
+	#rint'loadCmbsUnderKec', kecamatan
         
 	# step 1: working down -------------------------------
         
@@ -510,7 +510,7 @@ class panel_edit_postcode(wx.Panel):
         self.upFillKel(kelurahanList)
         
     def loadCmbsUnderKel(self, kelurahan):
-	print 'loadCmbsUnderKel'
+	#rint'loadCmbsUnderKel'
 	
         selectedKecamatan = fetch.cmbValue(self.combo_kecamatan)
         if selectedKecamatan:    return
@@ -540,7 +540,7 @@ class panel_edit_postcode(wx.Panel):
 	    elif len(kelurahanList) == 1:          loadCmb.restore_str(self.combo_box_kel, kelurahanList[0])
 
     def setKecamatan(self, selectedKecamatan, kecamatanList):
-	print 'setKecamatan'
+	#rint'setKecamatan'
 	self.SetGen(selectedKecamatan, kecamatanList, self.combo_kecamatan)
 	if kecamatanList:
 	    return self.SetGen(selectedKecamatan, kecamatanList, self.combo_kecamatan)
@@ -580,7 +580,7 @@ class panel_edit_postcode(wx.Panel):
 	       VALUES (?, ?, ?, ?) \
 		WHERE postcode =%d" % post
 	data = [kal, kec, kab, prov]
-	print 'updatePostcode' , sql, data; return
+	#rint'updatePostcode' , sql, data; return
 	fetch.updateDB_data(sql, data)
     
     def insertPostcode(self, post, kal, kec, kab, prov): 
@@ -588,7 +588,7 @@ class panel_edit_postcode(wx.Panel):
 		      (kelurahan, kecamatan, kabupaten, province, postcode) \
 	       VALUES (?, ?, ?, ?, ?)"
 	data =  [kal, kec, kab, prov, post]
-	print 'insertPostcode ', sql, data; return
+	#rint'insertPostcode ', sql, data; return
 	fetch.updateDB_data(sql, data)
 
     def OnEdit(self, evt):

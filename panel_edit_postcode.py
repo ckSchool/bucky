@@ -254,8 +254,8 @@ class panel_edit_postcode(wx.Panel):
 		
 		if itemName and itemName != self.restore_str:
 		    # test to make sure name is unique
-		    print 'save ', itemName
-		    print 'next item id ='
+		    #rint'save ', itemName
+		    #rint'next item id ='
 		    cmb1.SetValue(itemName)
 		    
 	finally:    
@@ -278,7 +278,7 @@ class panel_edit_postcode(wx.Panel):
     
     def EditCountry(self, evt):
 	#self.restore_str = fetch.cmbValue(self.combo_country)
-	#print ' EditCountry ', self.restore_str
+	##rint' EditCountry ', self.restore_str
 	self.edit(self.combo_country, None)
     
     def OnCancelKelurahan(self, evt):
@@ -403,12 +403,12 @@ class panel_edit_postcode(wx.Panel):
 	cmb.Insert('-new-', 0)
         cmb.Thaw()
         selected = loadCmb.restore_str(cmb, selected)
-	print ' restored item',selected 
+	#rint' restored item',selected 
 	if not selected:
-	    print ' nothing selected'
+	    #rint' nothing selected'
 	    if len(items)==1:
 		selected = items[0]
-		print 'only one in the list', selected
+		#rint'only one in the list', selected
 		loadCmb.restore_str(cmb, selected)
         return selected
     
@@ -468,7 +468,7 @@ class panel_edit_postcode(wx.Panel):
 
     def loadKelurahanProvince(self, province):
 	#self.postcodeClear()
-	print 'loadKelurahanProvince'
+	#rint'loadKelurahanProvince'
 	selectedKelurahan = fetch.cmbValue(self.combo_kelurahan)
 	kelurahanList     = fetch.kelurahanForProvince(province)	    
 	if kelurahanList:
@@ -479,7 +479,7 @@ class panel_edit_postcode(wx.Panel):
 
     def loadCmbsUnderKab(self, kabupaten):
         #self.postcodeClear()
-        print 'loadCmbsUnderKab',kabupaten
+        #rint'loadCmbsUnderKab',kabupaten
 	
 	# step 1: work down -------------------------------
         provinceList = fetch.provinceForKabupaten(kabupaten)
@@ -507,7 +507,7 @@ class panel_edit_postcode(wx.Panel):
     def loadCmbsUnderKec(self, kecamatan):
         #self.postcodeClear()
         self.postcodeForKecamatan(kecamatan)
-	print 'loadCmbsUnderKec', kecamatan
+	#rint'loadCmbsUnderKec', kecamatan
         
 	# step 1: working down -------------------------------
         
@@ -535,14 +535,14 @@ class panel_edit_postcode(wx.Panel):
         
     def loadCmbsUnderKel(self, kelurahan):
         #self.postcodeClear()
-	print 'loadCmbsUnderKel'
+	#rint'loadCmbsUnderKel'
 	
         selectedKecamatan = fetch.cmbValue(self.combo_kecamatan)
         if selectedKecamatan:    return
 
         # kecamatan -----------------------------
         kecamatanList     = fetch.kecamatanForKelurahan(kelurahan)
-	print kelurahan, ' kelurahan > kecamatan', kecamatanList
+	#rintkelurahan, ' kelurahan > kecamatan', kecamatanList
         selectedKecamatan = self.setKecamatan(selectedKecamatan, kecamatanList) 
 
         # kabupaten ------------------------------
@@ -574,7 +574,7 @@ class panel_edit_postcode(wx.Panel):
 		
 		
     def setKelurahan(self, selectedKelurahan, kelurahanList):
-	print 'setKelurahan'
+	#rint'setKelurahan'
 	if kelurahanList:
 	    if len(kecamatanList) == 1:
 		kelurahan = kelurahanList[0]
@@ -587,7 +587,7 @@ class panel_edit_postcode(wx.Panel):
 	    return ''
 
     def setKecamatan(self, selectedKecamatan, kecamatanList):
-	print 'setKecamatan'
+	#rint'setKecamatan'
 	if kecamatanList:
 	    if len(kecamatanList) == 1:
 		kecamatan = kecamatanList[0]
@@ -595,17 +595,17 @@ class panel_edit_postcode(wx.Panel):
 	    else:
 		kecamatan = self.setComboItems(self.combo_kecamatan, kecamatanList)
 	     
-	    print ' set postcode for ', kecamatan
+	    #rint' set postcode for ', kecamatan
 	    self.postcodeForKecamatan(kecamatan)
 	    return kecamatan
 
 	else:
-	    print 'postcodeClear'
+	    #rint'postcodeClear'
 	    self.postcodeClear()
 	    return ''
     
     def setKabupaten(self, selectedKabupaten, kabupatenList):
-	print 'setKabupaten'
+	#rint'setKabupaten'
 	if kabupatenList:
 	    if len(kabupatenList)>1:
 		selectedKabupaten = self.setComboItems(self.combo_kabupaten, kabupatenList)
@@ -618,7 +618,7 @@ class panel_edit_postcode(wx.Panel):
 	return selectedKabupaten
     
     def setProvinces(self, selectedProvince, provinceList):
-	print 'setProvinces'
+	#rint'setProvinces'
 	if provinceList:
 	    if len(provinceList)>1:
 		selectedProvince = self.setComboItems(self.combo_province, provinceList)
@@ -656,7 +656,7 @@ class panel_edit_postcode(wx.Panel):
 	       VALUES (?, ?, ?, ?) \
 		WHERE postcode =%d" % post
 	data = [kal, kec, kab, prov]
-	print 'updatePostcode' , sql, data; return
+	#rint'updatePostcode' , sql, data; return
 	fetch.updateDB_data(sql, data)
     
     def insertPostcode(self, post, kal, kec, kab, prov): 
@@ -664,7 +664,7 @@ class panel_edit_postcode(wx.Panel):
 		      (kelurahan, kecamatan, kabupaten, province, postcode) \
 	       VALUES (?, ?, ?, ?, ?)"
 	data =  [kal, kec, kab, prov, post]
-	print 'insertPostcode ', sql, data; return
+	#rint'insertPostcode ', sql, data; return
 	fetch.updateDB_data(sql, data)
 
     def OnEdit(self, evt):

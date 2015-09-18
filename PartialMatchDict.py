@@ -79,35 +79,35 @@ class PartialMatchDict(dict):
 # If we run the file from the command prompt, do some tests.
 if __name__ == '__main__':
     testdict = PartialMatchDict()
-    print "** Assigning testdict['Primary'] = 1"
+    #rint"** Assigning testdict['Primary'] = 1"
     testdict['Primary'] = 1
-    print "** Assigning testdict['Secondary'] = 2"
+    #rint"** Assigning testdict['Secondary'] = 2"
     testdict['Secondary'] = 2
-    print "** Assigning testdict['Tertiary'] = 3"
+    #rint"** Assigning testdict['Tertiary'] = 3"
     testdict['Tertiary'] = 3
-    print "** Assigning testdict['thirtieth'] = 30"
+    #rint"** Assigning testdict['thirtieth'] = 30"
     testdict['thirtieth'] = 30
 
     # Make sure we find what we expect.
-    print "testdict['Primary'] == ", testdict['Primary']
-    print "testdict['primary'] == ", testdict['primary']
-    print "testdict['secondary'] == ", testdict['secondary']
-    print "testdict['tertiary'] == ", testdict['tertiary']
-    print "testdict['tert'] == ", testdict['tert']
-    print "testdict['thirtieth'] == ", testdict['thirtieth']
-    print "testdict['thirt'] == ", testdict['thirt']
-    print "testdict['th'] == ", testdict['th']
-    print "** Assigning testdict['th'] = None"
+    #rint"testdict['Primary'] == ", testdict['Primary']
+    #rint"testdict['primary'] == ", testdict['primary']
+    #rint"testdict['secondary'] == ", testdict['secondary']
+    #rint"testdict['tertiary'] == ", testdict['tertiary']
+    #rint"testdict['tert'] == ", testdict['tert']
+    #rint"testdict['thirtieth'] == ", testdict['thirtieth']
+    #rint"testdict['thirt'] == ", testdict['thirt']
+    #rint"testdict['th'] == ", testdict['th']
+    #rint"** Assigning testdict['th'] = None"
     testdict['th'] = None
-    print "testdict['th'] == ", testdict['th']
-    print "testdict['thirt'] == ", testdict['thirt']
+    #rint"testdict['th'] == ", testdict['th']
+    #rint"testdict['thirt'] == ", testdict['thirt']
 
     # Expect some errors.
     try:
-        print testdict['quart']
+        #rinttestdict['quart']
     except KeyError:
-        print "There is no possible match, so could not find testdict['quart']"
+        #rint"There is no possible match, so could not find testdict['quart']"
     try:
-        print testdict['t']
+        #rinttestdict['t']
     except KeyError:
-        print "Possible matches are not unique, so could not find testdict['t']"
+        #rint"Possible matches are not unique, so could not find testdict['t']"

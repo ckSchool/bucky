@@ -17,7 +17,7 @@ def getAllDict(sql):
             results.append(dict(zip(columns, row)))
         return results
     except:
-        print 'getAllDict failed', sql
+        #rint'getAllDict failed', sql
         return []
         
 def getOneDict(sql):
@@ -29,7 +29,7 @@ def getOneDict(sql):
         results.append(dict(zip(columns, x)))
         return results[0]
     except:
-        print 'getOneDict failed ', sql
+        #rint'getOneDict failed ', sql
         return []
 
 
@@ -45,7 +45,7 @@ def giveIdToAll():
 def getMaxCKID():
     sql = "SELECT MAX (CKID) FROM Siswa "
     CKID = cursor.execute(sql).fetchall()
-    print CKID
+    #rintCKID
     CKID =  CKID[0][0]
     return CKID
 
@@ -57,7 +57,7 @@ def clearCKID():
 def giveCKID_toStudentsWithMultipleEntries():
     CKID = getMaxCKID()
     if not CKID: CKID = 1
-    print 'max ckid =', CKID
+    #rint'max ckid =', CKID
 
     sql = "SELECT Nama, TgLahir, id FROM Siswa WHERE CKID < 1 OR CKID IS NULL"
     result1 = cursor.execute(sql).fetchall()
@@ -74,12 +74,12 @@ def giveCKID_toStudentsWithMultipleEntries():
             result2 = cursor.execute(sql).fetchall()
             
             if len(result2)>1:
-                print result2
+                #rintresult2
                 for r in result2:
                     Nama, TgLahir, sid = r
                     if TgLahir == dob:
                         sql = "UPDATE Siswa SET CKID=%d WHERE Nama='%s' AND id=%d" % (CKID, Nama, sid)
-                        print sql
+                        #rintsql
                         cursor.execute(sql)
                         conn.commit()
     
@@ -91,7 +91,7 @@ def giveCKID_toStudentsWithMultipleEntries():
 def giveCKID_toSingles():
     CKID = getMaxCKID()+1
     
-    print CKID
+    #rintCKID
     
     sql = "SELECT id, Nama FROM Siswa WHERE CKID IS NULL OR CKID =0"
     result1 = cursor.execute(sql).fetchall()
@@ -101,14 +101,14 @@ def giveCKID_toSingles():
         
         sql = "SELECT Nama FROM Siswa WHERE Nama ='%s'" % (nama,)
         result2 = cursor.execute(sql).fetchall()
-        print result2
+        #rintresult2
         if len(result2)==1:
             sql = "UPDATE Siswa SET CKID=%d WHERE id=%d" % (CKID, sid)
             
             cursor.execute(sql)
             conn.commit()
         CKID += 1
-        print CKID
+        #rintCKID
 
 def removeRubbish():
     sql = "SELECT id, NoInduk FROM Siswa"
@@ -117,7 +117,7 @@ def removeRubbish():
     for row in result2:
         sid = row[0]
         NoInduk = row[1]
-        print NoInduk, ' : ', NoInduk[1]
+        #rintNoInduk, ' : ', NoInduk[1]
         k = NoInduk[1]
         if k=='B':
             pass
@@ -150,7 +150,7 @@ def getOne_col(sql):
         cursor.execute(sql)
         return cursor.fetchone()
     except:
-        print 'getOne_col failed', sql
+        #rint'getOne_col failed', sql
         return ''
 
 def getAll_col(sql):
@@ -158,7 +158,7 @@ def getAll_col(sql):
         cursor.execute(sql)
         return cursor.fetchall()
     except:
-        print 'getAll_col failed', sql
+        #rint'getAll_col failed', sql
         return ''
     
 def getList(sql, colNo=0):
@@ -168,7 +168,7 @@ def getList(sql, colNo=0):
         for row in res:
             list.append(row[colNo])
     except:
-        print 'somthing failed with', sql
+        #rint'somthing failed with', sql
     return list
 
 def dropTable(table):
@@ -277,11 +277,11 @@ def get_max_sid(result):
             l = getList(sql)
             r = len(l)
             if r>0:
-                print 'keep_id:', keep_id
+                #rint'keep_id:', keep_id
                 sql = "DELETE FROM SiswaActive WHERE id = %d" % sid
                 cursor.execute(sql)
                 conn.commit()
-    print '------------------------'
+    #rint'------------------------'
             
 def removeOldData_fromSiswaActive():
     sql = "DELETE FROM SiswaActive WHERE TgKeluar > 0"
@@ -290,9 +290,9 @@ def removeOldData_fromSiswaActive():
     
     sql = "SELECT CKID FROM SiswaActive GROUP BY CKID"
     result = getList(sql)
-    #print sql, result
+    ##rintsql, result
     for CKID in result:
-        #print CKID
+        ##rintCKID
         sql = "SELECT NoInduk, id FROM SiswaActive WHERE CKID = %d" % int(CKID)
         res = getAllDict(sql)
         if len(res)>1:
@@ -316,7 +316,7 @@ def copyCSiswaData_toSiswa():
         
         sql = "INSERT INTO Siswa SET NoInduk = '%s'" % NewTempNoInduk
         for key in row:
-            print key, row[key]
+            #rintkey, row[key]
             
             val = row[key]
             val = ''
@@ -324,7 +324,7 @@ def copyCSiswaData_toSiswa():
                 sql = "UPDATE Siswa SET %s = %d WHERE NoInduk = '%s'" % (key, int(row[key]), NewTempNoInduk)
             else:
                 sql = "UPDATE Siswa SET '%s' = %s  WHERE NoInduk = '%s'" % (key, row[key], NewTempNoInduk)
-            print sql
+            #rintsql
             
 #copyCSiswaData_toSiswa()
     
@@ -374,8 +374,8 @@ def addressItems():
     """
     sql = "SELECT province FROM postcodes GROUP BY (province) ORDER BY (province)"
     res = getList(sql)
-    #print sql
-    #print res
+    ##rintsql
+    ##rintres
     nextItemID = 1 # = id for Indonesia
     for province in res:"""
     
@@ -386,7 +386,7 @@ def addressItems():
         cursor.execute(sql)
         conn.commit()
         
-    print 'inserted ', len(res), ' provinces'
+    #rint'inserted ', len(res), ' provinces'
     
     sql = "SELECT id, itemName FROM addressItems WHERE itemType = 'province'"
     res = getAllDict(sql)
@@ -399,7 +399,7 @@ def addressItems():
                 WHERE province = '%s' \
                 GROUP BY (kabupaten)" % 'Sumatera Utara'
     res = getList(sql)
-    print sql, res
+    #rintsql, res
     
     
     
@@ -408,11 +408,11 @@ def addressItems():
     for kabupaten in res:
         sql = "INSERT INTO addressItems (itemType, itemName, nextItemID) \
                VALUES ('kabupaten', '%s', %d)" % (kabupaten, nextItemID)
-        #print sql
+        ##rintsql
         cursor.execute(sql)
         conn.commit()
     
-    print 'inserted ', len(res), ' kabupaten'
+    #rint'inserted ', len(res), ' kabupaten'
     return
     """   
     
@@ -424,36 +424,36 @@ def addressItems():
     sql = "SELECT id, itemName FROM addressItems WHERE itemType = 'kabupaten'"
     res = getAllDict(sql)
     
-    print sql
-    print len(res), ' records in  addressItems of itemType:kabupaten'
+    #rintsql
+    #rintlen(res), ' records in  addressItems of itemType:kabupaten'
    
 
     for row in res:
-        #print row
+        ##rintrow
         itemID    = row['id']
         kabupaten = row['itemName']
         sql = "SELECT kecamatan FROM postcodes \
                 WHERE kabupaten = '%s' \
                 GROUP BY (kecamatan)" % kabupaten
         kecamatanList = getList(sql)
-        #print sql, '   > ' , len( kecamatanList), ' kecamatan for  kabupaten:', kabupaten
+        ##rintsql, '   > ' , len( kecamatanList), ' kecamatan for  kabupaten:', kabupaten
         
         for kecamatan in kecamatanList:
             postcode  = fetch.postcodeForKec(kecamatan)
             sql = "INSERT INTO addressItems (itemType, itemName, nextItemID, postcode) \
                    VALUES ('kecamatan', '%s', %d, %d)" % (kecamatan, itemID, postcode)
-            #print sql
+            ##rintsql
             cursor.execute(sql)
             conn.commit()
-            #print postcode
-        print ' inserted ', len(kecamatanList), ' kecamatan for ', kabupaten 
+            ##rintpostcode
+        #rint' inserted ', len(kecamatanList), ' kecamatan for ', kabupaten 
         # now using each postcode - select kelurahan
     """
  
 
     sql = "SELECT id, itemName, postcode FROM addressItems WHERE itemType = 'kecamatan'"
     res = getAllDict(sql)
-    #print sql, res
+    ##rintsql, res
         
     for row in res:
         itemID    = row['id']
@@ -463,16 +463,16 @@ def addressItems():
         sql = "SELECT kelurahan FROM postcodes \
                 WHERE postcode = %d" % postcode
         res2 = getList(sql)
-        print len(res2), ' kelurahan for ', kecamatan
+        #rintlen(res2), ' kelurahan for ', kecamatan
         for kelurahan in res2:
             sql = "INSERT INTO addressItems (itemType, itemName, nextItemID) \
                    VALUES ('kelurahan', '%s', %d)" % (kelurahan, itemID)
 
             cursor.execute(sql)
             conn.commit()
-            #print kelurahan
+            ##rintkelurahan
         
-    print 'done'    
+    #rint'done'    
     #sql = "INSERT INTO addressItems (itemType, itemName, nextItemID)"
     
 # addressItems()
@@ -487,7 +487,7 @@ def postcodes():
         cursor.execute(string)
         conn.commit()
     except:
-        print ' could not create'
+        #rint' could not create'
         
 
     sql = "DELETE * FROM postcodes"
@@ -516,7 +516,7 @@ def postcodes():
                 pass
             
         else:
-            print "failed on ", postcode, ' - ', Kel, ' - ', Kec, ' - ', KabKota, ' - ', Prov
+            #rint"failed on ", postcode, ' - ', Kel, ' - ', Kec, ' - ', KabKota, ' - ', Prov
 
 # postcodes()
 

@@ -174,7 +174,7 @@ class panel_accounts(wx.Panel):
         self.displaySelected()
         
     def displaySelected(self):
-        print 'displaySelected : self.acc_code=', self.acc_code
+        #rint'displaySelected : self.acc_code=', self.acc_code
         codeStr = str(self.acc_code)
         a = codeStr[ :1]
         b = codeStr[1:3]
@@ -203,7 +203,7 @@ class panel_accounts(wx.Panel):
         self.GetTopLevelParent().panel_tree.Enable(False)
         
     def OnNew(self, evt):
-        print 'accounts_accounts > new'
+        #rint'accounts_accounts > new'
         self.editing = False
         self.lockOut()
         for tc in self.tc: tc.Clear()
@@ -214,10 +214,12 @@ class panel_accounts(wx.Panel):
         self.lockOut()
         
     def OnDelete(self, evt):
-        print 'OnDelete'
+        pass
+        #rint'OnDelete'
         
     def OnSave(self, evt):
-        print 'OnSave'
+        pass
+        #rint'OnSave'
                
         acc_catagory_id = fetch.cmbID(self.choice_account_catagory)
         code_2 = self.text_ctrl_acc_code_2.GetValue()
@@ -257,14 +259,14 @@ class panel_accounts(wx.Panel):
                               (name, balance, code, acc_catagory_id) \
                        VALUES('%s', %d, %d)" % ( 
                                account_name, int(start_ballance), int(acc_code), acc_catagory_id)
-        print sql
+        #rintsql
         #fetch.updateDB(sql)
         
         self.OnCancel(wx.Event)
         self.displayDetails()
         
     def OnCancel(self, evt):
-        print 'OnCancel'
+        #rint'OnCancel'
         self.pb.OnCancel()
         self.GetTopLevelParent().panel_tree.Enable()
         self.unlockdown()
@@ -275,6 +277,7 @@ class panel_accounts(wx.Panel):
         self.displaySelected()
         
     def OnRefresh(self, evt):
-        print 'OnRefresh'
+        pass
+        #rint'OnRefresh'
         
         

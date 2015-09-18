@@ -114,7 +114,7 @@ class panel_payment_details(wx.Panel):
       
         
     def __do_main(self):
-        print 'p_p_d > do_main'
+        #rint'p_p_d > do_main'
         self.enableCtrls(False)
         
     def clearCtrls(self):
@@ -127,7 +127,7 @@ class panel_payment_details(wx.Panel):
             t.SetEditable(flag)
             
     def disableCtrls(self):
-        print 'panel_payment_details > disableCtrls'
+        #rint'panel_payment_details > disableCtrls'
         self.enableCtrls(False)
 
 
@@ -141,37 +141,39 @@ class panel_payment_details(wx.Panel):
             dlg.Destroy()  
         
     def OnEdit(self, evt):
-        print 'edit'
+        #rint'edit'
         invoice_id = self.listctrl_payments.GetSelectedID()
-        print 'invoice_id', invoice_id
+        #rint'invoice_id', invoice_id
         if invoice_id:
             dlg = DlgPayments.create(None)
             try:
                 #dlg.displayData(gVar.student_id)
                 dlg.displayInvDetails(invoice_id)
-                print 'panel_payment_details >> invoice_id >> edit >>', invoice_id
                 dlg.ShowModal()
-                #self.displayData(self.student_id)
+                self.displayData(self.student_id)
             finally:
                 dlg.Destroy() 
         
     def OnDelete(self, evt):
-        print 'psp OnDelete'
+        pass
+        #rint'psp OnDelete'
         
     def OnSave(self, evt):
+        pass
         # self.GetParent().uklockdown()
-        print 'psp OnSave'
+        #rint'psp OnSave'
         
     def OnCancel(self, evt):
-        print 'ppd OnCancel'
+        #rint'ppd OnCancel'
         self.listctrl_payments.Enable()
         evt.Skip()
         
     def OnRefresh(self, evt):
-        print 'psp OnRefresh'  
+        pass
+        #rint'psp OnRefresh'  
         
     def displayData(self, student_id):
-        print 'panel_payment_details > displayData > student_id',student_id
+        #rint'panel_payment_details > displayData > student_id',student_id
         self.student_id = student_id
         sql = "SELECT i.id, i.ck_ref, \
           DATE_FORMAT(i.`date`,'%e %M %Y'), \
@@ -179,7 +181,7 @@ class panel_payment_details(wx.Panel):
                  FROM acc_invoices i "
         sql += "WHERE i.student_id = '%s' \
                   AND i.schYr= %d" % (student_id, gVar.schYr)
-        print 'panel_payment_details > displayData > student_id > SQL',sql
+
         myDict = fetch.DATA(sql)
 
         self.listctrl_payments.SetItemMap(myDict)
@@ -202,16 +204,16 @@ class panel_payment_details(wx.Panel):
         self.num_ctrl_pay_total.SetValue(total_amount)
         
     def OnDetailItemSelected(self, evt):
-        print 'OnDetailItemSelected'
+        #rint'OnDetailItemSelected'
         rid   = self.listctrl_details.GetSelectedID()
         index = self.listctrl_details.GetFirstSelected()
         
     def OnPaymentItemSelected(self, evt):
-        print '          OnPaymentItemSelected'
+        #rint'          OnPaymentItemSelected'
         pid   = self.listctrl_payments.GetSelectedID()
         index = self.listctrl_payments.GetFirstSelected()
         invoice_id = int(self.listctrl_payments.getColumnText(index, 0))
-        record = self.listctrl_payments.GetItemCount()
+        
         sql = "SELECT id, item_name,  \
                       date_from, date_to, month_from, month_to, \
                       item_name, price, Format(total_amount,'#,###') AS  total_amount\
@@ -220,7 +222,7 @@ class panel_payment_details(wx.Panel):
         mylist = fetch.getAllDict(sql)
         
         if mylist:#self.pay_records:
-              txt = "Record: %d/%d" % (index+1, record) #self.pay_records)
+              txt = "Record: %d/%d" % (index+1, len(mylist)) #self.pay_records)
               self.listctrl_details.Enable()
         else: txt = 'No Records'
         
@@ -255,7 +257,7 @@ class panel_payment_details(wx.Panel):
         sql = "SELECT SUM(total_amount) \
                  FROM acc_invoice_items  \
                 WHERE invoice_id = %d" % invoice_id 
-        print sql
+        #rintsql
         self.num_ctrl_details_total.SetValue(fetch.getDig(sql))
         
 

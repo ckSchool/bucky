@@ -9,9 +9,9 @@ from calendar import timegm
 if __name__ == '__main__':
     a = wx.DateTime.Today()
 
-    print a
+    #rinta
 
-    print type(a)
+    #rinttype(a)
 
-    print a.FormatDate('dd/mm/yy')
+    #rinta.FormatDate('dd/mm/yy')
 

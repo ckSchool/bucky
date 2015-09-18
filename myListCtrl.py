@@ -3,22 +3,8 @@ import wx, gVar
 import wx.lib.mixins.listctrl as listmix
 import cPickle
 
-
-#----------------------------------------------------------------------
-# The new VirtualList control
-"""
-setName
-decorateBanding
-SetItemMap > itemDataMap > a dictionary {id1:("item1","item2",...), 
-                                         id2:("item1","item2",...), ...} ids must be unique  
-SetColumns > columns (("name1", width1), ("name2", width2),...)
-SetSymbols > symbols
-"""
-
-#----------------------------------------------------------------------
-
 class VirtualList(wx.ListCtrl, listmix.ColumnSorterMixin, listmix.ListCtrlAutoWidthMixin):
-    def __init__(self, parent, columns=(('',50),('',50),('',50)), style=0):
+    def __init__(self, parent, id=id, columns=(('',50),('',50),('',50)), style=0):
         wx.ListCtrl.__init__( self, parent, -1, style=wx.LC_REPORT | wx.LC_VIRTUAL | style)
         
         listmix.ColumnSorterMixin.__init__(self, len(columns))
@@ -138,9 +124,12 @@ class VirtualList(wx.ListCtrl, listmix.ColumnSorterMixin, listmix.ListCtrlAutoWi
     # controler
     
     def SetItemMap(self, itemMap):
+        print'vList > SetItemMap > ', itemMap
         self.DeleteAllItems()
         self.Refresh()
-        if not itemMap: return
+        if not itemMap:
+            #rintitemMap, 'is not an itemMap'
+            return
 
         first_row  = itemMap[0]
         item_count = len(first_row)
@@ -148,7 +137,7 @@ class VirtualList(wx.ListCtrl, listmix.ColumnSorterMixin, listmix.ListCtrlAutoWi
         
         # --------------------------------
         if item_count > col_count:
-            # can't just InsertColumn on run results in
+            #rint" can't just InsertColumn"
             ''' File "C:\Users\Andrew\Documents\PyCkDbNew\myListCtrl.py", line 350, in __init__
                 self.vlist_ctrl.SortListItems(2, 1)
                 File "C:\Python27\lib\site-packages\wx-2.9.4-msw\wx\lib\mixins\listctrl.py", line 81, in SortListItems
@@ -167,7 +156,7 @@ class VirtualList(wx.ListCtrl, listmix.ColumnSorterMixin, listmix.ListCtrlAutoWi
         l=len(itemMap)
         self.itemDataMap=itemMap
         self.SetItemCount(l)
-
+        #rint"map set:"#, itemMap
         #This regenerates self.itemIndexMap and redraws the ListCtrl
         self.SortItems()
         
@@ -190,16 +179,16 @@ class VirtualList(wx.ListCtrl, listmix.ColumnSorterMixin, listmix.ListCtrlAutoWi
         self.DeleteAllColumns()
         i=0
         for col in columns:
-            #print col
+            ##rintcol
             if len(col)==3: # ie col_format has been sent
-                #print 'Formating Column'
+                ##rint'Formating Column'
                 name, s, col_format = col
                 #rint name, s
                 self.InsertColumn(i, name, col_format)
                 self.SetColumnWidth(i, s)
                 i+=1
             else:
-                #print 'Just Labeling Column'
+                ##rint'Just Labeling Column'
                 name, s = col
                 self.InsertColumn(i, name)
                 self.SetColumnWidth(i, s)
@@ -223,7 +212,6 @@ class VirtualList(wx.ListCtrl, listmix.ColumnSorterMixin, listmix.ListCtrlAutoWi
     def OnItemSelected(self, event):
         self.currentItem = event.m_itemIndex
         gVar.vListCurrentID = self.currentItem
-
         event.Skip()
 
     def OnItemActivated(self, event):
@@ -255,6 +243,8 @@ class VirtualList(wx.ListCtrl, listmix.ColumnSorterMixin, listmix.ListCtrlAutoWi
     def getColumnText(self, index, col):
         item = self.GetItem(index, col)
         return item.GetText()
+    
+    
         
     def get_selected_id(self):
         selected_id = self.getColumnText(self.currentItem, 0)
