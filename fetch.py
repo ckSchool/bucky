@@ -3,6 +3,7 @@ import wx, gVar
 import re
 import pyodbc as MySQLdb
 import MySQLdb
+import socket
 
 from wx.lib.pubsub import setupkwargs
 from wx.lib.pubsub import pub
@@ -17,9 +18,13 @@ ALPHABET = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
 Printon = False
 # Printon = True #
 
-Dell   = ('192.168.0.251', 'andrew', 'andrew123', 'chandrakusuma', 3306)
-Vostro = ('localhost',     'root',   'andrewroot','ckdb', 3306)
-
+if socket.gethostname().find('sp-510')>=0:
+    Dell   = ('192.168.0.251', 'andrew', 'andrew123', 'chandrakusuma', 3306)
+    Vostro = ('localhost',     'root',   'passwordroot','ckdb', 3306)
+else:
+    Dell   = ('192.168.0.251', 'andrew', 'andrew123', 'chandrakusuma', 3306)
+    Vostro = ('localhost',     'root',   'andrewroot','ckdb', 3306)
+    
 useConnection =   Vostro # Dell #
 
 c=''
