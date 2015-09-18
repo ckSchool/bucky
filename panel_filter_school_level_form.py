@@ -63,6 +63,8 @@ class panel_filter_school_level_form(wx.Panel):
             self.OnCheckLevel(wx.Event)
             
         else:
+            self.checkbox_filter_by_form.SetValue(False)
+            self.checkbox_filter_by_level.SetValue(False)
             self.checkbox_filter_by_form.Hide()
             self.checkbox_filter_by_level.Hide()
             self.choice_levels.Hide()
@@ -82,6 +84,7 @@ class panel_filter_school_level_form(wx.Panel):
             self.OnCheckForm(wx.Event)
             
         else:
+            self.checkbox_filter_by_form.SetValue(False)
             self.choice_levels.Hide
             self.checkbox_filter_by_form.Hide()
             self.choice_forms.Hide()
