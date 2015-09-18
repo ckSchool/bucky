@@ -100,8 +100,7 @@ class panel_filter_school_level_form(wx.Panel):
             self.choice_forms.Hide()
         self.Layout()
         self.displayData()
-        
-        
+                
     def OnSelectSchool(self, evt):
         # self.loadSchools()
         if self.checkbox_filter_by_level.GetValue():
