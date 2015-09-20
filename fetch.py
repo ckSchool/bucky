@@ -975,10 +975,11 @@ def get_school_id_for_schedule_id(schedule_id):
 def get_all_student_ids_for_schedule_id(schedule_id):
     sql = " SELECT s.id \
               FROM students s \
-              JOIN excul_students es ON s.id = es.student_id \
+              JOIN excul_students es ON  s.id = es.student_id \
               JOIN excul_groups   eg ON eg.id = es.excul_group_id \
              WHERE eg.excul_schedule_id = %d " % (schedule_id, )
-    ##rint 'get_all_student_ids_for_schedule_id:', sql, getList(sql)
+    
+    print 'get_all_student_ids_for_schedule_id:', sql, getList(sql)
     return getList(sql)
 
 def excul_unallocated(schedule_id):
@@ -1013,6 +1014,10 @@ def excul_unallocatedDATA(schedule_id):
         l_lev = 8; u_lev = 11
         
     allocated_students = get_all_student_ids_for_schedule_id(schedule_id)
+    print 'allocated_students ', allocated_students
+    for id in allocated_students:
+        print studentFullName(id)
+    
     
     id_list = ', '.join(str(x) for x in allocated_students)
     
@@ -1022,10 +1027,10 @@ def excul_unallocatedDATA(schedule_id):
                     JOIN forms              f ON sbf.form_id    = f.id \
                    WHERE f.level BETWEEN %d AND %d \
                      AND f.schYr = %d \
-                     AND s.id NOT IN (%s) " % (l_lev, u_lev,
+                     AND s.id NOT IN ('%s') " % (l_lev, u_lev,
                                                           gVar.schYr,
                                                           id_list) # AND f.name ='6 SD C'
-    
+    print sql
     return getDATA(sql)
 
 
@@ -1094,13 +1099,13 @@ def exculsetinfo(set_id):
 def excul_studentList(excul_group_id):
     #rint 'excul_studentList' , 
     sql = "SELECT s.id, s.name, f.name\
-             FROM excul_students es \
-             JOIN students s ON s.id =es.student_id \
-             JOIN students_by_form sbf ON sbf.student_id = s.id \
-             JOIN forms f ON f.id = sbf.form_id \
+             FROM excul_students    es \
+             JOIN students           s ON s.id = es.student_id \
+             JOIN students_by_form sbf ON s.id = sbf.student_id \
+             JOIN forms              f ON f.id = sbf.form_id \
             WHERE es.excul_group_id = %d \
-            AND f.schYr = %d" % (excul_group_id, gVar.schYr)
-    #rint sql
+              AND f.schYr = %d" % (excul_group_id, gVar.schYr)
+    print sql
     res = getDATA(sql)
     if res:
         print res
