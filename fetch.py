@@ -1068,13 +1068,13 @@ def excul_groupDATA_forDaySchSemYr(dayNo, semester, sch_id):
     print sql
     return  getDATA(sql)
 
-def excul_groupInfo(schedule_id):
+def excul_groupInfo(group_id):
     sql = " SELECT s.id AS subject_id, s.name AS subject_name, st.id AS staff_id, st.name AS staff_name \
               FROM excul_groups   eg \
               JOIN excul_schedule es ON es.id = eg.excul_schedule_id \
          LEFT JOIN excul_subjects  s ON  s.id = eg.excul_subject_id \
          LEFT JOIN staff          st ON st.id = eg.staff_id \
-             WHERE eg.id = %d" % (schedule_id)
+             WHERE eg.id = %d" % (group_id)
     #rint sql
     return  getOneDict(sql)
 

@@ -4,6 +4,11 @@ import wx.lib.mixins.listctrl as listmix
 
 from dragDrop_vListCtrl import VirtualList
 
+import DlgExculDaysSetter
+import DlgNewEditExculActivityTitle
+import DlgNewEditExculActivity
+
+
 gVar.schYr = 2014
 symbols={"sm_up":wx.ART_GO_UP,"sm_dn":wx.ART_GO_DOWN}
 

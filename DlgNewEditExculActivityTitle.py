@@ -59,8 +59,8 @@ class DlgNewEditExculActivityTitle(wx.Dialog):
         self.activity_id = activity_id
         if activity_id: self.editMode = True
         else          : self.editMode = False
-        
-        self.text_ctrl_activity_name.SetValue(fetch.excul_activityTitle(activity_id))
+        groupInfo = fetch.excul_groupInfo(activity_id)
+        self.text_ctrl_activity_name.SetValue(groupInfo['subject_name'])
         self.text_ctrl_description.SetValue('')
         
         #self.loadCmb      
@@ -103,7 +103,7 @@ class DlgNewEditExculActivityTitle(wx.Dialog):
         
 if __name__ == '__main__':
     app = wx.App(redirect=False)
-    dlg = DlgNewEditExculActivity(None)
+    dlg = DlgNewEditExculActivityTitle(None)
     try:
         dlg.displayData(3)
         dlg.ShowModal()

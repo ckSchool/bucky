@@ -278,10 +278,12 @@ def excul_subjectsPool(cmb, excul_id, edited_activity_id=0):
     fillCmb(cmb, fetch.getAllCol(sql), 'without activity')
     restore(cmb, int(edited_activity_id))
     
-def exculTeacherPool(cmb, exculset_id, edited_teacher_id=0):
-    exculList  = fetch.excul_groups_forExculSet(exculset_id)
-    teacherIDs = [str(x[0]) for x in exculList]
-
+def exculTeacherPool(cmb, schedule_id, edited_teacher_id=0):
+    exculList  = fetch.exculGroupsDATA_forScheduleID(schedule_id)
+    for x in exculList:
+	print exculList[x]
+    teacherIDs = [str(exculList[x][3]) for x in exculList]
+    print 'teacherIDs',teacherIDs
     if edited_teacher_id:
 	l = []
 	for x in teacherIDs:
@@ -292,10 +294,11 @@ def exculTeacherPool(cmb, exculset_id, edited_teacher_id=0):
     
     sql = " SELECT id, name \
               FROM staff \
-             WHERE staff_type_id = 2 \
+             WHERE position_id = 33 \
                AND %d BETWEEN join_schYr AND exit_schYr \
                AND NOT FIND_IN_SET(id, %s) \
-	     ORDER BY full_name" % (gVar.schYr, listStr)
+	     ORDER BY name" % (gVar.schYr, listStr)
+    print sql
     fillCmb(cmb, fetch.getAllCol(sql),'without teacher')
     restore(cmb, int(edited_teacher_id))
     
