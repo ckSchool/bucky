@@ -203,8 +203,8 @@ class panel_guardian_data(wx.Panel):
 	# nationality
 
         if guardian_type == 'guardian':
-	    relationship = fetch.guardianRelationship(student_id)
-            try:
+	    try:
+		relationship = fetch.guardianRelationship(student_id)
                 index = self.combo_box_relationship.FindString(relationship)
                 self.combo_box_relationship.SetSelection(index)
 		self.label_relationship.Show()

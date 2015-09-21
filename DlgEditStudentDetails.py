@@ -99,6 +99,14 @@ class DlgEditStudentDetails(wx.Dialog):
 
         for p in self.panes:
             p.displayData(student_id)
+    
+    def NewData(self):
+        #subsc = pub.subscribe("New_bio")
+        
+        #self.student_id = student_id = gVar.student_id
+   
+        self.clearCtrls()
+        self.enableCtrls()
         
     def setCmb(self, cmb, val):
         if val: cmb.SetSelection(val)

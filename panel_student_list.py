@@ -145,7 +145,7 @@ class panel_student_list(wx.Panel):
         index = self.vList.GetFirstSelected()
         #gVar.student_id = int(self.vList.getColumnText(index, 0))
         
-        txt = "Record %d/%d" % (index, self.records)
+        txt = "Record %d/%d" % (index+1, self.records)
         self.text_ctrl_records.SetValue(txt)
         
         pub.sendMessage('student.selected')

@@ -175,13 +175,16 @@ class PanelInvoice(wx.Panel):
             ##rintself.invoice_id, invoiceNo, self.student_id
             
             ##rintdate, total_ammount, gVar.schYr
-            """
+            """        
             sql = " INSERT INTO acc_invoices \
                             SET id=%d, ck_ref ='%s', student_id=%d,  \
                                 date =%s, ammount = %d, schYr =%d" % (
                                 self.invoice_id, invoiceNo, self.student_id,
                                 date, total_ammount, gVar.schYr)"""
-                                
+            
+            ck_ref = fetch.ck_ref_last()
+            self.ck_ref       = ck_ref
+            
             sql = " INSERT INTO acc_invoices \
                             SET id, ck_ref, student_id, date, ammount, schYr \
                          VALUES (%d, '%s', %d, '%s', %d, %d)" % (
