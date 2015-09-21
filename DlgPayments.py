@@ -1,4 +1,4 @@
-import wx, gVar, sys, fetch, loadCmb
+import wx, gVar, sys, fetch, loadCmb, datetime, time
 
 import DlgProduct as DlgInvoiceItem
 import DlgSelectMonthsPeriod
@@ -17,8 +17,8 @@ NoInduk      = ''
 student_name = ''
 form_name    = ''
 invoice_items = {}
-invoice_date  = 'xxxx-xx-xx'
-ck_ref  = 'xxxx-xxxx'
+#invoice_date  = 'xxxx-xx-xx'
+#ck_ref  = 'xxxx-xxxx'
 
 totals_size = (200, -1)
 qnty_size   = ( 91, -1)
@@ -586,17 +586,20 @@ class DlgPayments(wx.Dialog):
         sql = "TRUNCATE acc_invoice_items"
         fetch.updateDB(sql)"""
         
+        global student_id, NoInduk, student_name, form_name, invoice_date, ck_ref, inv_date
         
+        ck_ref = fetch.ck_ref_last()
         
-        global student_id, NoInduk, student_name, form_name
-        student_id = sid
-        gVar.user_id = 1234
-        NoInduk      = fetch.NoInduk(student_id, gVar.schYr)
-        student_name = fetch.studentFullName(student_id)
-        form_name    = fetch.formName(fetch.formID_forStudent(sid))
+        student_id    = sid
+        gVar.user_id  = 1234
+        NoInduk       = fetch.NoInduk(student_id, gVar.schYr)
+        student_name  = fetch.studentFullName(student_id)
+        form_name     = fetch.formName(fetch.formID_forStudent(sid))
+        invoice_date  = str(datetime.date.today().strftime("%d %B %Y"))
         
-        self.ck_ref       = 'xxxx-xxx'
-        self.inv_date     = '2015-12-1'
+        self.ck_ref       = ck_ref
+        self.inv_date     = str(datetime.date.today().strftime("%Y-%m-%d")) #'2015-12-1'
+        print self.inv_date
         self.grand_total  = 0
         
         self.panel_header.display_header()
@@ -708,7 +711,9 @@ class DlgPayments(wx.Dialog):
             return 0
         
         invoice_id = fetch.nextID('acc_invoices')
-
+        ck_ref = fetch.ck_ref_last()
+        self.ck_ref       = ck_ref
+        
         sql = "INSERT INTO acc_invoices (date, ck_ref, amount, student_id, schYr, staff_id) \
                VALUES ('%s', '%s', %d, %d, %d, %d)" % (
                         self.inv_date, self.ck_ref, self.grand_total, student_id, gVar.schYr, gVar.user_id)

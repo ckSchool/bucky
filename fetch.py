@@ -1514,7 +1514,29 @@ def gradesForAssignment(student_id, assignment_id):
               AND g.student_id = %d" % (int(assignment_id), int(student_id))
     return getOneDict(sql)
 
-
+def ck_ref_last():
+    sql = "SELECT MAX(ck_ref) FROM acc_invoices"
+    res = getList(sql)
+    schYr = str(gVar.schYr)
+    schYr = schYr[-2:]
+    if any(res):
+        ck_ref = res[0].split('-')
+        ck_ref_new = int(ck_ref[1]) + 1
+       
+        if ck_ref_new > 999:
+            ck_ref_new = str(ck_ref_new).zfill(5)
+        elif ck_ref_new > 99:
+            ck_ref_new = str(ck_ref_new).zfill(5)
+        elif ck_ref_new > 9:
+            ck_ref_new = str(ck_ref_new).zfill(5)
+        else:
+            ck_ref_new = str(ck_ref_new).zfill(5)
+        schYr2=int(schYr)+1
+        ck_ref = 'CK'+schYr+str(schYr2)+'-'+str(ck_ref_new)
+    else:
+        schYr2=int(schYr)+1
+        ck_ref = 'CK'+schYr+str(schYr2)+'-00001'
+    return ck_ref
 
 # h -------------------------------
 
