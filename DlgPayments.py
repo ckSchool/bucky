@@ -249,10 +249,10 @@ class panel_fees(wx.Panel):
         self.monthly_fee  = 0
         
         self.button_remove          = wx.Button(self, -1, '-')
-        self.text_ctrl_months       = masked.NumCtrl(self, -1, value=1)
+        self.text_ctrl_months       = NumCtrl(self, -1, value=1)
         self.text_ctrl_description  = wx.TextCtrl(self, -1)
-        self.text_ctrl_fee          = masked.NumCtrl(self, -1, style = wx.ALIGN_RIGHT)
-        self.text_ctrl_total_fees   = masked.NumCtrl(self, -1, value=0)
+        self.text_ctrl_fee          = NumCtrl(self, -1, style = wx.ALIGN_RIGHT)
+        self.text_ctrl_total_fees   = NumCtrl(self, -1, value=0)
         
         self.Bind(wx.EVT_TEXT,     self.OnMonthsChange, self.text_ctrl_months)
         self.Bind(wx.EVT_BUTTON, self.OnRemove,       self.button_remove)
@@ -712,7 +712,8 @@ class DlgPayments(wx.Dialog):
         sql = "INSERT INTO acc_invoices (date, ck_ref, amount, student_id, schYr, staff_id) \
                VALUES ('%s', '%s', %d, %d, %d, %d)" % (
                         self.inv_date, self.ck_ref, self.grand_total, student_id, gVar.schYr, gVar.user_id)
-        #rint'fetch.updateDB(sql)', fetch.updateDB(sql)
+        print'fetch.updateDB(sql)', fetch.updateDB(sql)
+        print self.inv_date, self.ck_ref, self.grand_total, student_id, gVar.schYr, gVar.user_id
         
         for key in self.widget_dict:
             product_id = key,
