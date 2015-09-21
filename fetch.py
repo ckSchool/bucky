@@ -980,10 +980,11 @@ def get_school_id_for_schedule_id(schedule_id):
 def get_all_student_ids_for_schedule_id(schedule_id):
     sql = " SELECT s.id \
               FROM students s \
-              JOIN excul_students es ON s.id = es.student_id \
+              JOIN excul_students es ON  s.id = es.student_id \
               JOIN excul_groups   eg ON eg.id = es.excul_group_id \
              WHERE eg.excul_schedule_id = %d " % (schedule_id, )
-    ##rint 'get_all_student_ids_for_schedule_id:', sql, getList(sql)
+    
+    print 'get_all_student_ids_for_schedule_id:', sql, getList(sql)
     return getList(sql)
 
 def excul_unallocated(schedule_id):
@@ -1018,6 +1019,10 @@ def excul_unallocatedDATA(schedule_id):
         l_lev = 8; u_lev = 11
         
     allocated_students = get_all_student_ids_for_schedule_id(schedule_id)
+    print 'allocated_students ', allocated_students
+    for id in allocated_students:
+        print studentFullName(id)
+    
     
     id_list = ', '.join(str(x) for x in allocated_students)
     
@@ -1027,10 +1032,10 @@ def excul_unallocatedDATA(schedule_id):
                     JOIN forms              f ON sbf.form_id    = f.id \
                    WHERE f.level BETWEEN %d AND %d \
                      AND f.schYr = %d \
-                     AND s.id NOT IN (%s) " % (l_lev, u_lev,
+                     AND s.id NOT IN ('%s') " % (l_lev, u_lev,
                                                           gVar.schYr,
                                                           id_list) # AND f.name ='6 SD C'
-    
+    print sql
     return getDATA(sql)
 
 
@@ -1068,13 +1073,13 @@ def excul_groupDATA_forDaySchSemYr(dayNo, semester, sch_id):
     print sql
     return  getDATA(sql)
 
-def excul_groupInfo(schedule_id):
+def excul_groupInfo(group_id):
     sql = " SELECT s.id AS subject_id, s.name AS subject_name, st.id AS staff_id, st.name AS staff_name \
               FROM excul_groups   eg \
               JOIN excul_schedule es ON es.id = eg.excul_schedule_id \
          LEFT JOIN excul_subjects  s ON  s.id = eg.excul_subject_id \
          LEFT JOIN staff          st ON st.id = eg.staff_id \
-             WHERE eg.id = %d" % (schedule_id)
+             WHERE eg.id = %d" % (group_id)
     #rint sql
     return  getOneDict(sql)
 
@@ -1099,13 +1104,13 @@ def exculsetinfo(set_id):
 def excul_studentList(excul_group_id):
     #rint 'excul_studentList' , 
     sql = "SELECT s.id, s.name, f.name\
-             FROM excul_students es \
-             JOIN students s ON s.id =es.student_id \
-             JOIN students_by_form sbf ON sbf.student_id = s.id \
-             JOIN forms f ON f.id = sbf.form_id \
+             FROM excul_students    es \
+             JOIN students           s ON s.id = es.student_id \
+             JOIN students_by_form sbf ON s.id = sbf.student_id \
+             JOIN forms              f ON f.id = sbf.form_id \
             WHERE es.excul_group_id = %d \
-            AND f.schYr = %d" % (excul_group_id, gVar.schYr)
-    #rint sql
+              AND f.schYr = %d" % (excul_group_id, gVar.schYr)
+    print sql
     res = getDATA(sql)
     if res:
         print res

@@ -18,9 +18,11 @@ class DlgNewEditExculActivity(wx.Dialog):
         
         self.label_activity  = wx.StaticText(self.panel_middle, -1, "Activity")
         self.choice_activity = wx.Choice(self.panel_middle,     -1, choices=[])
+        self.button_add_subject = wx.Button(self.panel_middle,  -1, "+")
         
         self.label_teacher   = wx.StaticText(self.panel_middle, -1, "Teacher")
         self.choice_teacher  = wx.Choice(self.panel_middle,     -1, choices=[])
+        self.button_add_teacher = wx.Button(self.panel_middle,  -1, "+")
         
         self.button_enter    = wx.Button(self.panel_main,       -1, "Enter")
 
@@ -31,36 +33,42 @@ class DlgNewEditExculActivity(wx.Dialog):
         self.__do_main()
 
     def __set_properties(self):
-        
         self.SetTitle("Extra Curricular Activity")
         self.label_activity.SetMinSize((64, 16))
         self.choice_activity.SetMinSize((200, 21))
         self.choice_teacher.SetMinSize((200, 21))
         self.button_enter.SetMinSize((100, 30))
+        self.button_add_subject.SetMaxSize((23, 23))
+        self.button_add_teacher.SetMaxSize((23, 23))
 
     def __do_layout(self):
         sizer_base       = wx.BoxSizer(wx.VERTICAL)
         sizer_main       = wx.BoxSizer(wx.VERTICAL)
-        grid_sizer_names = wx.FlexGridSizer(3, 2, 10, 3)
+        grid_sizer_names = wx.FlexGridSizer(3, 3, 10, 3)
         
         grid_sizer_names.Add(self.bitmap_activity, 0, 0, 0)
-        grid_sizer_names.Add(self.label_heading  , 0, 0, 0)
-        grid_sizer_names.Add(self.label_activity,  0, 0, 10)
-        grid_sizer_names.Add(self.choice_activity, 0, wx.EXPAND, 10)
-        grid_sizer_names.Add(self.label_teacher,   0, 0, 10)
-        grid_sizer_names.Add(self.choice_teacher,  1, wx.BOTTOM | wx.EXPAND, 10)
+        grid_sizer_names.Add(self.label_heading,   0, 0, 0)
+        grid_sizer_names.AddSpacer(wx.Size(8, 8))
+
+        grid_sizer_names.Add(self.label_activity,     0, 0, 0)
+        grid_sizer_names.Add(self.choice_activity,    0, wx.EXPAND, 0)
+        grid_sizer_names.Add(self.button_add_subject, 0, wx.ALIGN_CENTER_VERTICAL, 0)
+        
+        grid_sizer_names.Add(self.label_teacher,      0, 0, 0)
+        grid_sizer_names.Add(self.choice_teacher,     1, wx.BOTTOM | wx.EXPAND, 0)
+        grid_sizer_names.Add(self.button_add_teacher, 0, wx.ALIGN_TOP, 0)
         self.panel_middle.SetSizer(grid_sizer_names)
         
         sizer_main.Add(self.panel_middle, 0, wx.ALL | wx.EXPAND, 5)
-        sizer_main.Add(self.button_enter, 0, wx.ALL | wx.ALIGN_RIGHT | wx.ALL, 20)
+        sizer_main.Add(self.button_enter, 0, wx.ALL | wx.ALIGN_CENTRE, 20)
         self.panel_main.SetSizer(sizer_main)
         
-        sizer_base.Add(self.panel_main,   1, wx.EXPAND | wx.ALL, 10)
+        sizer_base.Add(self.panel_main,   0, wx.ALL, 10)
         self.SetSizer(sizer_base)
         sizer_base.Fit(self)
         
         self.SetSize((600,-1))
-
+        self.Fit()
         self.Layout()
         self.Center()
 
@@ -81,7 +89,7 @@ class DlgNewEditExculActivity(wx.Dialog):
         
         if self.editMode: self.loadExculData(exculset_id, excul_id)
         
-        loadCmb.exculActivitiesPool(self.choice_activity, self.exculset_id, self.activity_id)
+        loadCmb.excul_subjectsPool(self.choice_activity, self.exculset_id, self.activity_id)
         loadCmb.exculTeacherPool(self.choice_teacher,     self.exculset_id, self.teacher_id)
         
     def setTitle(self, info):
@@ -140,6 +148,7 @@ class DlgNewEditExculActivity(wx.Dialog):
     
         
 if __name__ == '__main__':
+    gVar.schYr = 2014
     app = wx.App(redirect=False)
     dlg = DlgNewEditExculActivity(None)
     try:
