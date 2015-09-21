@@ -213,7 +213,7 @@ class panel_payment_details(wx.Panel):
         pid   = self.listctrl_payments.GetSelectedID()
         index = self.listctrl_payments.GetFirstSelected()
         invoice_id = int(self.listctrl_payments.getColumnText(index, 0))
-        
+        record = self.listctrl_payments.GetItemCount()
         sql = "SELECT id, item_name,  \
                       date_from, date_to, month_from, month_to, \
                       item_name, price, Format(total_amount,'#,###') AS  total_amount\
@@ -222,7 +222,7 @@ class panel_payment_details(wx.Panel):
         mylist = fetch.getAllDict(sql)
         
         if mylist:#self.pay_records:
-              txt = "Record: %d/%d" % (index+1, len(mylist)) #self.pay_records)
+              txt = "Record: %d/%d" % (index+1, record) #self.pay_records)
               self.listctrl_details.Enable()
         else: txt = 'No Records'
         
