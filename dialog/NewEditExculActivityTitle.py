@@ -1,4 +1,8 @@
-import wx, gVar, fetch, loadCmb
+import wx
+
+import data.fetch   as fetch
+import data.loadCmb as loadCmb
+import data.gVar    as gVar
 
 def create(parent):
     return DlgNewEditExculActivityTitle(parent)

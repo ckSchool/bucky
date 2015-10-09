@@ -1,4 +1,7 @@
-import wx, gVar, fetch
+import wx
+
+import data.fetch   as fetch
+import data.gVar    as gVar
 
 def create(parent):
     return DlgExculDaysSetter(parent)

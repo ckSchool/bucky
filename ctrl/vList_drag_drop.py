@@ -1,11 +1,12 @@
 # dragDrop_vListCtrl
 
-import wx
-import fetch
-import loadCmb
-import math
-import images
-import gVar
+import wx, math
+
+import data.fetch   as fetch
+import data.loadCmb as loadCmb
+import data.gVar    as gVar
+
+import data.images  as images
 
 import wx.lib.mixins.listctrl as listmix
 

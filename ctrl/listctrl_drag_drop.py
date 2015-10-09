@@ -1,16 +1,15 @@
-#!/usr/bin/python
-# sorted.py
 import wx
-#rintwx.VERSION_STRING
-
+import time
 import os
 import sys
 import stat
+
+import  data.images
+
 from wx.lib.mixins.listctrl import ColumnSorterMixin
 from wx.lib.mixins.listctrl import ListCtrlAutoWidthMixin
-import time
 
-import  images
+
 
 class FileInfo(object):
     def __init__(self, path, date_created, date_modified, size):
