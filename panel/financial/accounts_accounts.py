@@ -1,9 +1,13 @@
-import wx, fetch, loadCmb
+import wx
 import wx.lib.masked as masked
 
-from myListCtrl    import VirtualList as vList
-from my_ctrls      import Validator
-import panel._buttons.panel_buttons   
+import data.fetch   as fetch
+import data.loadCmb as loadCmb
+
+from   ctrl.myListCtrl  import VirtualList as vList
+from   ctrl.my_ctrls    import Validator
+
+from  panel.buttons    import panel_buttons   
 
     
 ## --------------------------------------------------------    

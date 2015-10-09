@@ -1,10 +1,10 @@
-import wx, time, datetime 
-from DlgDatePicker import DlgDatePicker
+import wx, time, datetime, base64
+
+from dialog.DatePicker import DlgDatePicker
 
 from wx.lib.pubsub import setupkwargs
 from wx.lib.pubsub import pub
  
-import base64
  
 from wx.lib.embeddedimage import PyEmbeddedImage
 

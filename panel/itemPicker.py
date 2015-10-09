@@ -1,8 +1,10 @@
-import wx, gVar
+import wx
+
+import data.gVar    as gVar
 
 from wx.lib.pubsub import pub
 
-from myListCtrl import VirtualList
+from ctrl.myListCtrl import VirtualList
 
 class itemPicker(wx.Panel):
     def __init__(self, *args, **kwds):

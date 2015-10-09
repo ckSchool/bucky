@@ -1,7 +1,7 @@
-import wx, gVar
+import wx, cPickle
 
+import data.gVar    as gVar
 import wx.lib.mixins.listctrl as listmix
-import cPickle
 
 class VirtualList(wx.ListCtrl, listmix.ColumnSorterMixin, listmix.ListCtrlAutoWidthMixin):
     def __init__(self, parent, id=id, columns=(('',50),('',50),('',50)), style=0):
