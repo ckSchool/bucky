@@ -1,10 +1,14 @@
 # dragDrop_vListCtrl
 
-import wx, fetch, loadCmb, math, images, gVar
+import wx
+import fetch
+import loadCmb
+import math
+import images
+import gVar
 
 import wx.lib.mixins.listctrl as listmix
 
-gVar.schYr = 2014
 symbols={"sm_up":wx.ART_GO_UP,"sm_dn":wx.ART_GO_DOWN}
 draglist = []
 
