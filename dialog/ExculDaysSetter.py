@@ -108,6 +108,7 @@ class DlgExculDaysSetter(wx.Dialog):
         print sql
         fetch.updateDB(sql)
  
+#  to test dialog
 if __name__ == '__main__':
     gVar.schYr = 2015
     app = wx.App(redirect=False)
