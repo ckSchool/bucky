@@ -1,4 +1,9 @@
-import wx, fetch, loadCmb, math, images, gVar
+import wx
+import fetch
+import loadCmb
+import math
+import images
+import gVar
 
 import wx.lib.mixins.listctrl as listmix
 
