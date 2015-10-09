@@ -1,11 +1,11 @@
 import wx
 import gVar
-importfetch
+import fetch
 
 import string
 import time
 import images
-import DlgSchYr
+import dialog._SchYr
 
 from wx.lib.combotreebox import ComboTreeBox
 

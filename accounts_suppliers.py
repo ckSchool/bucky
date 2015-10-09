@@ -1,8 +1,8 @@
 import wx, fetch
 
-from myListCtrl   import VirtualList as vList
-from panel_buttons import panel_buttons   
-from my_ctrls      import Validator
+from myListCtrl     import VirtualList as vList
+from panel._buttons import panel_buttons   
+from my_ctrls       import Validator
         
 class panel_suppliers(wx.Panel):
     def __init__(self, *args, **kwds):

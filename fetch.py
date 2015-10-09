@@ -1,49 +1,37 @@
 # FIND_IN_SET(student_id, %s) % '1,3,56,89,987,8'
-import wx, gVar
+import wx
+import gVar
 import re
-import pyodbc as MySQLdb
+
 import MySQLdb
 
 from wx.lib.pubsub import setupkwargs
 from wx.lib.pubsub import pub
 
 import warnings, datetime, time, pyodbc, types, images, hashlib, random
-import DlgDatePicker
+import dialog._DatePicker
 
-from base64 import urlsafe_b64encode as encode
 from base64 import urlsafe_b64decode as decode
         
 ALPHABET = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
-Printon = False
-# Printon = True #
-
-Dell   = ('192.168.0.251', 'andrew', 'andrew123', 'chandrakusuma', 3306)
-Vostro = ('localhost',     'root',   'andrewroot','ckdb', 3306)
-
-useConnection =   Vostro # Dell #
+Printon  = False
+useConnection = ('localhost',     'root',   'andrewroot','ckdb', 3306)
 
 c=''
 cc=''
 try:
     import deft
-    '''# connect to dell
-    ckhost, ckuser, ckpassword, mydb, myport = useConnection
-    mySQLconn  = MySQLdb.Connect(
-          host = ckhost, user=ckuser,
-        passwd = ckpassword, db=mydb, port = myport, compress=1)
-    c  = mySQLconn.cursor(cursorclass=MySQLdb.cursor.DictCursor)
-    cc = mySQLconn.cursor()'''
+
 except:
     try:
         ckhost, ckuser, ckpassword, mydb, myport =  useConnection
-        mySQLconn  = MySQLdb.Connect(
-          host = ckhost, user=ckuser,
-        passwd = ckpassword, db=mydb, port = myport, compress=1)
+        mySQLconn    = MySQLdb.Connect(
+                host = ckhost, user=ckuser,
+              passwd = ckpassword, db=mydb, port = myport, compress=1)
         c  = mySQLconn.cursor(cursorclass=MySQLdb.cursors.DictCursor)
         cc = mySQLconn.cursor()
     except:
         pass
-        #rint"can't connect ckdb"
     
 class DB:
     pass

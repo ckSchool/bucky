@@ -3,7 +3,7 @@ import wx.lib.masked as masked
 
 from myListCtrl    import VirtualList as vList
 from my_ctrls      import Validator
-from panel_buttons import panel_buttons
+import panel._buttons.panel_buttons   
 
     
 ## --------------------------------------------------------    
