@@ -1,6 +1,10 @@
-import wx, gVar, fetch
+import wx
+import gVar
+importfetch
 
-import string, time, images
+import string
+import time
+import images
 import DlgSchYr
 
 from wx.lib.combotreebox import ComboTreeBox
