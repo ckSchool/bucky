@@ -1,11 +1,15 @@
-import wx, fetch, loadCmb, datetime
+import wx, datetime
 
-import DlgTransaction
+import dialog.Transaction
 
 import wx.grid as gridlib
 
-from DateCtrl import DateCtrl
-from my_ctrls import panel_buttons
+
+import data.fetch   as fetch
+import data.loadCmb as loadCmb
+
+from ctrl.DateCtrl import DateCtrl
+from ctrl.my_ctrls import panel_buttons
 
 from wx.lib.pubsub import setupkwargs
 from wx.lib.pubsub import pub

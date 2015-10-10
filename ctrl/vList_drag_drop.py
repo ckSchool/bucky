@@ -1,11 +1,10 @@
-# dragDrop_vListCtrl
+import wx, math
 
-import wx
-import fetch
-import loadCmb
-import math
-import images
-import gVar
+import data.fetch   as fetch
+import data.loadCmb as loadCmb
+import data.gVar    as gVar
+
+import data.images  as images
 
 import wx.lib.mixins.listctrl as listmix
 
@@ -51,7 +50,6 @@ class VirtualList(wx.ListCtrl, listmix.ColumnSorterMixin, listmix.ListCtrlAutoWi
         
         student_id = int(student_id)
         selected_item = (student_id, name, form)
-        print selected_item
         
         key = self.find_key_for_student_id(student_id)
         if not key == None :
@@ -92,7 +90,6 @@ class VirtualList(wx.ListCtrl, listmix.ColumnSorterMixin, listmix.ListCtrlAutoWi
             flag=self.itemDataMap[index][2]
             return self.flag_attr_dict[flag]
         except:
-            pass
             return None
         
     def SortItems(self, sorter=None):
