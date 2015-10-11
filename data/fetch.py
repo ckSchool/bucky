@@ -9,10 +9,10 @@ from wx.lib.pubsub import setupkwargs
 from wx.lib.pubsub import pub
 
 import warnings, datetime, time, pyodbc, types, images, hashlib, random
-import dialog._DatePicker
+import dialog.DatePicker
 
 from base64 import urlsafe_b64decode as decode
-        
+
 ALPHABET = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
 Printon  = False
 useConnection = ('localhost',     'root',   'andrewroot','ckdb', 3306)
@@ -32,7 +32,7 @@ except:
         cc = mySQLconn.cursor()
     except:
         pass
-    
+
 class DB:
     pass
     #rint 'Connect to Vostro'
@@ -44,7 +44,7 @@ class DB:
                                         passwd = ckpassword, db=mydb,
                                         port   = myport,     compress=1)
             #rint 'connected'
-            
+
         except (AttributeError, MySQLdb.OperationalError), e:
             #rint ' can not connect'
             raise e
@@ -59,7 +59,7 @@ class DB:
                 connect()
                 cursor = conn.cursor()
                 cursor.execute(sql, params)
-        
+
         else: #mySQLconn.cursor
             try:
                 cursor = conn.cursor(cursorclass=MySQLdb.cursors.DictCursor)
@@ -67,10 +67,10 @@ class DB:
             except (AttributeError, MySQLdb.OperationalError) as e:
                 msg( 'exception generated during sql connection: ', e)
                 cursor = conn.cursor(cursorclass=MySQLdb.cursors.DictCursor)
-                cursor.execute(sql, params)    
-                
+                cursor.execute(sql, params)
+
         return cursor
-    
+
     def close(self):
         try:
             if conn:
@@ -95,14 +95,14 @@ def rc():
         cc = mySQLconn.cursor()
     except:
         msg( "can't connect ckdb"    )
-    
+
 def rollback():
     mySQLconn.rollback()
-    
+
 def c_execute(sql):
     c.execute(sql)
     return  mySQLconn.insert_id()
-    
+
 def updateDB(sql):
     inserted_id = 0
     try:
@@ -112,15 +112,15 @@ def updateDB(sql):
     except:
         #rint 'Update failed' , sql
         msg( 'Update failed')
-        
+
     return inserted_id
 
 def updateDBcommit():
-    mySQLconn.commit() 
+    mySQLconn.commit()
 
 def updateDBtransaction(sql):
     c.execute(sql)
-    return 
+    return
 
 
 #-------------------------------------------------------------------------------
@@ -150,12 +150,12 @@ mdblocal = 0
 if mdb:
     import pyodbc
     if mdblocal:
-        # connect to MDB localy        
+        # connect to MDB localy
         #DBPATH = "C:\Users\andrewVostro\Documents\master.mdb"
-        
+
         if dir(DBPATH) == "" :
            msg( "File database tidak ditemukan.")
-           
+
         else:
             connString = (" DRIVER={Microsoft Access Driver (*.mdb)}; \
                             DBQ=C:\\Users\\andrewVostro\\Documents\\master.mdb ")
@@ -165,24 +165,24 @@ if mdb:
         DBPATH = "\\192.168.0.3\absensi\\master.mdb"
         if dir(DBPATH) == "" :
            msg( "File database tidak ditemukan.")
-           
+
         else:
             connString = (" DRIVER={Microsoft Access Driver (*.mdb)}; \
                             DBQ=\\\\192.168.0.3\\absensi\\master.mdb;UID=office;PWD='ckinno633423';QUIETMODE=YES;")
 
     mdbConn = pyodbc.connect(connString)
-    d = mdbConn.cursor() 
-            
+    d = mdbConn.cursor()
+
 def mdbAllDict(sql):
     d.execute(sql)
     res = d.fetchall()
     return res
-    
+
 def updateMdb(sql):
     #inserted_id = 0
     d.execute(sql)
     #inserted_id = mdbConn.insert_id()
-    mdbConn.commit() 
+    mdbConn.commit()
     return 0 # inserted_id
 
 #-------------------------------------------------------------------------------
@@ -206,7 +206,7 @@ def getOneDict(sql):
         return c.fetchone()
     except:
         return ''
-    
+
 def getAllCol(sql):
     #echo(sql)
     try:
@@ -215,8 +215,8 @@ def getAllCol(sql):
         res= cc.fetchall()
         return res
     except:
-        return ''    
-    
+        return ''
+
 def getOneCol(sql):
     echo(sql)
     try:
@@ -226,7 +226,7 @@ def getOneCol(sql):
         return res
     except:
         return ''
-    
+
 def getCount(sql):
     echo(sql)
     try:
@@ -237,7 +237,7 @@ def getCount(sql):
         return 0
     except:
         return 0
-    
+
 def getStr(sql):
     echo(sql)
     try:
@@ -261,7 +261,7 @@ def getSum(sql):
     except:
         #rint 'no res : 0'
         return 0
-    
+
 def getDig(sql):
     #rint  sql
     mySQLconn.commit()
@@ -274,7 +274,7 @@ def getRes(sql, want = 'dict'):
     if   want=='dict': return getAllDict(sql)
     elif want=='list': return getList(sql)
     else:              return getCount(sql)
-    
+
 def getList(sql, colNo=0):
     echo(sql)
     list =[]
@@ -309,7 +309,7 @@ def getDATA(sql):
 def build_dictionary(mylist):
     index  = 0
     myDict = {}
-    
+
     for row in mylist:
         newrow=[]
         for x in row:
@@ -322,9 +322,9 @@ def build_dictionary(mylist):
         myDict[index] = newrow
         index +=1
     return myDict
-    
+
 #-------------------------------------------------------------------------------
- 
+
 
 #-   A     ---------------------------------------------------------------------
 
@@ -337,27 +337,27 @@ def account_name(account_id):
 
 def addNewStudent(user_name, name):
     return addNewCustomer(user_name, name, 'student')
-    
+
 def addNewEmployee(user_name, name):
     return addNewCustomer(user_name, name, 'employee')
-    
+
 def addNewAdmin(user_name, name):
     return addNewCustomer(user_name, name, 'admin')
-    
+
 def addNewGuardian(user_name, name):
     return addNewCustomer(user_name, name, 'guardian')
 
-def addNewCustomer(user_name, name, user_type): # every person entered is in some form a cusomer or 'Customer' 
+def addNewCustomer(user_name, name, user_type): # every person entered is in some form a cusomer or 'Customer'
     if not user_name: return ''
     full_name = "%s %s %s" % (name)
-    
+
     temp_password = user_name + '123'
     salt = ''.join(random.choice(ALPHABET) for i in range(8))
 
     h= hashlib.new('sha1')
     h.update(salt + temp_password)
     hashed_password = h.hexdigest()
-    
+
     guid = hashed_password[:32]
 
     datetime_now = dtNow()
@@ -369,16 +369,16 @@ def addNewCustomer(user_name, name, user_type): # every person entered is in som
                   salt, hashed_password, datetime_now, datetime_now)
     if user_type == 'student':
         sql += ", user_type ='student', student =1"
-        
+
     elif user_type == 'guardian':
         sql += ", user_type ='guardian', guardian =1"
-        
+
     elif user_type == 'admin':
         sql += ", user_type ='admin', admin =1"
-            
+
     elif user_type == 'employee':
         sql += ", user_type ='employee', employee =1"
-        
+
     updateDB(sql)
     return guid
 
@@ -425,7 +425,7 @@ def assignmentIDs_forStudygroup(studygroup_id, semester_no):
                AND a.semester = %d " % (studygroup_id,  semester_no)
     #rint sql
     return getList(sql)
-        
+
 def avoidList(form_id, group):
     sql = "SELECT divisions \
              FROM forms \
@@ -446,7 +446,7 @@ def acc_code_exists(acc_code):
              FROM acc_accounts \
             WHERE code =%s" % acc_code
     return getCount(sql)
-        
+
 def acc_name_exists(acc_name):
     sql = "SELECT * \
              FROM acc_accounts \
@@ -456,8 +456,8 @@ def acc_name_exists(acc_name):
 def acc_catagory_id(acc_code):
     sql = "SELECT acc_catagory_id FROM acc_accounts WHERE code=%d" % int(acc_code)
     return getDig(sql)
-    
-    
+
+
 def acc_name(acc_code):
     sql = "SELECT name FROM acc_accounts WHERE code=%d" % acc_code
     return getStr(sql)
@@ -465,7 +465,7 @@ def acc_name(acc_code):
 def acc_balance(acc_code):
     sql  = "SELECT balance FROM acc_accounts WHERE code = %d" % int(acc_code)
     return getDig(sql)
-        
+
 #- B     ---------------------------------------------------------------------
 def blood_type(blood_type_id):
     sql = " SELECT name \
@@ -479,12 +479,12 @@ def buttondate(olddate):
     newDate = olddate
     dlg = DlgDatePicker.create(None, olddate)
     try:
-        if dlg.ShowModal() == wx.ID_OK: 
+        if dlg.ShowModal() == wx.ID_OK:
             newDate = dlg.calendardate
-            
-    finally:   
+
+    finally:
         dlg.Destroy()
-        
+
     #rint 'newDate',newDate
     return newDate
 
@@ -517,7 +517,7 @@ def choiceID(choiceCtrl):
     if index > 0: selected_id = choiceCtrl.GetClientData(index)
     else:         selected_id = 0
     return selected_id
-    
+
 def cmbID(cmb):
     index = cmb.GetSelection()
     #rint'cmb name:',cmb.GetName(), ', index=', index, ' value = ', cmbValue(cmb)
@@ -543,16 +543,16 @@ def colNames(tablename):
     return getAllCol(sql)
 
 def convertDate_fromAccess_toMYSQL(date):
-    inverted_dict = dict([[v,k] for k,v in gVar.numborBulan.items()]) 
+    inverted_dict = dict([[v,k] for k,v in gVar.numborBulan.items()])
     #rint 'convertDate_fromAccess_toMYSQL', date
     if date:
         if date:
-            try: 
+            try:
                 dateArray = str(date).split(" ")
-            
+
                 month = dateArray[1]
                 if type(month) is str:
-                    
+
                     #rint 'month_name', month
                     d2 = inverted_dict[month]
                 else:
@@ -584,8 +584,8 @@ def comment_forStudygroup(student_id, studygroup_id, semester_no):
                AND g.studygroup_id=%d \
                AND g.semester_no=%d" % (
             student_id, studygroup_id, semester_no)
-    return getStr(sql) 
-      
+    return getStr(sql)
+
 def comment_forForm(student_id, form_id, semester_no):
     sql = " SELECT g.comment \
               FROM grades_comments g \
@@ -602,8 +602,8 @@ def countStudents_newForCourse(rereg_course_id):
              WHERE s.enter_course_id = %d \
                AND '%s' BETWEEN s.register_schYr AND s.exit_schYr" % (rereg_course_id, gVar.schYr)
     return getDig(sql)
-    
-def countStudents_retakingCourse(rereg_course_id): 
+
+def countStudents_retakingCourse(rereg_course_id):
     sql = " SELECT COUNT(s.id) \
               FROM students s \
               JOIN students_by_form sbf ON s.id = sbf.student_id \
@@ -613,7 +613,7 @@ def countStudents_retakingCourse(rereg_course_id):
                AND '%s'  BETWEEN s.register_schYr AND s.exit_schYr \
                AND sbf.rereg_status = 'retake' " % (rereg_course_id, gVar.schYr, gVar.schYr)
     return getDig(sql)
-    
+
 def countStudents_reregFeePaid_forCourse(rereg_course_id):
     sql = " SELECT COUNT(s.id) \
               FROM students_by_form sbf \
@@ -664,7 +664,7 @@ def courses_byLevel_tupleList():
                AND c.terminated  = False \
              ORDER BY cl.level"
     return getListTuples(sql)
-    
+
 def courses_byLevel(result_type = 'dict' ):
     #rint ' fetch > courses_byLevel'
     sql = " SELECT c.id, c.name, LPAD(c.level, 2, 0) AS level \
@@ -673,11 +673,11 @@ def courses_byLevel(result_type = 'dict' ):
              WHERE NOT c.ceased  \
              ORDER BY cl.level"
     #rint 'fetch.courses_byLevel:',  sql, getAllDict(sql)
-    if result_type=='dict':   
+    if result_type=='dict':
           return getAllDict(sql)
     else: return getAllCol(sql)
-                                
-    
+
+
 def courses_for_year(yr):
     sql = "SELECT c.id, c.name, LPAD(level, 2, 0) AS level \
              FROM courses c \
@@ -691,7 +691,7 @@ def courses_for_year_DATA(yr):
              FROM courses c \
              JOIN courses_by_year cby ON c.id = cby.course_id \
             WHERE cby.schYr =%d" % yr
-    
+
     DATA = build_dictionary(getAllCol(sql))
     #rint sql, DATA
     return DATA
@@ -771,8 +771,8 @@ def courseLevels():
              FROM course_levels \
             GROUP BY level \
             ORDER BY level"
-    return getAllDict(sql) 
-             
+    return getAllDict(sql)
+
 def courseLevel_forCourse(course_id):
     sql = "SELECT cl.level \
              FROM course_levels cl \
@@ -780,7 +780,7 @@ def courseLevel_forCourse(course_id):
             WHERE c.id = %d" % int(course_id)
     return getDig(sql)
 
-def courseLevel_forCourseTitle(courseLevel_forCourseTitle):  
+def courseLevel_forCourseTitle(courseLevel_forCourseTitle):
     sql = "SELECT cl.level \
              FROM course_levels cl \
              JOIN courses c ON c.level = cl.level \
@@ -820,14 +820,14 @@ def course_level_info(course_level):
     #rint sql
     return getAllDict(sql)
 
-# oursesIDs ---------------------------    
+# oursesIDs ---------------------------
 def coursesIDs_all():        # returns:course_level
     sql = " SELECT id \
               FROM courses \
              GROUP BY name \
              ORDER BY name"
     return getList(sql)
-    
+
 def courseID_forStudent(student_id):
     sql = " SELECT f.level \
               FROM students s \
@@ -859,8 +859,8 @@ def courseTitles_details():
              GROUP BY level \
              ORDER BY level"
     return getAllDict(sql)
-    
-def course_details(course_id): 
+
+def course_details(course_id):
     if not course_id: return {}
     sql = " SELECT c.name, c.schYr,  cl.level, cl.name AS level_name, cl.section, \
                   cl.school_id, cl.code \
@@ -876,7 +876,7 @@ def courseTitle_forCourse(course_id):
              FROM courses  \
             WHERE id = %d " % course_id
     return getStr(sql)
-               
+
 def courseTitles_forLevel(course_level):
     #rint 'courseTitles_forLevel', course_level, yr
     sql = " SELECT cl.level, cl.name \
@@ -916,17 +916,17 @@ def displayDate(date):
     return txt
 
 def dateConvert_YMDtoMDY(ymd):
-    # this takes a DATE object and converts it to text 
-    m = date.strftime("%d") 
-    d = date.strftime("%B") 
+    # this takes a DATE object and converts it to text
+    m = date.strftime("%d")
+    d = date.strftime("%B")
     y = date.strftime("%Y")
     #rint "month / day / year", m, d, y
     return mdy
-    
+
 def dtNow(indate=''):
     if indate: n = indate.split('-')
-    
-    t  = datetime.time(1, 2, 3)                    
+
+    t  = datetime.time(1, 2, 3)
     d  = datetime.date.today()
     dt = datetime.datetime.combine(d, t)
     return dt
@@ -944,7 +944,7 @@ def employeeName(staff_id):
              FROM staff \
             WHERE id = %s" % staff_id
     return getStr(sql)
-    
+
 def eduLevel(id=0):
     if not id:return''
     sql = "SELECT name \
@@ -959,14 +959,14 @@ def get_school_id_for_schedule_id(schedule_id):
     sql = "SELECT school_id FROM excul_schedule WHERE id =%d" % schedule_id
     #rint sql, getDig(sql)
     return getDig(sql)
-    
+
 def get_all_student_ids_for_schedule_id(schedule_id):
     sql = " SELECT s.id \
               FROM students s \
               JOIN excul_students es ON  s.id = es.student_id \
               JOIN excul_groups   eg ON eg.id = es.excul_group_id \
              WHERE eg.excul_schedule_id = %d " % (schedule_id, )
-    
+
     print 'get_all_student_ids_for_schedule_id:', sql, getList(sql)
     return getList(sql)
 
@@ -977,7 +977,7 @@ def excul_unallocated(schedule_id):
         l_lev = 12; u_lev = 18
     else:
         l_lev = 8; u_lev = 11
-        
+
     allocated_students = get_all_student_ids_for_schedule_id(schedule_id)
 
     id_list = ', '.join(str(x) for x in allocated_students)
@@ -1000,15 +1000,15 @@ def excul_unallocatedDATA(schedule_id):
         l_lev = 12; u_lev = 18
     else:
         l_lev = 8; u_lev = 11
-        
+
     allocated_students = get_all_student_ids_for_schedule_id(schedule_id)
     print 'allocated_students ', allocated_students
     for id in allocated_students:
         print studentFullName(id)
-    
-    
+
+
     id_list = ', '.join(str(x) for x in allocated_students)
-    
+
     sql = "   SELECT s.id, s.name, f.name AS form_name \
                     FROM students s \
                     JOIN students_by_form sbf ON sbf.student_id = s.id\
@@ -1044,7 +1044,7 @@ def excul_info(excul_id):
               FROM excul \
              WHERE id=%d" % int(excul_id)
     return getOneDict(sql)
-  
+
 def excul_groupDATA_forDaySchSemYr(dayNo, semester, sch_id):
     sql = " SELECT ex.id, ea.id AS subject_id, ea.name AS subject_name, e.id, st.name AS teacher_name \
               FROM excul_groups   ex \
@@ -1083,9 +1083,9 @@ def exculsetinfo(set_id):
               JOIN schools s ON s.id = es.school_id \
              WHERE es.id = %d" % set_id
     return getOneCol(sql)
-    
+
 def excul_studentList(excul_group_id):
-    #rint 'excul_studentList' , 
+    #rint 'excul_studentList' ,
     sql = "SELECT s.id, s.name, f.name\
              FROM excul_students    es \
              JOIN students           s ON s.id = es.student_id \
@@ -1099,7 +1099,7 @@ def excul_studentList(excul_group_id):
         print res
     return res
 
-def exculGroupsDATA_forScheduleID(schedule_id):    
+def exculGroupsDATA_forScheduleID(schedule_id):
     sql = " SELECT  g.id, \
                   sub.id AS subject_id, sub.name AS subject_name, \
                     s.id AS staff_id,     s.name AS staff_name, \
@@ -1109,7 +1109,7 @@ def exculGroupsDATA_forScheduleID(schedule_id):
          LEFT JOIN excul_subjects sub ON sub.id = g.excul_subject_id \
          LEFT JOIN staff            s ON   s.id = g.staff_id \
              WHERE sdl.id = %d " % (schedule_id, )
-    
+
     return getDATA(sql)
 
 def exculGroupDetails_forSchSemYr(school_id, semester_no, yr):
@@ -1130,7 +1130,7 @@ def exculSchedule_forSchSemYr(school_id, semester, schYr):
                AND school_id = %d \
                AND schYr = %d" % (semester, school_id, schYr)
     res = getAllDict(sql)
-    
+
     #rint '  exculSchedule_forSchSemYr   ', sql,  res
 
     return getAllDict(sql)
@@ -1149,13 +1149,13 @@ def writeToStatusbar(txt, idx):
     if   idx == 0: pub.sendMessage('write_to_statusbar0')
     elif idx == 1: pub.sendMessage('write_to_statusbar1')
     elif idx == 2: pub.sendMessage('write_to_statusbar2')
-    
+
 
 def excul_subject_name(subject_id):
     sql = "SELECT name \
              FROM excul_subjects \
             WHERE id = %d" % int(subject_id)
-    return getStr(sql)  
+    return getStr(sql)
 
 def excul_activityPool(listOfActivityIDs):
     listOfActivityIDs = [str(x[0]) for x in listOfActivityIDs]
@@ -1227,9 +1227,9 @@ def filter_list(full_list, excludes):
     s = set(excludes)
     return (x for x in full_list if x not in s)
 
-def formatDateForDB(date): 
+def formatDateForDB(date):
     dbDate = "0000-00-00"
-    if date: 
+    if date:
         #rint 'date =',  date
         d = str(date).split("-")
         if len(d) == 3:
@@ -1272,7 +1272,7 @@ def forms_inStudygroup(studygroup):# not used
               FROM studygroups \
              WHERE id = %d" % studygroup
     return getStr(sql).split(',')
-    
+
 def forms_forSchool(school_id):
     sql = "SELECT f.id, f.name \
              FROM forms f \
@@ -1307,7 +1307,7 @@ def formName(form_id):
               FROM forms \
              WHERE id = %d" % int(form_id)
     return getStr(sql)
-    
+
 def formInfo(form_id):
     sql = " SELECT name, short, course_id \
               FROM forms \
@@ -1321,7 +1321,7 @@ def formInfo2(form_id):
               JOIN course_levels cl ON cl.level = c.course_level \
              WHERE f.id = %d" % int(form_id)
     return getOneDict(sql)
-    
+
 def formName_forMentor(staff_id):
     names_string = ''
     form_ids_list = forms_forMentor(staff_id).strip()
@@ -1334,7 +1334,7 @@ def formName_forMentor(staff_id):
             names_list.append(name)
         names_string = ', '.join(names_list)
     return names_string
-    
+
 def formName_forStudent(student_id, schYr = gVar.schYr):
     #rint 'schYr, int(student_id)', schYr, int(student_id)
     sql = " SELECT f.name \
@@ -1344,9 +1344,9 @@ def formName_forStudent(student_id, schYr = gVar.schYr):
                AND sbf.id= %d" % (schYr, int(student_id))
     #rint sql
     return getStr(sql)
-    
+
 def formID_forStudent(student_id, schYr = None):
-    
+
     sql = " SELECT sbf.form_id \
               FROM students_by_form  sbf \
               JOIN forms f   ON f.id = sbf.form_id \
@@ -1354,8 +1354,8 @@ def formID_forStudent(student_id, schYr = None):
     if schYr:
         sql += " AND f.schYr = %d" % schYr
     #rint sql
-    return getDig(sql)  
-    
+    return getDig(sql)
+
 def formIds_forYear(schYr):
     sql = " SELECT f.id \
               FROM forms f \
@@ -1373,7 +1373,7 @@ def formNames_all():
              WHERE cl.level > -10 \
              ORDER BY cl.level"
     return getList(sql)
-    
+
 def forms_byYear(year):
     sql = " SELECT f.id, f.name, cl.level \
               FROM forms f \
@@ -1404,8 +1404,8 @@ def forms_pool():
              GROUP BY f.name \
              ORDER BY c.level" % gVar.schYr
     return getListTuples(sql)
-    
-    
+
+
 def forms_forCourse(course_id):
     sql = " SELECT f.id, f.name, cl.level \
               FROM forms f \
@@ -1415,8 +1415,8 @@ def forms_forCourse(course_id):
                AND f.schYr = %d \
           ORDER BY cl.level " % (course_id, gVar.schYr)
 
-    return getAllDict(sql)    
-'''    
+    return getAllDict(sql)
+'''
 def forms_forCourse(course_id, result_type = 'dict'):
     sql = " SELECT f.id, f.name, cl.level \
               FROM forms f \
@@ -1429,19 +1429,19 @@ def forms_forCourse(course_id, result_type = 'dict'):
     if   result_type =='dict':      return getAllDict(sql)
     elif result_type =='by column': return getAllCol(sql)
     else:                           return getListTuples(sql)
-'''      
+'''
 def formCount_forCourse(course_id, result_type = 'dict'):
     sql = " SELECT COUNT( f.id) \
               FROM forms f \
              WHERE f.course_id =%d " % (int(course_id),)
     #rint sql
-    return getDig(sql) 
-    
+    return getDig(sql)
+
 
 
 def formGrades_forStudent(student_id):
     return 'temp','temp','temp'
-    
+
 
 
 
@@ -1468,14 +1468,14 @@ def gradeAverage_forStudygroup(student_id, studygroup_id, semester_no):
     assignmentCount = 1
     for assignment_id in assignmentIDs:
         grades = gradesForAssignment(student_id, assignment_id)
-        if grades: 
+        if grades:
             gradeT = grades['gradeT']
             gradeP = grades['gradeP']
             gTot = gradeT + gradeP
             if gradeT and gradeP:  gTot = gTot/2
             total += gTot
             if gradeT or gradeP:   assignmentCount += 1
-            
+
     return total/assignmentCount
 
 def gradeAverage_forBatch(student_id, form_id, semester_no):
@@ -1493,8 +1493,8 @@ def gradeAverage_forBatch(student_id, form_id, semester_no):
     if ave == 0: ave = 0
     return ave
 
-    
-def gradesForAssignment(student_id, assignment_id):    
+
+def gradesForAssignment(student_id, assignment_id):
     # rint student_id, assignment_id
     sql = "SELECT g.gradeT, g.gradeP \
              FROM grades_academic g \
@@ -1521,7 +1521,7 @@ def hasPermission(feature):
 def image_scale(image, maxWidth, maxHeight):
     width  = image.GetWidth()
     height = image.GetHeight()
-    
+
     #rint "maxWidth  width maxHeight height", maxWidth , width, maxHeight, height
     ratio  = min( maxWidth / width, maxHeight/ height )
     #rint "ratio*width, ratio*height", ratio*width, ratio*height
@@ -1533,7 +1533,7 @@ def image_loadCtrl(ctrl, image, padding = 0):
     w, h = ctrl.GetSize()
     w = w - padding*2
     h = h - padding*2
-    bmp = image_scale(bmp, w, h)        
+    bmp = image_scale(bmp, w, h)
     ctrl.SetBitmap(bmp)
 
 def image_getIndex( path, imagePaths):
@@ -1552,13 +1552,13 @@ def image_resize( ctrl, image, size, padding):
         h = size[1] - padding*2
         bmp = image_scale(image, w, h)
         ctrl.SetBitmap(bmp)
-        
+
 def is_recurring_monthly(product_id):
     sql = "SELECT recurring_monthly \
              FROM acc_products \
             WHERE id =%d" % product_id
     return getDig(sql)
-    
+
 def is_recurring(product_id):
     sql = "SELECT is_recurring \
              FROM acc_products \
@@ -1573,7 +1573,7 @@ def is_unique_product(description):
     #rint'is_unique_product > getCount', res
     if res == 0: return True
     else: return False
-    
+
 
 
 # J------------------------------
@@ -1620,7 +1620,7 @@ def livesWith(guardian_id):
                  WHERE id = %d" % int(guardian_id)
         return getStr(sql)
     else: return ''
-    
+
 def levelTitle(course_level):
     sql = "SELECT name \
              FROM course_levels \
@@ -1671,8 +1671,8 @@ def NoInduk(student_id, schYr):
             WHERE s.id = %d AND f.schYr = %d" % (student_id, schYr)
     #rintsql
     return getStr(sql)
-    
-    
+
+
 def nextCourse(student_id):
     if not student_id: return ''
     sql = " SELECT cl.name \
@@ -1703,7 +1703,7 @@ def occ(id):
               FROM occupations \
              WHERE id = %d " % id
     return getStr(sql)
-                
+
 def overallGrade_forAssignment(student_id, assignment_id):
     overallGrade = 10
     grades = gradesForAssignment(student_id, assignment_id)
@@ -1711,7 +1711,7 @@ def overallGrade_forAssignment(student_id, assignment_id):
         gList = grades.split(',')
         for item in gList:
             overallGrade = 5
-            
+
             ## much more to be done - weighting etc
     return overallGrade
 
@@ -1721,7 +1721,7 @@ def openDialog(dlg, item_id=0):
         dlg.displayData(int(item_id))
         if dlg.ShowModal() == wx.ID_OK:
             item_id = dlg.getItemId()
-    finally:    
+    finally:
         dlg.Destroy()
     return item_id
 
@@ -1750,7 +1750,7 @@ def population_ofBatch(form_id, do_filter = '', want = 'dict'):
              JOIN students_by_form sbf ON sbf.student_id = s.id \
             WHERE sbf.form_id = %d \
               AND %d BETWEEN s.register_schYr AND s.exit_schYr " % (int(form_id), gVar.schYr)
-    
+
     if do_filter:  sql +=  " AND sbf.rereg_status = '%s' " % do_filter
     #rint sql
     return getDig(sql)
@@ -1768,7 +1768,7 @@ def product_details(product_id):
         return (res['description'], int(res['price']))
     else:
         return ('', 0)
-    
+
 def product_price(product_id):
     sql = "SELECT price \
              FROM acc_products \
@@ -1788,7 +1788,7 @@ def registeredStudents(bool, yr): # returns list (students_id)
              FROM students \
             WHERE admision_status = 'paid' \
               AND register_schYr = %d \
-              AND '%s' BETWEEN s.register_schYr AND s.exit_schYr " % (yr, gVar.schYr) 
+              AND '%s' BETWEEN s.register_schYr AND s.exit_schYr " % (yr, gVar.schYr)
     return getAllDict(sql)
 
 def re_registrationDetails_forBatch(form_id):
@@ -1797,29 +1797,29 @@ def re_registrationDetails_forBatch(form_id):
     #  form_id, 'form', formName, population, leaving, retake, may_stay, reregistered, paid
     formDetails.append(form_id)
     formDetails.append('form')
-    
+
     formDetails.append(formName(form_id))
-    
+
     population = population_ofBatch(form_id, '', 'count')
     formDetails.append(population)
-   
+
     leaving = population_ofBatch(form_id, 'leave', 'count')
     formDetails.append(leaving)
-    
+
     retake = population_ofBatch(form_id, 'retake', 'count')
     formDetails.append(retake)
-    
+
     may_stay = population - leaving - retake
     formDetails.append(may_stay)
-    
+
     reregistered = population_ofBatch(form_id, 'stay', 'count')
-    formDetails.append(reregistered) 
-     
+    formDetails.append(reregistered)
+
     paid = population_ofBatch(form_id, 'paid', 'count')
     formDetails.append(paid)
     return formDetails
 
-def reregList_forBatch(form_id, sqlfilter = False):  
+def reregList_forBatch(form_id, sqlfilter = False):
     # returns tuple list (students_id, first_name, rereg_status, rereg_course_id)
     # of existing students in form
     sql = " SELECT s.id, s.name, sbf.rereg_status, sbf.rereg_course_id \
@@ -1833,22 +1833,22 @@ def reregList_forBatch(form_id, sqlfilter = False):
 
 def registrationTotals_forCourse(course_level): # returns [course_level, type, name, rereg, retake, new_reg, total, classes, size, spaces]
     if not course_level: return
-    
+
     title = courseTitle(course_level)
 
     rereg   = countStudents_reregFeePaid_forCourse(course_level)
     retake  = countStudents_retakingCourse(course_level)
     new_reg = countStudents_newForCourse(course_level) #, 'count')  # new_reg | studentIDs_newreg_forCourse
-    
+
     total   = rereg + retake + new_reg
     classes = classCount_forCourse(course_level)
     size    = recomended_classSize(course_level)
     spaces  = classes * size - total
-    
+
     return list((int(course_level), 'course_level', title, rereg,
                          retake, new_reg, total, classes, size, spaces))
-    
-def re_regDetails_forStudent(student_id, yr): 
+
+def re_regDetails_forStudent(student_id, yr):
     sql = "SELECT s.id, s.first_name, cl.level, cl.name, \
                  cs.id, sbf.rereg_status, sbf.rereg_course_id, f.id \
              FROM students s \
@@ -1868,12 +1868,12 @@ def reregDetails_forStudent(student_id):
                 JOIN forms f ON f.id = sbf.form_id  \
                WHERE s.id = %d AND f.schYr = %d " % (student_id, gVar.schYr)
         return getOneDict(sql)
-        
+
 def regStatus(re_reg_id):
     data = studentRegDetails(re_reg_id)
-    return data['isEnrolled']   
-  
-def removeWithdrawnStudents(listOfIDs): 
+    return data['isEnrolled']
+
+def removeWithdrawnStudents(listOfIDs):
     x = ','.join(listOfIDs)
     listOfIDs = "'%s'" % x
     sql = "SELECT * \
@@ -1881,12 +1881,12 @@ def removeWithdrawnStudents(listOfIDs):
             WHERE FIND_IN_SET(id, %s) \
               AND '%s' BETWEEN s.register_schYr AND s.exit_schYr " % (listOfIDs, gVar.schYr)
     return getList(sql)
-  
+
 
 def reverseList(list):
     newList=[]
-    i = len(list) 
-    for idx in range(i):  
+    i = len(list)
+    for idx in range(i):
         x = i-idx-1
         newList.append(list[x])
     return newList
@@ -1894,7 +1894,7 @@ def reverseList(list):
 
 def roamingStudents_forBatchLevel(form_id):
     level = formInfo2(form_id)['course_level']
-    
+
     sql = "SELECT s.id \
              FROM students s \
              JOIN students_by_form sbf ON s.id = sbf.student_id \
@@ -1913,7 +1913,7 @@ def roamingStudents_forBatch(form_id):
     res = getList(sql)
     if res : ids = ",".join(res)
     else: ids = ''
-    
+
     course_level = courseId_forBatch(form_id)
     sql = "SELECT s.id \
              FROM students s \
@@ -1923,7 +1923,7 @@ def roamingStudents_forBatch(form_id):
               AND NOT FIND_IN_SET(s.id, '%s') \
                            " % (gVar.schYr, course_level, ids)
     return getAllDict(sql)
-    
+
 def recomended_classSize(course_id):
     sql = "SELECT recomended_class_size \
              FROM courses \
@@ -1962,7 +1962,7 @@ def schoolID_forCourse(course_id):
     #rint sql
     try:    return getOneDict(sql)['school_id']
     except: return 0
-    
+
 def schoolID_forBatch(form_id):
     sql = "SELECT cl.school_id \
              FROM course_levels cl \
@@ -2019,7 +2019,7 @@ def shipName(ship_id): # working May 2012
                  WHERE id = %d" % int(ship_id)
         return getStr(sql)
     else: return ''
-     
+
 def sortedList(list, on=0):
     if list: return sorted(list, key=lambda item: item[on])
     else:    return []
@@ -2035,7 +2035,7 @@ def subjectTitle_forStudyGroup(studygroup_id):
               JOIN studygroups sg ON st.id = sg.subject_title_id \
              WHERE sg.id = %d" % studygroup_id
     return getStr(sql)
-    
+
 
 def subjectTitle(subject_title_id):
     sql = " SELECT subject_title \
@@ -2047,7 +2047,7 @@ def subjectTitle(subject_title_id):
 # ------------------   studygroups   -----------------------
 def studygroupPopulation(studygroup_id):
     return len(studentIDs_inStudygroup(studygroup_id))
-    
+
 def studygroupPool(studygroup_id):
     studygroup_pool = []
     sql = "SELECT form_ids  \
@@ -2055,7 +2055,7 @@ def studygroupPool(studygroup_id):
             WHERE id = %d" % studygroup_id
     #rint sql
     form_ids = getStr(sql).split(',')
-    if form_ids: 
+    if form_ids:
         for form_id in form_ids:
             groupName = "groupName" # row['groupName']
             if groupName == 'Entire':
@@ -2065,7 +2065,7 @@ def studygroupPool(studygroup_id):
                 # $rint "how to do divisions"
                 #sql ="SELECT f.`studentIDs` FROM form_division_students f \
                 #        WHERE f.`division`=%s AND f.`form_id`=%d" %(groupName, form_id)
-                #row  = getOneDict(sql)    
+                #row  = getOneDict(sql)
                 #listOfIDs = row['studentIDs'].split(',')
                 #$rint '3 listOfIDs=', listOfIDs
                 #listOfIDs = removeWithdrawnStudents(listOfIDs)
@@ -2077,7 +2077,7 @@ def studygroupData(studygroup_id):
              FROM studygroup_students sgs \
              JOIN studygroups sg ON sg.ig = sgs.studygroup_id \
             WHERE sg.id = %d" % studygroup_id
-    
+
     sql = "SELECT id, staff_id \
              FROM studygroups \
             WHERE id = %d" % studygroup_id
@@ -2164,8 +2164,8 @@ def students_reregStatus_inBatch(form_id):
              AND '%s' BETWEEN s.register_schYr AND s.exit_schYr \
              AND f.schYr = %d \
              AND n.school_id = %d GROUP BY s.id" % (int(form_id), gVar.schYr, gVar.schYr, school_id)
-    return getAllCol(sql) 
- 
+    return getAllCol(sql)
+
 def students_reregStatus_untransfered_inBatch(form_id):
     sql = " SELECT s.id, sbf.rereg_status, s.first_name, s.last_name, n.nis \
               FROM students s \
@@ -2203,7 +2203,7 @@ def studentFullName(student_id):
             WHERE id = %d" % student_id
     res = getOneDict(sql)
     if not res : return ''
-    
+
     string = res['name']
     while '  ' in string:
         string = string.replace('  ', ' ')
@@ -2265,7 +2265,7 @@ def students_forForm(form_id, want='dict'):
         return getAllDict(sql)
     else:
         return getAllCol(sql)
-    
+
 def students_inForm(form_id, want='dict'):
     school_id = schoolID_forBatch(form_id)
     sql = " SELECT s.id, s.name, n.nis \
@@ -2286,7 +2286,7 @@ def studentIDs_forExcul(excul_id):
             WHERE excul_id = %d" % int(excul_id)
     #rint sql,  getList(sql)
     return getList(sql)
-        
+
 def students_inLevel(level):
     sql = "SELECT s.id, s.name, n.nis \
              FROM students s \
@@ -2298,7 +2298,7 @@ def students_inLevel(level):
               AND '%s' BETWEEN s.register_schYr AND s.exit_schYr " % (level, gVar.schYr)
     return getAllCol(sql)
 
-def students_matching(name):    
+def students_matching(name):
     sql = "SELECT * FROM students WHERE"
     if name:
         sql += " name LIKE '%' " % name
@@ -2353,10 +2353,10 @@ def studentIDs_inBatch(form_id, do_filter = False, want = 'dict'):
              JOIN students_by_form sbf ON sbf.student_id = s.id \
             WHERE sbf.form_id = %d \
               AND '%s' BETWEEN s.register_schYr AND s.exit_schYr " % (form_id, gVar.schYr)
-    
+
     if do_filter:
         sql +=  "AND sbf.rereg_status = '%s'" % do_filter
-    
+
     sql += " GROUP BY s.id"
 
     if want == 'dict':
@@ -2366,10 +2366,10 @@ def studentIDs_inBatch(form_id, do_filter = False, want = 'dict'):
     else:res = getAllCol(sql)
     #rint sql
     return res
-     
-       
+
+
     # new 9 june 2012 --------------------
-def studentIDs_joiningCourse(course_id, schYr, do_filter = False,  want = 'dict'): 
+def studentIDs_joiningCourse(course_id, schYr, do_filter = False,  want = 'dict'):
     sql = "SELECT s.id \
              FROM students s \
              JOIN courses c ON s.enter_course_id = c.id \
@@ -2380,7 +2380,7 @@ def studentIDs_joiningCourse(course_id, schYr, do_filter = False,  want = 'dict'
         sql +=  "AND sbf.admission_status_id = '%s' " % do_filter
     return getRes(sql, 'list')
 
-def studentIDs_inCourse(course_id, do_filter = False,  want = 'dict'): 
+def studentIDs_inCourse(course_id, do_filter = False,  want = 'dict'):
     sql = " SELECT s.id \
               FROM students s \
               JOIN students_by_form sbf ON s.id = sbf.student_id \
@@ -2400,7 +2400,7 @@ def students_not_in_studygroup(studygroup_id):
     return getList(sql)
 
 
-def studygroups_forForm(form_id): 
+def studygroups_forForm(form_id):
     sql = "SELECT sg.id, s.name \
              FROM studygroups sg \
              JOIN subjects     s ON s.id = sg.subject_id \
@@ -2408,7 +2408,7 @@ def studygroups_forForm(form_id):
     #rint sql
     return getAllDict(sql)
 
-def students_inCourse(course_id): 
+def students_inCourse(course_id):
     sql = " SELECT s.id, s.name, sbf.rereg_status\
               FROM students s \
               JOIN students_by_form sbf ON s.id = sbf.student_id \
@@ -2418,7 +2418,7 @@ def students_inCourse(course_id):
     #rint sql
     return getAllDict(sql)
 
-def students_inCourseV(course_id): 
+def students_inCourseV(course_id):
     sql = " SELECT DISTINCT s.id, sbf.rereg_status, s.name \
               FROM students s \
               JOIN students_by_form sbf ON s.id = sbf.student_id \
@@ -2428,8 +2428,8 @@ def students_inCourseV(course_id):
           GROUP BY s.id" % (course_id, course_id, gVar.schYr)
     #rint sql
     return getAllCol(sql)
- 
-def studentIDs_forLevel(age_level=0, schYr = 2000, want = 'dict'): 
+
+def studentIDs_forLevel(age_level=0, schYr = 2000, want = 'dict'):
     sql = "SELECT s.id \
              FROM students s \
              JOIN forms               f ON s.form_id = f.id \
@@ -2442,7 +2442,7 @@ def studentIDs_forLevel(age_level=0, schYr = 2000, want = 'dict'):
 
 def studentInfoPopup(student_id):
     student_id = int(student_id)
-    
+
     name         = studentFullName(student_id)
     name  = '-'
     course_title = '-'
@@ -2450,50 +2450,50 @@ def studentInfoPopup(student_id):
     age          = '-'
     gender       = '-'
     ship         = '-'
-    
+
     if student_id:
         studentDetails = studentSchDetails(student_id)
         if studentDetails:
             school_id    = studentDetails['school_id']
             name  =  schoolName(school_id)
-            
+
             course_level = studentDetails['course_level']
             course_title    =  courseTitle(course_level)
-            
+
             age    = studentDetails['birth_date']
             gender =  gender(studentDetails['gender'])
             ship   =  shipName(studentDetails['ship_id'])
-        
+
         form_id =  formID_forStudent(student_id)
         if form_id: name =  formName(form_id)
 
     line1 = 'Name: %s,  %s'  % (name, gender)
     line2 = 'DOB: %s,    SHIP: %s'  % (age, ship)
     line3 = 'BATCH: %s, %s, %s' % (name, course_title, name)
-    
+
     mnu_abs = wx.Menu()
     mnu_asbf.AppendItem(wx.MenuItem(mnu_abs, -1, line1))
     mnu_asbf.AppendItem(wx.MenuItem(mnu_abs, -1, line2))
     mnu_asbf.AppendItem(wx.MenuItem(mnu_abs, -1, line3))
-        
+
     #mnu_asbf.AppendSeparator()
-    
-    return mnu_abs   
-        
-        
+
+    return mnu_abs
+
+
 #-   ------ subject ------------------------------------------------------------
 def studygroupIDs_forBatch(form_id):
     sql = "SELECT id \
              FROM studygroups \
             WHERE FIND_IN_SET(%d, form_ids)" % int(form_id)
     return getList(sql)
-    
+
 def removeDups(seq):
     seen = set()
     seen_add = seen.add
     return [ x for x in seq if x not in seen and not seen_add(x)]
-    
-    
+
+
 def studygroups_forForm_forTeacher(form_id, staff_id):
     sql = "SELECT sg.id \
              FROM studygroups sg \
@@ -2526,20 +2526,20 @@ def subjectTitle_forForm(form_id):
 #-   T     ---------------------------------------------------------------------
 def tableData(tablename):
     sql = "SELECT * \
-             FROM %s" % tablename 
+             FROM %s" % tablename
     return getAllCol(sql)
 
 def telpNosString(guid): # for entry into a multiline textbox
     sql = "SELECT guid, phoneNo, phone_location \
              FROM phone_numbers \
-            WHERE guid = %s" % guid 
+            WHERE guid = %s" % guid
     res  = getAllDict(sql)
     list = ''
     if res:
         for row in res:
             list +=row['phone_number'] + "\n"
     return list
-    
+
 def telpNoList(guid):# for appending to a list
     sql = "SELECT guid, phone_number, phone_location \
              FROM phone_numbers \
@@ -2559,7 +2559,7 @@ def teachers_forSch(sch_id):
            FROM staff \
           WHERE employee_category_id = 2"
     return getList(sql)
-    
+
 def teachers_otherThan(teacher_list=''):
     sql = " SELECT id, username \
               FROM staff \
@@ -2567,7 +2567,7 @@ def teachers_otherThan(teacher_list=''):
     if teacher_list:
         sql += " AND NOT id IN (%s)" % teacher_list
     return getAllDict(sql)
-    
+
 def teachers_forBatch(form_id): # used x 1
     if form_id:
         sql = " SELECT counceler_ids \
@@ -2587,7 +2587,7 @@ def teacherNames_forBatch(form_id): # used x 2
         if name:namesList.append(name)
     namesString = ','.join(namesList)
     return namesString
-    
+
 def teachers_notInSubjects(testlist=[]):
     newlist=[]
     testlist=','.join(testlist)
@@ -2597,13 +2597,13 @@ def teachers_notInSubjects(testlist=[]):
               AND status = True \
               AND NOT FIND_IN_SET(id, %s)" % testlist
     return getList(sql)
- 
-    
+
+
 def teacherIDs_forSubject(studygroup_id):
     if not studygroup_id:return []
     sql = "SELECT staff_id \
              FROM studygroups \
-            WHERE id = %d" % studygroup_id         
+            WHERE id = %d" % studygroup_id
     res = getStr(sql)
     return res.split(',')
 
@@ -2630,50 +2630,50 @@ def addressRes(addr_id):
              FROM addresses \
             WHERE id = '%s'" % addr_id
     return getAllDict(sql)
-    
+
 def address(addr_id):
     address = ""
     sql = "SELECT * \
              FROM addresses \
             WHERE id = %d" % addr_id
     addr = getOneDict(sql)
-     
+
     if not addr: return address
     addrItems = addr['address'].split(",")
-     
-    if addr['livesInEstate']:  
-        address += EstateAddress(addrItems, addr) 
+
+    if addr['livesInEstate']:
+        address += EstateAddress(addrItems, addr)
     else:
         if addr['street']:
             address += "%s, #%s \n" % (addr['street'], addr['houseNo'])
         elif addr['houseNo']:
-            address += "%s \n" % ( addr['houseNo'],)    
+            address += "%s \n" % ( addr['houseNo'],)
                 # run through items in:, addrItems
     for item_id in addrItems:
         sql = "SELECT * \
                  FROM address_items \
                 WHERE id = %d" % item_id
         res = getOneDict(sql)
-        if res: 
+        if res:
             type_id = res['itemType_id']
             if type_id < 3:
                 pass
             elif type_id == 3: # road
                 if addr['rd_km']:
                     address += "%s,  Km.%s \n" % (res[name], str(addr['rd_km']))
-                else: address += "%s\n" % (res[name],)   
-                 
+                else: address += "%s\n" % (res[name],)
+
             elif type_id == 6: # district
                 if addr['postCode']:
                     address += "%s Post Code:%s\n" % (
                                 res[name], str(addr['postCode']),)
-                else: 
+                else:
                     address += "%s\n" % res[name]
-                     
+
             else:
                 address += "%s\n" % (res[name],)
-    return address 
-    
+    return address
+
 def estateAddress(addrItems, addr):
     estateAddress = ""
     for item_id in addrItems:
@@ -2690,12 +2690,12 @@ def estateAddress(addrItems, addr):
                 WHERE id = %s \
                   AND item_type=2" % (item_id,)
         res = getOneDict(sql)
-        if res: 
+        if res:
             if addr['blockNo']:
                 estateAddress += "Block:%s  " % (str(addr['blockNo']),)
             estateAddress += "%s \n" % res[name]
     return estateAddress
-    
+
 def addressLine(addr_id):
     address = ""
     sql = "SELECT * \
@@ -2706,34 +2706,34 @@ def addressLine(addr_id):
         if addr['street']:
             address += "%s #%s ," % (addr['street'], addr['houseNo'])
         elif addr['houseNo']: address += "%s, " % addr['houseNo']
-            
+
         addrItems = str(addr['addrItem_id'])
         for item_id in addrItems:
             sql = "SELECT * \
                      FROM address_items \
                     WHERE id=%s" % item_id
             res = getOneDict(sql)
-            if res: 
+            if res:
                 address += res[name]
                 if res['item_type'] == 2: # estate
                     if addr['blockNo']:
                         address += "Block:%s, " % addr['blockNo']
                 else:address += ", "
-                    
+
                 if res['item_type'] == 3: # road
                     if addr['rd_km']:
                         address += "Km.%s, " % addr['rd_km']
                 else:address += ", "
-                    
+
                 if res['item_type'] == 6: # district
                     if addr['postCode']:
                         address += "Post Code:%s \n" % addr['postCode']
                 else: address += ", "
-          
-        while address.find(", ,"):        
+
+        while address.find(", ,"):
             address = address.replace(", , ",", ")
         return address.rstrip(',')
-    
+
     else: return " "
 
 def addrItemName(addrItem_id):
@@ -2753,15 +2753,15 @@ def nextItemID(addrItem_id):
               FROM address_items \
              WHERE id = %d" % int(addrItem_id)
     return getDig(sql)
-      
+
 def nextAddrItemName(addrItem_id):
     id = nextItemID(addrItem_id)
     return addrItemName(id)
- 
+
 def addrItemTypeName(itemType_id):
     sql = " SELECT name \
               FROM address_item_types \
-             WHERE id = %d" % int(itemType_id) 
+             WHERE id = %d" % int(itemType_id)
     return getStr(sql)
 
 def addrItemTypeID(addrItem_id):
@@ -2802,7 +2802,7 @@ newlist = sorted(list_to_be_sorted, key=itemgetter('name'))
 # province for ........... ---------------------
 
 
-# kelurahan for ........... 
+# kelurahan for ...........
 def kelurahanForProvince(province):
     sql = "SELECT kelurahan \
              FROM address_items \
@@ -2875,7 +2875,7 @@ def kabupatenForKecamatanID(kecamatanID):
             WHERE id =%d " % kecamatanID
     #rint sql, getDig(sql)
     kabID = getDig(sql)
-    
+
     sql = "SELECT id, name \
              FROM address_items \
             WHERE id = %d" % kabID
@@ -2889,7 +2889,7 @@ def kabupatenForKecamatan(kecamatan):
                 WHERE type = 'kecamatan' \
                   AND name='%s'"  % kecamatan
         idList = getListString(sql)
-        
+
         sql = "SELECT id, name \
                  FROM address_items \
                 WHERE id IN (%s)" % idList
@@ -2898,7 +2898,7 @@ def kabupatenForKecamatan(kecamatan):
         sql = "SELECT id, name \
                  FROM address_items \
                 WHERE type = 'province'"
-        
+
     return getAllCol(sql)
 
 def kabupatenForProvinceID(provinceID):
@@ -2938,7 +2938,7 @@ def provincesForKabupatenID(kid):
                 WHERE type = 'kabupaten' \
                   AND id= %d "  % kid
         iid = getDig(sql)
-        
+
         sql = "SELECT id, name \
                  FROM address_items \
                 WHERE id =%d" % iid
@@ -2947,7 +2947,7 @@ def provincesForKabupatenID(kid):
         sql = "SELECT id, name \
                  FROM address_items \
                 WHERE type = 'province'"
-        
+
     return getAllCol(sql)
 
 def provincesForKabupaten(kabupaten=''):
@@ -2958,7 +2958,7 @@ def provincesForKabupaten(kabupaten=''):
                 WHERE type = 'kabupaten' \
                   AND name='%s'"  % kabupaten
         idList = getListString(sql)
-        
+
         sql = "SELECT id, name \
                  FROM address_items \
                 WHERE id IN (%s)" % idList
@@ -2967,7 +2967,7 @@ def provincesForKabupaten(kabupaten=''):
         sql = "SELECT id, name \
                  FROM address_items \
                 WHERE type = 'province'"
-        
+
     return getAllCol(sql)
 
 
@@ -2982,9 +2982,9 @@ def provincesForCountryID(countryID=0):
         sql = "SELECT id, name \
                  FROM address_items \
                 WHERE type ='province' \
-                ORDER BY (name)" 
+                ORDER BY (name)"
     #rint sql, getAllCol(sql)
-    
+
     return getAllCol(sql)
 
 def provinceForKabupatenID(kabupatenID):
@@ -2992,20 +2992,20 @@ def provinceForKabupatenID(kabupatenID):
              FROM address_items \
             WHERE id = %d" % kabupatenID
     iid = getDig(sql)
-    
+
     sql = "SELECT id, name \
              FROM address_items \
             WHERE id = %d" % iid
-    
-    
-    
+
+
+
     sql = "SELECT id, name \
              FROM address_items \
             WHERE id = (SELECT next_item_id \
              FROM address_items \
             WHERE id = %d)" % kabupatenID
-    
-    
+
+
     #rint sql
     return getAllCol(sql)
 
@@ -3055,29 +3055,29 @@ def countriesForProvinceID(prov_id):
         sql = "SELECT id, name \
                  FROM address_items \
                 WHERE id = %d" % country_id
-        
+
         sql = "SELECT next_item_id \
                  FROM address_items \
                 WHERE type = 'province' \
                   AND id = %d"  % prov_id
         country_id = getDig(sql)
-        
-        
-        
+
+
+
         sql = "SELECT id, name \
                  FROM address_items \
                 WHERE id = (SELECT next_item_id \
                  FROM address_items \
                 WHERE type = 'province' \
                   AND id = %d)"  % prov_id
-        
+
     else:
         sql = "SELECT id, name \
                  FROM address_items \
                 WHERE type = 'country'"
-    
-    #rintsql    , getAllCol(sql)  
-    return getAllCol(sql)           
+
+    #rintsql    , getAllCol(sql)
+    return getAllCol(sql)
 
 def countriesForProvince(province=''):
     # it is possible that more than one country may exist foa a province name
@@ -3089,7 +3089,7 @@ def countriesForProvince(province=''):
                 WHERE type = 'province' \
                   AND name='%s'"  % province
         idList = getListString(sql)
-        
+
         sql = "SELECT id, name \
                  FROM address_items \
                 WHERE id IN (%s)" % idList
@@ -3098,6 +3098,5 @@ def countriesForProvince(province=''):
         sql = "SELECT id, name \
                  FROM address_items \
                 WHERE type = 'country'"
-        
-    return getAllCol(sql)
 
+    return getAllCol(sql)
