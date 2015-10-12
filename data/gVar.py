@@ -1,6 +1,6 @@
-import wx, datetime, time
-
-
+import wx
+import datetime
+import time
 
 lastPanel     = wx.Panel
 previousPanel = wx.Panel
@@ -30,7 +30,7 @@ groupName = ''
 lvID      = ''
 lvName    = ''
 guid      = ''
-school    = '' 
+school    = ''
 current_view = ''
 address = ''
 
@@ -60,7 +60,7 @@ guardian_id = 0
 
 sash_pos    = 0
 inserted_id = 0
- 
+
 dayNames   ={1:'Monday',
              2:'Tuesday',
              3:'Wednesday',
@@ -104,7 +104,7 @@ font_weight = {"FONTWEIGHT_BOLD":wx.FONTWEIGHT_BOLD,
                    "FONTWEIGHT_LIGHT":wx.FONTWEIGHT_LIGHT,
                    "FONTWEIGHT_NORMAL":wx.FONTWEIGHT_NORMAL
                    }
- 
+
 font_style = {"FONTSTYLE_ITALIC":wx.FONTSTYLE_ITALIC,
                   "FONTSTYLE_NORMAL":wx.FONTSTYLE_NORMAL,
                   "FONTSTYLE_SLANT":wx.FONTSTYLE_SLANT
